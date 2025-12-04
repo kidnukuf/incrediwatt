@@ -146,21 +146,36 @@ function initJackpotSequence() {
         document.body.appendChild(overlay);
     }
 
-    // Keep the demo strip visible for UI purposes
+    // Update the demo strip with instructions (NO GRID)
     const lightStrip = document.getElementById('lightStrip');
     if (lightStrip) {
-        lightStrip.innerHTML = '<p style="text-align: center; color: #FFD700; font-size: 1.2rem; padding: 2rem;">Click a button below to see the full-screen Jackpot Sequence!</p>';
+        lightStrip.innerHTML = `
+            <div style="text-align: center; padding: 1rem;">
+                <i class="fas fa-hand-pointer" style="font-size: 3rem; color: #FFD700; margin-bottom: 1rem; display: block;"></i>
+                <p style="color: #FFD700; font-size: 1.3rem; font-weight: 700; margin: 0;">
+                    Click a button below to trigger a full-screen Jackpot Sequence!
+                </p>
+                <p style="color: #CBD5E1; font-size: 1rem; margin-top: 0.5rem;">
+                    Watch the entire page light up with spectacular effects
+                </p>
+            </div>
+        `;
     }
 }
 
 // Jackpot sequence patterns - EPIC FULL SCREEN VERSION
 function triggerSequence(type) {
     const overlay = document.getElementById('fullscreenLightOverlay');
-    if (!overlay) return;
+    if (!overlay) {
+        console.error('Overlay not found');
+        return;
+    }
 
     // Clear any existing animations
     overlay.innerHTML = '';
     overlay.style.display = 'block';
+
+    console.log('Triggering sequence:', type); // Debug log
 
     switch(type) {
         case 'rising':
@@ -175,6 +190,9 @@ function triggerSequence(type) {
         case 'collision':
             rainbowCollisionAnimation(overlay);
             break;
+        default:
+            console.error('Unknown sequence type:', type);
+            overlay.style.display = 'none';
     }
 }
 
@@ -800,6 +818,6 @@ function debounce(func, wait) {
     };
 }
 
-// Make triggerSequence available globally for inline onclick handlers
+// Make triggerSequence and calculateROI available globally for inline onclick handlers
 window.triggerSequence = triggerSequence;
 window.calculateROI = calculateROI;
