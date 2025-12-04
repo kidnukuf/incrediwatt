@@ -1,0 +1,8 @@
+name = "incrediwatt-solutions"
+compatibility_date = "2025-12-04"
+
+[site]
+bucket = "./"
+
+[[assets]]
+directory = "./"
