@@ -508,15 +508,24 @@ section {
 
 .light-strip {
     display: flex;
-    gap: 8px;
     margin-bottom: 2rem;
-    padding: 2rem;
+    padding: 3rem 2rem;
     background: var(--dark-bg);
     border-radius: 12px;
-    min-height: 100px;
+    min-height: 120px;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.light-strip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1), transparent);
+    pointer-events: none;
 }
 
 .light {
@@ -532,6 +541,16 @@ section {
     box-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
 }
 
+/* Fullscreen Overlay Enhancements */
+#fullscreenLightOverlay {
+    backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+#fullscreenLightOverlay.active {
+    display: block !important;
+}
+
 .demo-controls {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -539,26 +558,61 @@ section {
 }
 
 .demo-btn {
-    padding: 1rem;
-    background: var(--dark-lighter);
+    padding: 1.2rem;
+    background: linear-gradient(135deg, var(--dark-lighter) 0%, var(--dark-card) 100%);
     color: var(--text-primary);
-    border: 2px solid rgba(255, 215, 0, 0.2);
-    border-radius: 8px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 12px;
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.demo-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.demo-btn i {
+    position: relative;
+    z-index: 1;
+    font-size: 1.2rem;
+}
+
+.demo-btn span {
+    position: relative;
+    z-index: 1;
 }
 
 .demo-btn:hover {
-    background: var(--primary-gold);
-    color: var(--dark-bg);
     border-color: var(--primary-gold);
-    transform: translateY(-2px);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+}
+
+.demo-btn:hover::before {
+    opacity: 1;
+}
+
+.demo-btn:hover {
+    color: var(--dark-bg);
+}
+
+.demo-btn:active {
+    transform: translateY(-2px) scale(0.98);
 }
 
 .jackpot-features {
