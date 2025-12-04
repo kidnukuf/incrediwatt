@@ -126,191 +126,441 @@ function initHeroLights() {
 }
 
 // ===================================
-// Jackpot Sequence Demo
+// Jackpot Sequence Demo - Full Screen Effect
 // ===================================
 function initJackpotSequence() {
-    const lightStrip = document.getElementById('lightStrip');
-    if (!lightStrip) return;
-
-    // Create 12 lights
-    for (let i = 0; i < 12; i++) {
-        const light = document.createElement('div');
-        light.className = 'light';
-        light.dataset.index = i;
-        lightStrip.appendChild(light);
+    // Create fullscreen overlay for light effects
+    if (!document.getElementById('fullscreenLightOverlay')) {
+        const overlay = document.createElement('div');
+        overlay.id = 'fullscreenLightOverlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+        `;
+        document.body.appendChild(overlay);
     }
 
-    // Auto-play demo on load
-    setTimeout(() => {
-        triggerSequence('wave');
-    }, 1000);
+    // Keep the demo strip visible for UI purposes
+    const lightStrip = document.getElementById('lightStrip');
+    if (lightStrip) {
+        lightStrip.innerHTML = '<p style="text-align: center; color: #FFD700; font-size: 1.2rem; padding: 2rem;">Click a button below to see the full-screen Jackpot Sequence!</p>';
+    }
 }
 
-// Jackpot sequence patterns
+// Jackpot sequence patterns - EPIC FULL SCREEN VERSION
 function triggerSequence(type) {
-    const lights = document.querySelectorAll('.light');
-    const colors = {
-        jackpot: ['#FFD700', '#FFA500', '#FF6B6B'],
-        celebration: ['#7C3AED', '#3B82F6', '#06B6D4'],
-        wave: ['#10B981', '#06B6D4', '#7C3AED'],
-        rainbow: ['#EF4444', '#F59E0B', '#FFD700', '#10B981', '#06B6D4', '#7C3AED']
-    };
+    const overlay = document.getElementById('fullscreenLightOverlay');
+    if (!overlay) return;
 
-    // Reset all lights
-    lights.forEach(light => {
-        light.classList.remove('active');
-        light.style.background = '#334155';
-    });
+    // Clear any existing animations
+    overlay.innerHTML = '';
+    overlay.style.display = 'block';
 
     switch(type) {
-        case 'jackpot':
-            jackpotAnimation(lights, colors.jackpot);
+        case 'rising':
+            risingThunderAnimation(overlay);
             break;
-        case 'celebration':
-            celebrationAnimation(lights, colors.celebration);
+        case 'purplerain':
+            purpleRainAnimation(overlay);
             break;
-        case 'wave':
-            waveAnimation(lights, colors.wave);
+        case 'fire':
+            fireExplosionAnimation(overlay);
             break;
-        case 'rainbow':
-            rainbowAnimation(lights, colors.rainbow);
+        case 'collision':
+            rainbowCollisionAnimation(overlay);
             break;
     }
 }
 
-function jackpotAnimation(lights, colors) {
-    let iteration = 0;
-    const maxIterations = 3;
+// 1. RISING THUNDER - Epic lights dash from bottom to top
+function risingThunderAnimation(overlay) {
+    const colors = ['#FFD700', '#FFA500', '#FFED4E', '#FFFFFF'];
+    const strips = 40;
+    const duration = 3000;
 
-    function animate() {
-        lights.forEach((light, i) => {
-            setTimeout(() => {
-                const colorIndex = Math.floor(Math.random() * colors.length);
-                light.style.background = colors[colorIndex];
-                light.style.color = colors[colorIndex];
-                light.classList.add('active');
-                
-                setTimeout(() => {
-                    light.classList.remove('active');
-                    light.style.background = '#334155';
-                }, 200);
-            }, i * 50);
-        });
+    for (let i = 0; i < strips; i++) {
+        const strip = document.createElement('div');
+        strip.style.cssText = `
+            position: absolute;
+            left: ${(i / strips) * 100}%;
+            bottom: -10%;
+            width: ${100 / strips}%;
+            height: 100%;
+            background: ${colors[i % colors.length]};
+            opacity: 0;
+            box-shadow: 0 0 30px ${colors[i % colors.length]};
+        `;
+        overlay.appendChild(strip);
 
-        iteration++;
-        if (iteration < maxIterations) {
-            setTimeout(animate, lights.length * 50 + 200);
-        } else {
-            // Final celebration
+        // Staggered animation upward
+        setTimeout(() => {
+            strip.style.transition = `all ${duration / 1000}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+            strip.style.opacity = '0.8';
+            strip.style.bottom = '100%';
+            strip.style.transform = 'skewY(-5deg)';
+
+            // Flash effect
             setTimeout(() => {
-                lights.forEach(light => {
-                    light.style.background = colors[0];
-                    light.style.color = colors[0];
-                    light.classList.add('active');
-                });
-            }, lights.length * 50 + 200);
-        }
+                strip.style.opacity = '0.3';
+            }, duration * 0.4);
+
+            setTimeout(() => {
+                strip.style.opacity = '1';
+            }, duration * 0.6);
+
+            setTimeout(() => {
+                strip.style.opacity = '0';
+            }, duration * 0.9);
+        }, i * 50);
     }
 
-    animate();
+    // Final burst at top
+    setTimeout(() => {
+        const burst = document.createElement('div');
+        burst.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to bottom, #FFD700, transparent);
+            opacity: 0;
+            box-shadow: 0 0 100px #FFD700;
+        `;
+        overlay.appendChild(burst);
+        setTimeout(() => {
+            burst.style.transition = 'all 0.5s ease';
+            burst.style.opacity = '1';
+        }, 10);
+        setTimeout(() => {
+            burst.style.opacity = '0';
+        }, 800);
+    }, duration + 500);
+
+    // Cleanup
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        overlay.innerHTML = '';
+    }, duration + 2000);
 }
 
-function celebrationAnimation(lights, colors) {
-    let round = 0;
-    const maxRounds = 5;
+// 2. PURPLE RAIN - Lightning falls from top with white strikes
+function purpleRainAnimation(overlay) {
+    const duration = 4000;
+    const raindrops = 60;
+    const purpleShades = ['#7C3AED', '#9333EA', '#A855F7', '#C084FC'];
 
-    function animate() {
-        const evenLights = Array.from(lights).filter((_, i) => i % 2 === 0);
-        const oddLights = Array.from(lights).filter((_, i) => i % 2 === 1);
-
-        evenLights.forEach(light => {
-            light.style.background = colors[round % colors.length];
-            light.style.color = colors[round % colors.length];
-            light.classList.add('active');
-        });
+    // Create rain effect
+    for (let i = 0; i < raindrops; i++) {
+        const drop = document.createElement('div');
+        const leftPos = Math.random() * 100;
+        const delay = Math.random() * 1000;
+        const size = Math.random() * 3 + 2;
+        
+        drop.style.cssText = `
+            position: absolute;
+            left: ${leftPos}%;
+            top: -5%;
+            width: ${size}%;
+            height: 100%;
+            background: linear-gradient(to bottom, ${purpleShades[Math.floor(Math.random() * purpleShades.length)]}, transparent);
+            opacity: 0;
+            box-shadow: 0 0 20px ${purpleShades[1]};
+        `;
+        overlay.appendChild(drop);
 
         setTimeout(() => {
-            evenLights.forEach(light => {
-                light.classList.remove('active');
-                light.style.background = '#334155';
-            });
+            drop.style.transition = `all ${(duration - delay) / 1000}s linear`;
+            drop.style.opacity = '0.7';
+            drop.style.top = '100%';
+        }, delay);
+    }
 
-            oddLights.forEach(light => {
-                light.style.background = colors[(round + 1) % colors.length];
-                light.style.color = colors[(round + 1) % colors.length];
-                light.classList.add('active');
-            });
+    // White lightning strikes
+    const strikes = 8;
+    for (let i = 0; i < strikes; i++) {
+        setTimeout(() => {
+            const lightning = document.createElement('div');
+            lightning.style.cssText = `
+                position: absolute;
+                left: ${Math.random() * 80 + 10}%;
+                top: 0;
+                width: 2px;
+                height: 100%;
+                background: linear-gradient(to bottom, #FFFFFF, #FFD700);
+                opacity: 0;
+                box-shadow: 0 0 40px #FFFFFF, 0 0 80px #FFD700;
+            `;
+            overlay.appendChild(lightning);
 
             setTimeout(() => {
-                oddLights.forEach(light => {
-                    light.classList.remove('active');
-                    light.style.background = '#334155';
-                });
+                lightning.style.opacity = '1';
+            }, 10);
+
+            setTimeout(() => {
+                lightning.style.opacity = '0';
+            }, 150);
+
+            setTimeout(() => {
+                lightning.style.opacity = '1';
             }, 300);
-        }, 300);
 
-        round++;
-        if (round < maxRounds) {
-            setTimeout(animate, 600);
-        }
+            setTimeout(() => {
+                lightning.style.opacity = '0';
+            }, 400);
+        }, i * 400 + Math.random() * 500);
     }
 
-    animate();
+    // Cleanup
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        overlay.innerHTML = '';
+    }, duration + 1000);
 }
 
-function waveAnimation(lights, colors) {
-    let wave = 0;
-    const maxWaves = 4;
+// 3. FIRE EXPLOSION - Starts in center, explodes outward
+function fireExplosionAnimation(overlay) {
+    const duration = 4000;
+    const fireColors = ['#FF4500', '#FF6347', '#FFA500', '#FFD700', '#FFFF00'];
+    const rings = 30;
 
-    function animate() {
-        lights.forEach((light, i) => {
-            setTimeout(() => {
-                const colorIndex = i % colors.length;
-                light.style.background = colors[colorIndex];
-                light.style.color = colors[colorIndex];
-                light.classList.add('active');
+    // Create expanding rings from center
+    for (let i = 0; i < rings; i++) {
+        const ring = document.createElement('div');
+        const colorIndex = Math.floor((i / rings) * fireColors.length);
+        
+        ring.style.cssText = `
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            background: ${fireColors[colorIndex]};
+            opacity: 0;
+            box-shadow: 0 0 60px ${fireColors[colorIndex]}, 0 0 120px ${fireColors[colorIndex]};
+        `;
+        overlay.appendChild(ring);
 
-                setTimeout(() => {
-                    light.classList.remove('active');
-                    light.style.background = '#334155';
-                }, 500);
-            }, i * 80);
-        });
+        setTimeout(() => {
+            ring.style.transition = `all ${(duration / rings) * (rings - i) / 1000}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+            ring.style.width = `${200 + i * 50}vmax`;
+            ring.style.height = `${200 + i * 50}vmax`;
+            ring.style.opacity = '0.6';
+        }, i * 80);
 
-        wave++;
-        if (wave < maxWaves) {
-            setTimeout(animate, lights.length * 80 + 200);
-        }
+        setTimeout(() => {
+            ring.style.opacity = '0';
+        }, duration * 0.7 + i * 50);
     }
 
-    animate();
+    // Add fire particles
+    for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
+            const particle = document.createElement('div');
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * 40 + 30;
+            const size = Math.random() * 20 + 10;
+            
+            particle.style.cssText = `
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: ${size}px;
+                height: ${size}px;
+                border-radius: 50%;
+                background: ${fireColors[Math.floor(Math.random() * fireColors.length)]};
+                opacity: 0.8;
+                box-shadow: 0 0 20px currentColor;
+            `;
+            overlay.appendChild(particle);
+
+            setTimeout(() => {
+                particle.style.transition = `all ${Math.random() * 2 + 1}s ease-out`;
+                particle.style.left = `${50 + Math.cos(angle) * distance}%`;
+                particle.style.top = `${50 + Math.sin(angle) * distance}%`;
+                particle.style.opacity = '0';
+                particle.style.transform = 'scale(0.5)';
+            }, 10);
+        }, Math.random() * 1000);
+    }
+
+    // Cleanup
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        overlay.innerHTML = '';
+    }, duration + 1000);
 }
 
-function rainbowAnimation(lights, colors) {
-    let position = 0;
-    const duration = 3000;
-    const interval = 100;
-    const steps = duration / interval;
+// 4. RAINBOW COLLISION - All edges converge, splash, ascend and jump off
+function rainbowCollisionAnimation(overlay) {
+    const duration = 5000;
+    const rainbowColors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
+    const strips = 20;
 
-    const intervalId = setInterval(() => {
-        lights.forEach((light, i) => {
-            const colorIndex = (i + position) % colors.length;
-            light.style.background = colors[colorIndex];
-            light.style.color = colors[colorIndex];
-            light.classList.add('active');
-        });
+    // Phase 1: Edges converge to center (1.5s)
+    // From left
+    for (let i = 0; i < strips / 4; i++) {
+        const strip = document.createElement('div');
+        strip.style.cssText = `
+            position: absolute;
+            left: 0;
+            top: ${(i / (strips / 4)) * 100}%;
+            width: 50%;
+            height: ${100 / (strips / 4)}%;
+            background: ${rainbowColors[i % rainbowColors.length]};
+            opacity: 0.8;
+            box-shadow: 0 0 30px ${rainbowColors[i % rainbowColors.length]};
+        `;
+        overlay.appendChild(strip);
+        setTimeout(() => {
+            strip.style.transition = 'all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            strip.style.left = '50%';
+            strip.style.width = '5%';
+        }, i * 50);
+    }
 
-        position++;
-        if (position >= steps) {
-            clearInterval(intervalId);
+    // From right
+    for (let i = 0; i < strips / 4; i++) {
+        const strip = document.createElement('div');
+        strip.style.cssText = `
+            position: absolute;
+            right: 0;
+            top: ${(i / (strips / 4)) * 100}%;
+            width: 50%;
+            height: ${100 / (strips / 4)}%;
+            background: ${rainbowColors[(i + 2) % rainbowColors.length]};
+            opacity: 0.8;
+            box-shadow: 0 0 30px ${rainbowColors[(i + 2) % rainbowColors.length]};
+        `;
+        overlay.appendChild(strip);
+        setTimeout(() => {
+            strip.style.transition = 'all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            strip.style.right = '50%';
+            strip.style.width = '5%';
+        }, i * 50);
+    }
+
+    // From top
+    for (let i = 0; i < strips / 4; i++) {
+        const strip = document.createElement('div');
+        strip.style.cssText = `
+            position: absolute;
+            left: ${(i / (strips / 4)) * 100}%;
+            top: 0;
+            width: ${100 / (strips / 4)}%;
+            height: 50%;
+            background: ${rainbowColors[(i + 4) % rainbowColors.length]};
+            opacity: 0.8;
+            box-shadow: 0 0 30px ${rainbowColors[(i + 4) % rainbowColors.length]};
+        `;
+        overlay.appendChild(strip);
+        setTimeout(() => {
+            strip.style.transition = 'all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            strip.style.top = '50%';
+            strip.style.height = '5%';
+        }, i * 50);
+    }
+
+    // From bottom
+    for (let i = 0; i < strips / 4; i++) {
+        const strip = document.createElement('div');
+        strip.style.cssText = `
+            position: absolute;
+            left: ${(i / (strips / 4)) * 100}%;
+            bottom: 0;
+            width: ${100 / (strips / 4)}%;
+            height: 50%;
+            background: ${rainbowColors[(i + 6) % rainbowColors.length]};
+            opacity: 0.8;
+            box-shadow: 0 0 30px ${rainbowColors[(i + 6) % rainbowColors.length]};
+        `;
+        overlay.appendChild(strip);
+        setTimeout(() => {
+            strip.style.transition = 'all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            strip.style.bottom = '50%';
+            strip.style.height = '5%';
+        }, i * 50);
+    }
+
+    // Phase 2: Explosion splash at center (1s)
+    setTimeout(() => {
+        for (let i = 0; i < 50; i++) {
+            const splash = document.createElement('div');
+            const angle = (Math.PI * 2 * i) / 50;
+            const color = rainbowColors[i % rainbowColors.length];
+            
+            splash.style.cssText = `
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: ${color};
+                opacity: 0;
+                box-shadow: 0 0 40px ${color};
+                transform: translate(-50%, -50%);
+            `;
+            overlay.appendChild(splash);
+
             setTimeout(() => {
-                lights.forEach(light => {
-                    light.classList.remove('active');
-                    light.style.background = '#334155';
-                });
-            }, 500);
+                splash.style.transition = 'all 0.8s ease-out';
+                splash.style.left = `${50 + Math.cos(angle) * 30}%`;
+                splash.style.top = `${50 + Math.sin(angle) * 30}%`;
+                splash.style.opacity = '1';
+                splash.style.width = '40px';
+                splash.style.height = '40px';
+            }, 10);
         }
-    }, interval);
+    }, 1500);
+
+    // Phase 3: All lights rise to top (1.5s)
+    setTimeout(() => {
+        const allElements = overlay.querySelectorAll('div');
+        allElements.forEach((el, index) => {
+            setTimeout(() => {
+                el.style.transition = 'all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                el.style.top = '-20%';
+                el.style.transform = 'translateY(-100px) scale(1.5)';
+            }, index * 10);
+        });
+    }, 2800);
+
+    // Phase 4: Jump off the page effect (0.5s)
+    setTimeout(() => {
+        const flash = document.createElement('div');
+        flash.style.cssText = `
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 20%;
+            background: linear-gradient(to bottom, #FFFFFF, transparent);
+            opacity: 0;
+        `;
+        overlay.appendChild(flash);
+        setTimeout(() => {
+            flash.style.transition = 'all 0.3s ease';
+            flash.style.opacity = '1';
+        }, 10);
+        setTimeout(() => {
+            flash.style.opacity = '0';
+        }, 400);
+    }, 4200);
+
+    // Cleanup
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        overlay.innerHTML = '';
+    }, duration + 500);
 }
 
 // ===================================
