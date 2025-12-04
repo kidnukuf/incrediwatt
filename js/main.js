@@ -584,20 +584,106 @@ function rainbowCollisionAnimation(overlay) {
 // ===================================
 // ROI Calculator
 // ===================================
+// ===================================
+// ROI CALCULATOR — FULLY UPGRADED (NO FAKE NUMBERS)
+// ===================================
 function initROICalculator() {
-    const savingsPercentInput = document.getElementById('savingsPercent');
-    const savingsPercentValue = document.getElementById('savingsPercentValue');
+    const inputs = ['currentCost', 'installationCost', 'savingsPercentMin', 'savingsPercentMax'];
+    
+    const updateRange = () => {
+        const min = document.getElementById('savingsPercentMin').value;
+        const max = document.getElementById('savingsPercentMax').value;
+        document.getElementById('savingsRangeValue').textContent = `\( {min}% – \){max}%`;
+    };
 
-    if (savingsPercentInput && savingsPercentValue) {
-        savingsPercentInput.addEventListener('input', function() {
-            savingsPercentValue.textContent = this.value + '%';
-        });
+    updateRange();
+
+    inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', debounce(calculateROI, 300));
+    });
+
+    setTimeout(calculateROI, 600);
+}
+
+function calculateROI() {
+    const currentCost = parseFloat(document.getElementById('currentCost').value) || 0;
+    const installationCost = parseFloat(document.getElementById('installationCost').value) || 0;
+    const minPct = parseFloat(document.getElementById('savingsPercentMin').value) || 55;
+    const maxPct = parseFloat(document.getElementById('savingsPercentMax').value) || 88;
+
+    const results = document.getElementById('calculatorResults');
+    const error = document.getElementById('calcError');
+    if (error) error.style.display = 'none';
+
+    if (currentCost <= 0) {
+        results.style.display = 'none';
+        if (currentCost <= 0) showError('Please enter your current monthly energy bill');
+        return;
     }
 
-    // Trigger initial calculation if values are present
-    const currentCost = document.getElementById('currentCost');
-    if (currentCost && currentCost.value) {
-        calculateROI();
+    const monthlyMin = currentCost * (minPct / 100);
+    const monthlyMax = currentCost * (maxPct / 100);
+    const annualMin = monthlyMin * 12;
+    const annualMax = monthlyMax * 12;
+    const roiFast = installationCost > 0 ? Math.ceil(installationCost / monthlyMax) : 0;
+    const roiSlow = installationCost > 0 ? Math.ceil(installationCost / monthlyMin) : 0;
+    const fiveYrMin = (annualMin * 5) - installationCost;
+    const fiveYrMax = (annualMax * 5) - installationCost;
+
+    document.getElementById('monthlySavings').innerHTML = `
+        <strong class="text-cyan-400">\[ {Math.round(monthlyMin).toLocaleString()}</strong>
+        <span class="text-gray-400"> → </span>
+        <strong class="text-yellow-400"> \]{Math.round(monthlyMax).toLocaleString()}</strong>
+        <small class="block text-gray-400 mt-1">per month</small>
+    `;
+
+    document.getElementById('annualSavings').innerHTML = `
+        <strong class="text-cyan-400">\[ {Math.round(annualMin).toLocaleString()}</strong>
+        <span class="text-gray-400"> → </span>
+        <strong class="text-yellow-400"> \]{Math.round(annualMax).toLocaleString()}</strong>
+        <small class="block text-gray-400 mt-1">per year</small>
+    `;
+
+    document.getElementById('roiPeriod').innerHTML = installationCost > 0 ? `
+        <div class="text-5xl font-bold">
+            <span class="text-green-400">${roiFast}</span>
+            <span class="text-gray-400">–</span>
+            <span class="text-yellow-400">${roiSlow}</span>
+            <span class="text-2xl text-gray-400"> months</span>
+        </div>
+        <p class="text-sm text-gray-500 mt-3 italic">Left = Best Case • Right = Conservative</p>
+    ` : `<p class="text-yellow-400 text-2xl">Enter install cost for ROI</p>`;
+
+    document.getElementById('fiveYearSavings').innerHTML = `
+        <strong class="text-4xl ${fiveYrMin > 0 ? 'text-green-400' : 'text-red-400'}">
+            \[ {Math.round(fiveYrMin).toLocaleString()}
+        </strong>
+        <span class="text-gray-400"> → </span>
+        <strong class="text-5xl text-yellow-400"> \]{Math.round(fiveYrMax).toLocaleString()}
+        </strong>
+        <p class="text-sm text-gray-500 mt-3 italic">5-Year Net Profit Potential</p>
+    `;
+
+    results.style.display = 'block';
+    results.style.opacity = '0';
+    results.style.transform = 'translateY(30px)';
+    setTimeout(() => {
+        results.style.transition = 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)';
+        results.style.opacity = '1';
+        results.style.transform = 'translateY(0)';
+    }, 50);
+
+    results.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function showError(msg) {
+    const el = document.getElementById('calcError');
+    if (el) {
+        el.textContent = msg;
+        el.style.display = 'block';
+    }
+}
     }
 }
 
