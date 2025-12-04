@@ -261,109 +261,71 @@
     </section>
 
     <!-- ROI Calculator Section -->
-    <section id="roi" class="roi-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Calculate Your Savings</h2>
-                <p class="section-subtitle">See how much you can save with LED retrofitting</p>
+                       <!-- ROI CALCULATOR — PROFESSIONAL & HONEST VERSION -->
+<section id="roi-calculator" class="py-24 bg-black">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-5xl md:text-6xl font-bold text-white mb-6">Your Real Savings Potential</h2>
+            <p class="text-xl text-gray-300 max-w-4xl mx-auto">
+                No fake "70% guaranteed" numbers. See a <span class="text-yellow-400 font-bold">realistic range</span> based on actual commercial projects.
+            </p>
+        </div>
+
+        <div class="max-w-5xl mx-auto bg-gradient-to-br from-gray-900 via-purple-900 to-black rounded-3xl p-8 md:p-12 shadow-2xl border border-purple-700">
+            <div class="grid md:grid-cols-2 gap-8 mb-10">
+                <div>
+                    <label class="block text-white text-lg font-semibold mb-3">Current Monthly Energy Bill ($)</label>
+                    <input type="number" id="currentCost" placeholder="8500" class="w-full px-6 py-5 bg-black border border-gray-700 rounded-xl text-white text-2xl focus:border-yellow-400 focus:outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-white text-lg font-semibold mb-3">Estimated Installation Cost ($)</label>
+                    <input type="number" id="installationCost" placeholder="125000" class="w-full px-6 py-5 bg-black border border-gray-700 rounded-xl text-white text-2xl focus:border-yellow-400 focus:outline-none transition">
+                </div>
             </div>
-            <div class="roi-content">
-                <div class="calculator-card">
-                    <h3><i class="fas fa-calculator"></i> Energy Savings Calculator</h3>
-                    <div class="calculator-form">
-                        <div class="form-group">
-                            <label for="currentCost">Current Monthly Energy Cost ($)</label>
-                            <input type="number" id="currentCost" placeholder="e.g., 15000" value="15000">
-                        </div>
-                        <div class="form-group">
-                            <label for="savingsPercent">Estimated Savings (%)</label>
-                            <input type="range" id="savingsPercent" min="40" max="80" value="70" step="5">
-                            <span class="range-value" id="savingsPercentValue">70%</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="installationCost">Estimated Installation Cost ($)</label>
-                            <input type="number" id="installationCost" placeholder="e.g., 100000" value="100000">
-                        </div>
-                        <button class="btn btn-primary" onclick="calculateROI()">
-                            <i class="fas fa-chart-bar"></i> Calculate Savings
-                        </button>
+
+            <div class="mb-10">
+                <label class="block text-center text-2xl font-bold text-white mb-6">
+                    Expected Energy Savings Range
+                    <div id="savingsRangeValue" class="text-5xl text-yellow-400 font-black mt-4">55% – 88%</div>
+                </label>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="text-center">
+                        <span class="text-cyan-400 font-semibold">Conservative</span>
+                        <input type="range" id="savingsPercentMin" min="40" max="80" value="55" class="w-full h-4 slider mt-4">
                     </div>
-                    <div class="calculator-results" id="calculatorResults" style="display: none;">
-                        <h4>Your Potential Savings</h4>
-                        <div class="result-grid">
-                            <div class="result-item">
-                                <span class="result-label">Monthly Savings</span>
-                                <span class="result-value" id="monthlySavings">$0</span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-label">Annual Savings</span>
-                                <span class="result-value highlight" id="annualSavings">$0</span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-label">ROI Period</span>
-                                <span class="result-value" id="roiPeriod">0 months</span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-label">5-Year Savings</span>
-                                <span class="result-value highlight" id="fiveYearSavings">$0</span>
-                            </div>
-                        </div>
+                    <div class="text-center">
+                        <span class="text-yellow-400 font-semibold">Optimistic</span>
+                        <input type="range" id="savingsPercentMax" min="65" max="95" value="88" class="w-full h-4 slider mt-4">
                     </div>
                 </div>
-                <div class="benefits-card">
-                    <h3><i class="fas fa-chart-pie"></i> Beyond Energy Savings</h3>
-                    <div class="benefit-list">
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <i class="fas fa-coins"></i>
-                            </div>
-                            <div class="benefit-content">
-                                <h4>Reduced Maintenance Costs</h4>
-                                <p>LED systems last 25x longer than traditional lighting, slashing maintenance labor and replacement costs.</p>
-                            </div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <i class="fas fa-snowflake"></i>
-                            </div>
-                            <div class="benefit-content">
-                                <h4>Lower Cooling Expenses</h4>
-                                <p>LEDs generate 90% less heat than neon tubes, significantly reducing HVAC costs in your facility.</p>
-                            </div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="benefit-content">
-                                <h4>Enhanced Customer Experience</h4>
-                                <p>Better lighting quality creates a more inviting atmosphere, encouraging longer visits and increased spending.</p>
-                            </div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <i class="fas fa-leaf"></i>
-                            </div>
-                            <div class="benefit-content">
-                                <h4>Environmental Responsibility</h4>
-                                <p>Reduce your carbon footprint and qualify for green building certifications and potential tax incentives.</p>
-                            </div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                            <div class="benefit-content">
-                                <h4>Competitive Advantage</h4>
-                                <p>Stand out with modern, customizable lighting that creates memorable experiences for your guests.</p>
-                            </div>
-                        </div>
-                    </div>
+                <p class="text-center text-gray-400 text-sm mt-6 italic">
+                    Most venues save 65–85%. 24/7 operations with smart controls often exceed 90%.
+                </p>
+            </div>
+
+            <div id="calcError" class="text-red-400 text-center font-bold text-xl mb-8 hidden"></div>
+
+            <div id="calculatorResults" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+                <div class="bg-gray-800 bg-opacity-70 backdrop-blur rounded-2xl p-8 text-center border border-gray-700">
+                    <p class="text-gray-400 text-sm uppercase tracking-wider">Monthly Savings</p>
+                    <div id="monthlySavings" class="text-3xl font-bold text-white mt-4">—</div>
+                </div>
+                <div class="bg-gray-800 bg-opacity-70 backdrop-blur rounded-2xl p-8 text-center border border-gray-700">
+                    <p class="text-gray-400 text-sm uppercase tracking-wider">Annual Savings</p>
+                    <div id="annualSavings" class="text-3xl font-bold text-white mt-4">—</div>
+                </div>
+                <div class="bg-gradient-to-br from-purple-800 to-black rounded-2xl p-8 text-center border border-purple-600 shadow-xl">
+                    <p class="text-purple-300 text-sm uppercase tracking-wider font-bold">Payback Period</p>
+                    <div id="roiPeriod" class="text-white mt-4">—</div>
+                </div>
+                <div class="bg-gradient-to-br from-yellow-600 to-orange-600 rounded-2xl p-8 text-center shadow-2xl">
+                    <p class="text-yellow-100 text-sm uppercase tracking-wider font-bold">5-Year Profit</p>
+                    <div id="fiveYearSavings" class="text-white mt-4">—</div>
                 </div>
             </div>
         </div>
-    </section>
-
+    </div>
+</section>
     <!-- Portfolio Section -->
     <section id="portfolio" class="portfolio">
         <div class="container">
