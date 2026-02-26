@@ -1,17 +1,17 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import {
+  boolean,
+  int,
+  mysqlEnum,
+  mysqlTable,
+  text,
+  timestamp,
+  varchar,
+  float,
+  bigint,
+} from "drizzle-orm/mysql-core";
 
-/**
- * Core user table backing auth flow.
- * Extend this file with additional tables as your product grows.
- * Columns use camelCase to match both database fields and generated types.
- */
 export const users = mysqlTable("users", {
-  /**
-   * Surrogate primary key. Auto-incremented numeric value managed by the database.
-   * Use this for relations between tables.
-   */
   id: int("id").autoincrement().primaryKey(),
-  /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
   openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
   email: varchar("email", { length: 320 }),
@@ -25,4 +25,119 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+// Menu Items
+export const menuItems = mysqlTable("menu_items", {
+  id: int("id").autoincrement().primaryKey(),
+  category: varchar("category", { length: 100 }).notNull(),
+  name: varchar("name", { length: 200 }).notNull(),
+  nameEs: varchar("name_es", { length: 200 }),
+  price: float("price"),
+  description: text("description"),
+  descriptionEs: text("description_es"),
+  modifierGroups: varchar("modifier_groups", { length: 300 }),
+  isActive: boolean("is_active").default(true).notNull(),
+  isFeatured: boolean("is_featured").default(false).notNull(),
+  photoUrl: text("photo_url"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type MenuItem = typeof menuItems.$inferSelect;
+
+// Food Photos
+export const foodPhotos = mysqlTable("food_photos", {
+  id: int("id").autoincrement().primaryKey(),
+  url: text("url").notNull(),
+  fileKey: varchar("file_key", { length: 500 }).notNull(),
+  caption: text("caption"),
+  menuItemId: int("menu_item_id"),
+  uploadedAt: timestamp("uploaded_at").defaultNow().notNull(),
+});
+
+export type FoodPhoto = typeof foodPhotos.$inferSelect;
+
+// Posts
+export const posts = mysqlTable("posts", {
+  id: int("id").autoincrement().primaryKey(),
+  platform: mysqlEnum("platform", ["facebook", "instagram", "both"]).default("both").notNull(),
+  captionEn: text("caption_en").notNull(),
+  captionEs: text("caption_es"),
+  hashtags: text("hashtags"),
+  imageUrl: text("image_url"),
+  menuItemId: int("menu_item_id"),
+  postType: mysqlEnum("post_type", [
+    "menu_item",
+    "special",
+    "event",
+    "promotion",
+    "taco_tuesday",
+    "manual",
+    "borderline_brew",
+  ]).default("menu_item").notNull(),
+  status: mysqlEnum("status", ["draft", "scheduled", "published", "cancelled"])
+    .default("draft")
+    .notNull(),
+  scheduledAt: bigint("scheduled_at", { mode: "number" }),
+  publishedAt: bigint("published_at", { mode: "number" }),
+  relatedId: int("related_id"), // FK to specials/events/promotions
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Post = typeof posts.$inferSelect;
+export type InsertPost = typeof posts.$inferInsert;
+
+// Specials
+export const specials = mysqlTable("specials", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  titleEs: varchar("title_es", { length: 200 }),
+  description: text("description"),
+  descriptionEs: text("description_es"),
+  price: float("price"),
+  validFrom: bigint("valid_from", { mode: "number" }),
+  validTo: bigint("valid_to", { mode: "number" }),
+  isActive: boolean("is_active").default(true).notNull(),
+  imageUrl: text("image_url"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type Special = typeof specials.$inferSelect;
+
+// Events
+export const events = mysqlTable("events", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  titleEs: varchar("title_es", { length: 200 }),
+  description: text("description"),
+  descriptionEs: text("description_es"),
+  eventDate: bigint("event_date", { mode: "number" }).notNull(),
+  imageUrl: text("image_url"),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type Event = typeof events.$inferSelect;
+
+// Promotions
+export const promotions = mysqlTable("promotions", {
+  id: int("id").autoincrement().primaryKey(),
+  type: mysqlEnum("type", [
+    "review_dessert",
+    "cdl_discount",
+    "honor_roll",
+    "educator_discount",
+    "custom",
+  ]).notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  titleEs: varchar("title_es", { length: 200 }),
+  description: text("description"),
+  descriptionEs: text("description_es"),
+  discountValue: varchar("discount_value", { length: 50 }),
+  requirements: text("requirements"),
+  requirementsEs: text("requirements_es"),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Promotion = typeof promotions.$inferSelect;

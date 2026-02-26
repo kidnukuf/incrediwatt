@@ -21,15 +21,24 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
+import { Calendar, Camera, Coffee, FileText, History, LayoutDashboard, LogOut, Megaphone, PanelLeft, Sparkles, Star, Tag, UtensilsCrossed } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Page 1", path: "/" },
-  { icon: Users, label: "Page 2", path: "/some-path" },
+  { icon: LayoutDashboard, label: "Dashboard", path: "/" },
+  { icon: Calendar, label: "Content Calendar", path: "/calendar" },
+  { icon: Sparkles, label: "Post Generator", path: "/generate" },
+  { icon: History, label: "Post History", path: "/history" },
+  { icon: Tag, label: "Promotions", path: "/promotions" },
+  { icon: Star, label: "Weekly Specials", path: "/specials" },
+  { icon: Megaphone, label: "Events", path: "/events" },
+  { icon: Camera, label: "Food Photos", path: "/photos" },
+  { icon: UtensilsCrossed, label: "Menu Items", path: "/menu" },
+  { icon: Coffee, label: "Borderline Brew", path: "/borderline-brew", badge: "Soon" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
@@ -182,6 +191,7 @@ function DashboardLayoutContent({
             <SidebarMenu className="px-2 py-1">
               {menuItems.map(item => {
                 const isActive = location === item.path;
+                const itemWithBadge = item as typeof item & { badge?: string };
                 return (
                   <SidebarMenuItem key={item.path}>
                     <SidebarMenuButton
@@ -194,6 +204,9 @@ function DashboardLayoutContent({
                         className={`h-4 w-4 ${isActive ? "text-primary" : ""}`}
                       />
                       <span>{item.label}</span>
+                      {itemWithBadge.badge && (
+                        <Badge variant="outline" className="ml-auto text-xs py-0 h-5">{itemWithBadge.badge}</Badge>
+                      )}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
