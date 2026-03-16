@@ -1,0 +1,13 @@
+{
+  "query": "\nSELECT status, platform, COUNT(*) as count FROM posts GROUP BY status, platform ORDER BY status;\nSELECT id, url, caption, menu_item_id FROM food_photos ORDER BY uploaded_at DESC LIMIT 30;\nSELECT COUNT(*) as total_menu_items FROM menu_items WHERE is_active = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CGFoLg15EyHTxh.root --database CyaqFioxWNTNQC4ZpfULjM --execute \nSELECT status, platform, COUNT(*) as count FROM posts GROUP BY status, platform ORDER BY status;\nSELECT id, url, caption, menu_item_id FROM food_photos ORDER BY uploaded_at DESC LIMIT 30;\nSELECT COUNT(*) as total_menu_items FROM menu_items WHERE is_active = 1;\n",
+  "rows": [
+    {
+      "total_menu_items": "125"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_menu_items\n125\n",
+  "stderr": "",
+  "execution_time_ms": 479
+}

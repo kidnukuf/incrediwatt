@@ -1,0 +1,10 @@
+{
+  "query": "\nSELECT status, platform, COUNT(*) as count FROM posts GROUP BY status, platform;\nSELECT COUNT(*) as total_photos, COUNT(CASE WHEN url LIKE '%.mp4' OR url LIKE '%.mov' OR url LIKE '%.webm' THEN 1 END) as videos, COUNT(CASE WHEN url LIKE '%.jpg' OR url LIKE '%.jpeg' OR url LIKE '%.png' OR url LIKE '%.webp' THEN 1 END) as images FROM food_photos;\nSELECT id, url, caption, menu_item_id, created_at FROM food_photos ORDER BY created_at DESC LIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CGFoLg15EyHTxh.root --database CyaqFioxWNTNQC4ZpfULjM --execute \nSELECT status, platform, COUNT(*) as count FROM posts GROUP BY status, platform;\nSELECT COUNT(*) as total_photos, COUNT(CASE WHEN url LIKE '%.mp4' OR url LIKE '%.mov' OR url LIKE '%.webm' THEN 1 END) as videos, COUNT(CASE WHEN url LIKE '%.jpg' OR url LIKE '%.jpeg' OR url LIKE '%.png' OR url LIKE '%.webp' THEN 1 END) as images FROM food_photos;\nSELECT id, url, caption, menu_item_id, created_at FROM food_photos ORDER BY created_at DESC LIMIT 20;\n",
+  "returncode": 1,
+  "logs": [
+    "total_photos\tvideos\timages",
+    "0\t0\t0",
+    "ERROR 1054 (42S22) at line 4: Unknown column 'created_at' in 'field list'"
+  ]
+}

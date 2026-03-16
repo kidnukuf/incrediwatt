@@ -66,3 +66,12 @@
 - [x] Add food photo image picker to Post Generator (grid picker with live preview in FB/IG cards)
 - [x] Build 4-week content plan calendar view (Mon/Tue/Thu/Sat slots, green=filled, amber=empty, + month view toggle)
 - [x] All 21 vitest tests passing
+
+## Phase 11: Fill Schedule & Fix Video Catalog
+- [x] Audit schedule gaps — 0 posts, 0 photos found
+- [x] Audit food photos and video catalog in DB
+- [x] Fix video routing: publishNow + processScheduled now detect .mp4 and use videoUrl path
+- [x] Import 59 CDN assets (50 images + 9 videos) into food_photos catalog
+- [x] Created 16 scheduled posts across Mon/Tue/Thu/Sat slots for next 4 weeks (platform=both)
+- [x] Every 4th post uses a promo video; others use food images
+- [x] All 21 vitest tests passing

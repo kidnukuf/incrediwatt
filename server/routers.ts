@@ -251,9 +251,11 @@ export const appRouter = router({
           ? `${post.captionEn}\n\n🇲🇽 ${post.captionEs}`
           : post.captionEn;
 
+        const isVideo = /\.(mp4|mov|webm|avi)(\?|$)/i.test(post.imageUrl ?? "");
         const result = await postToSocialMedia({
           caption,
-          imageUrl: post.imageUrl ?? undefined,
+          imageUrl: isVideo ? undefined : (post.imageUrl ?? undefined),
+          videoUrl: isVideo ? (post.imageUrl ?? undefined) : undefined,
           hashtags: post.hashtags ?? undefined,
           platform: post.platform,
         });
@@ -291,9 +293,11 @@ export const appRouter = router({
             ? `${post.captionEn}\n\n🇲🇽 ${post.captionEs}`
             : post.captionEn;
 
+          const isVideo = /\.(mp4|mov|webm|avi)(\?|$)/i.test(post.imageUrl ?? "");
           const result = await postToSocialMedia({
             caption,
-            imageUrl: post.imageUrl ?? undefined,
+            imageUrl: isVideo ? undefined : (post.imageUrl ?? undefined),
+            videoUrl: isVideo ? (post.imageUrl ?? undefined) : undefined,
             hashtags: post.hashtags ?? undefined,
             platform: post.platform,
           });
@@ -533,6 +537,24 @@ export const appRouter = router({
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(({ input }) => deleteFoodPhoto(input.id)),
+    bulkImportFromUrls: protectedProcedure
+      .input(
+        z.object({
+          photos: z.array(z.object({
+            url: z.string(),
+            fileKey: z.string(),
+            caption: z.string().optional(),
+          }))
+        })
+      )
+      .mutation(async ({ input }) => {
+        let imported = 0;
+        for (const photo of input.photos) {
+          await createFoodPhoto({ url: photo.url, fileKey: photo.fileKey, caption: photo.caption });
+          imported++;
+        }
+        return { imported };
+      }),
   }),
 });
 
