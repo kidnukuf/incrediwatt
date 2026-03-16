@@ -35,3 +35,14 @@
 ## Phase 6: Tests & Delivery
 - [x] Vitest tests for post generation and promotions routers
 - [x] Checkpoint and delivery
+
+## Standing Rules
+- [x] ALWAYS use prices from menusopris.csv — never from screenshots or other sources
+
+## Phase 7: Facebook Integration Fix
+- [x] Diagnosed wrong Page ID (61579670390263 → correct: 1099719276547374)
+- [x] Fixed socialMedia.ts to use /photos endpoint for image posts
+- [x] Updated FACEBOOK_PAGE_ID secret to correct Sopris Restaurant page
+- [x] Updated FACEBOOK_API_TOKEN to page-level token (not user token)
+- [x] All 19 vitest tests passing with updated credentials
+- [x] Successfully posted 16 branded posts to correct Sopris Restaurant Facebook page
