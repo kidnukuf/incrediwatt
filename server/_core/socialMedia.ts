@@ -99,7 +99,9 @@ async function postToInstagram(params: PostParams): Promise<string | null> {
     const { caption, imageUrl, videoUrl, hashtags } = params;
     const fullCaption = hashtags ? `${caption}\n\n${hashtags}` : caption;
 
-    const instagramId = ENV.instagramBusinessAccountId;
+    // Use the Instagram Business Account ID linked to the Facebook page
+    // Correct ID: 17841445981820762 (soprisrestaurant)
+    const instagramId = "17841445981820762";
     const token = ENV.facebookApiToken;
 
     if (!instagramId || !token) {
@@ -145,8 +147,25 @@ async function postToInstagram(params: PostParams): Promise<string | null> {
 
     const containerId = containerData.id;
 
-    // Step 2: Wait briefly for container to process, then publish
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // Step 2: Poll container status until FINISHED (up to 30 seconds)
+    let ready = false;
+    for (let i = 0; i < 10; i++) {
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      const statusRes = await fetch(
+        `https://graph.facebook.com/v18.0/${containerId}?fields=status_code&access_token=${token}`
+      );
+      const statusData = await statusRes.json();
+      if (statusData.status_code === 'FINISHED') {
+        ready = true;
+        break;
+      }
+      if (statusData.status_code === 'ERROR') {
+        throw new Error(`Instagram container processing failed: ${statusData.status}`);
+      }
+    }
+    if (!ready) {
+      throw new Error('Instagram container timed out waiting for processing');
+    }
 
     const publishEndpoint = `https://graph.facebook.com/v18.0/${instagramId}/media_publish`;
     const publishPayload: Record<string, string> = {

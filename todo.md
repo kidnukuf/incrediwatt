@@ -46,3 +46,9 @@
 - [x] Updated FACEBOOK_API_TOKEN to page-level token (not user token)
 - [x] All 19 vitest tests passing with updated credentials
 - [x] Successfully posted 16 branded posts to correct Sopris Restaurant Facebook page
+
+## Phase 8: Instagram Posting
+- [x] Test Instagram Business Account credentials
+- [x] Fix Instagram posting logic if needed
+- [x] Post 15 curated posts to Instagram (@soprisrestaurant)
+- [x] Verify posts are live — 16/16 published successfully
