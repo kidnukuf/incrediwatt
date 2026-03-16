@@ -167,6 +167,7 @@ export async function updatePost(
     imageUrl: string;
     status: "draft" | "scheduled" | "published" | "cancelled";
     scheduledAt: number;
+    publishedAt: number;
     platform: "facebook" | "instagram" | "both";
   }>
 ) {

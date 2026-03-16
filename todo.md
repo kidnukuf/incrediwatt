@@ -52,3 +52,11 @@
 - [x] Fix Instagram posting logic if needed
 - [x] Post 15 curated posts to Instagram (@soprisrestaurant)
 - [x] Verify posts are live — 16/16 published successfully
+
+## Phase 9: Three Improvements
+- [x] Fix INSTAGRAM_BUSINESS_ACCOUNT_ID secret to 17841445981820762
+- [x] Wire Publish Now button in Post Generator to live Facebook + Instagram posting
+- [x] Add post scheduling: date/time picker with Mon/Tue/Thu/Sat 1PM MST slots
+- [x] Add auto-publish cron scheduler (runs every 5 min, publishes due posts)
+- [x] Update socialMedia.ts to use ENV.instagramBusinessAccountId (no hardcode)
+- [x] All 21 vitest tests passing

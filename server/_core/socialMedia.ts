@@ -99,9 +99,8 @@ async function postToInstagram(params: PostParams): Promise<string | null> {
     const { caption, imageUrl, videoUrl, hashtags } = params;
     const fullCaption = hashtags ? `${caption}\n\n${hashtags}` : caption;
 
-    // Use the Instagram Business Account ID linked to the Facebook page
-    // Correct ID: 17841445981820762 (soprisrestaurant)
-    const instagramId = "17841445981820762";
+    // Instagram Business Account ID from environment (17841445981820762 = @soprisrestaurant)
+    const instagramId = ENV.instagramBusinessAccountId;
     const token = ENV.facebookApiToken;
 
     if (!instagramId || !token) {

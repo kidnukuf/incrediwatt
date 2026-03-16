@@ -40,6 +40,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
 import { storagePut } from "./storage";
 import { nanoid } from "nanoid";
+import { postToSocialMedia } from "./_core/socialMedia";
 
 // ─── Brand voice system prompt ────────────────────────────────────────────────
 const BRAND_SYSTEM_PROMPT = `You are the social media manager for Sopris Taqueria, a warm, family-friendly restaurant located inside 4 Jacks Casino in Jackpot, Nevada.
@@ -232,6 +233,88 @@ export const appRouter = router({
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(({ input }) => deletePost(input.id)),
+
+    publishNow: protectedProcedure
+      .input(
+        z.object({
+          id: z.number(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const post = await getPostById(input.id);
+        if (!post) throw new TRPCError({ code: "NOT_FOUND", message: "Post not found" });
+        if (post.status === "published") {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "Post already published" });
+        }
+
+        const caption = post.captionEs
+          ? `${post.captionEn}\n\n🇲🇽 ${post.captionEs}`
+          : post.captionEn;
+
+        const result = await postToSocialMedia({
+          caption,
+          imageUrl: post.imageUrl ?? undefined,
+          hashtags: post.hashtags ?? undefined,
+          platform: post.platform,
+        });
+
+        if (!result.success) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: result.error ?? "Failed to publish post",
+          });
+        }
+
+        await updatePost(input.id, {
+          status: "published",
+          publishedAt: Date.now(),
+        });
+
+        return {
+          success: true,
+          facebookPostId: result.facebookPostId,
+          instagramPostId: result.instagramPostId,
+        };
+      }),
+
+    // Internal: process all scheduled posts that are due
+    processScheduled: protectedProcedure.mutation(async () => {
+      const now = Date.now();
+      const scheduled = await getScheduledPosts();
+      const due = scheduled.filter((p) => p.scheduledAt && p.scheduledAt <= now);
+
+      const results: { id: number; success: boolean; error?: string }[] = [];
+
+      for (const post of due) {
+        try {
+          const caption = post.captionEs
+            ? `${post.captionEn}\n\n🇲🇽 ${post.captionEs}`
+            : post.captionEn;
+
+          const result = await postToSocialMedia({
+            caption,
+            imageUrl: post.imageUrl ?? undefined,
+            hashtags: post.hashtags ?? undefined,
+            platform: post.platform,
+          });
+
+          if (result.success) {
+            await updatePost(post.id, { status: "published", publishedAt: Date.now() });
+            results.push({ id: post.id, success: true });
+          } else {
+            results.push({ id: post.id, success: false, error: result.error });
+          }
+        } catch (err) {
+          results.push({
+            id: post.id,
+            success: false,
+            error: err instanceof Error ? err.message : "Unknown error",
+          });
+        }
+      }
+
+      return { processed: results.length, results };
+    }),
 
     generate: protectedProcedure
       .input(

@@ -8,12 +8,52 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
-import { Copy, Facebook, Instagram, Loader2, Sparkles, Wand2 } from "lucide-react";
+import { Copy, Facebook, Instagram, Loader2, Send, Sparkles, Wand2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 type PostType = "menu_item" | "special" | "event" | "promotion" | "taco_tuesday" | "manual";
 type Platform = "facebook" | "instagram" | "both";
+
+/** Returns the next N optimal posting slots: Mon/Tue/Thu/Sat at 13:00 MST (UTC-7) */
+function getNextPostingSlots(count: number): { label: string; time: string; value: string }[] {
+  const POSTING_DAYS = [1, 2, 4, 6]; // Mon=1, Tue=2, Thu=4, Sat=6
+  const POSTING_HOUR_MST = 13; // 1 PM MST
+  const MST_OFFSET = -7 * 60; // MST is UTC-7
+
+  const slots: { label: string; time: string; value: string }[] = [];
+  const now = new Date();
+
+  // Start from tomorrow to avoid scheduling in the past
+  const cursor = new Date(now);
+  cursor.setDate(cursor.getDate() + 1);
+  cursor.setHours(0, 0, 0, 0);
+
+  const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  while (slots.length < count) {
+    const dayOfWeek = cursor.getDay();
+    if (POSTING_DAYS.includes(dayOfWeek)) {
+      // Build a datetime-local value at 1 PM MST
+      // datetime-local is always in local time, so we set the hour to 1 PM MST
+      // We'll use a fixed MST representation
+      const year = cursor.getFullYear();
+      const month = String(cursor.getMonth() + 1).padStart(2, "0");
+      const day = String(cursor.getDate()).padStart(2, "0");
+      const value = `${year}-${month}-${day}T13:00`;
+
+      slots.push({
+        label: `${DAY_NAMES[dayOfWeek]} ${MONTH_NAMES[cursor.getMonth()]} ${cursor.getDate()}`,
+        time: "1:00 PM MST",
+        value,
+      });
+    }
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  return slots;
+}
 
 export default function PostGenerator() {
   const [postType, setPostType] = useState<PostType>("menu_item");
@@ -59,6 +99,19 @@ export default function PostGenerator() {
   const updateMutation = trpc.posts.update.useMutation({
     onSuccess: () => toast.success("Post saved!"),
     onError: (err) => toast.error(err.message),
+  });
+
+  const publishMutation = trpc.posts.publishNow.useMutation({
+    onSuccess: (data) => {
+      setGeneratedPost((prev) => prev ? { ...prev, post: { ...prev.post, status: "published" } } : prev);
+      const parts: string[] = ["Post published live!"];
+      if (data.facebookPostId) parts.push(`FB: ${data.facebookPostId}`);
+      if (data.instagramPostId) parts.push(`IG: ${data.instagramPostId}`);
+      toast.success(parts.join(" · "));
+      utils.posts.counts.invalidate();
+      utils.posts.list.invalidate();
+    },
+    onError: (err) => toast.error(`Publish failed: ${err.message}`),
   });
 
   const utils = trpc.useUtils();
@@ -287,11 +340,39 @@ export default function PostGenerator() {
                 {/* Schedule date */}
                 <div className="space-y-1.5">
                   <Label className="text-xs font-medium">Schedule Date (optional)</Label>
+                  <p className="text-xs text-muted-foreground">Optimal slots: Mon/Tue/Thu/Sat at 1 PM MST</p>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {getNextPostingSlots(4).map((slot) => (
+                      <button
+                        key={slot.value}
+                        type="button"
+                        onClick={() => setScheduledDate(slot.value)}
+                        className={`text-left px-2 py-1.5 rounded border text-xs transition-colors ${
+                          scheduledDate === slot.value
+                            ? "border-primary bg-primary/10 text-primary font-medium"
+                            : "border-border hover:border-primary/50 hover:bg-muted/50"
+                        }`}
+                      >
+                        <span className="font-medium">{slot.label}</span>
+                        <span className="block text-muted-foreground">{slot.time}</span>
+                      </button>
+                    ))}
+                  </div>
                   <Input
                     type="datetime-local"
                     value={scheduledDate}
                     onChange={(e) => setScheduledDate(e.target.value)}
+                    className="text-xs"
                   />
+                  {scheduledDate && (
+                    <button
+                      type="button"
+                      onClick={() => setScheduledDate("")}
+                      className="text-xs text-muted-foreground hover:text-foreground"
+                    >
+                      Clear schedule
+                    </button>
+                  )}
                 </div>
 
                 <Button
@@ -401,17 +482,32 @@ export default function PostGenerator() {
                     onClick={() => {
                       updateMutation.mutate({ id: generatedPost.post.id, status: "draft" });
                     }}
+                    disabled={updateMutation.isPending || generatedPost.post.status === "published"}
                   >
                     Save as Draft
                   </Button>
                   <Button
+                    variant="outline"
                     className="flex-1"
                     onClick={handleSchedule}
-                    disabled={updateMutation.isPending}
+                    disabled={updateMutation.isPending || generatedPost.post.status === "published"}
                   >
                     {scheduledDate ? "Schedule Post" : "Mark Ready"}
                   </Button>
                 </div>
+                <Button
+                  className="w-full gap-2 bg-green-600 hover:bg-green-700 text-white"
+                  onClick={() => publishMutation.mutate({ id: generatedPost.post.id })}
+                  disabled={publishMutation.isPending || generatedPost.post.status === "published"}
+                >
+                  {publishMutation.isPending ? (
+                    <><Loader2 size={16} className="animate-spin" /> Publishing to {platform === "both" ? "Facebook & Instagram" : platform}...</>
+                  ) : generatedPost.post.status === "published" ? (
+                    <><Send size={16} /> Published ✓</>
+                  ) : (
+                    <><Send size={16} /> Publish Now to {platform === "both" ? "Facebook & Instagram" : platform === "facebook" ? "Facebook" : "Instagram"}</>
+                  )}
+                </Button>
 
                 <div className="flex gap-2">
                   <Badge variant="outline" className="text-xs">
