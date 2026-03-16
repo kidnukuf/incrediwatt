@@ -60,3 +60,9 @@
 - [x] Add auto-publish cron scheduler (runs every 5 min, publishes due posts)
 - [x] Update socialMedia.ts to use ENV.instagramBusinessAccountId (no hardcode)
 - [x] All 21 vitest tests passing
+
+## Phase 10: Three More Features
+- [x] Add Publish Now button to Post History page (works for draft and scheduled posts)
+- [x] Add food photo image picker to Post Generator (grid picker with live preview in FB/IG cards)
+- [x] Build 4-week content plan calendar view (Mon/Tue/Thu/Sat slots, green=filled, amber=empty, + month view toggle)
+- [x] All 21 vitest tests passing

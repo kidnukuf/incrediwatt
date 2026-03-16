@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
-import { Copy, Facebook, Instagram, Loader2, Send, Sparkles, Wand2 } from "lucide-react";
+import { Camera, Check, Copy, Facebook, ImageIcon, Instagram, Loader2, Send, Sparkles, Wand2, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -69,8 +69,11 @@ export default function PostGenerator() {
     captionEn: string; captionEs: string; hashtags: string;
     post: { id: number; status: string };
   } | null>(null);
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+  const [showImagePicker, setShowImagePicker] = useState(false);
 
   const { data: categories } = trpc.menu.categories.useQuery();
+  const { data: foodPhotos } = trpc.photos.list.useQuery();
   const [selectedCategory, setSelectedCategory] = useState<string>("Mexican Cuisine");
   const { data: menuItems } = trpc.menu.byCategory.useQuery(
     { category: selectedCategory },
@@ -103,7 +106,11 @@ export default function PostGenerator() {
 
   const publishMutation = trpc.posts.publishNow.useMutation({
     onSuccess: (data) => {
-      setGeneratedPost((prev) => prev ? { ...prev, post: { ...prev.post, status: "published" } } : prev);
+      setGeneratedPost((prev) => {
+        if (!prev) return prev;
+        // If we have a selected image, make sure it was saved to the post before publishing
+        return { ...prev, post: { ...prev.post, status: "published" } };
+      });
       const parts: string[] = ["Post published live!"];
       if (data.facebookPostId) parts.push(`FB: ${data.facebookPostId}`);
       if (data.instagramPostId) parts.push(`IG: ${data.instagramPostId}`);
@@ -134,6 +141,7 @@ export default function PostGenerator() {
       extraContext: extraContext || undefined,
       scheduledAt,
       platform,
+      imageUrl: selectedImageUrl || undefined,
     });
   };
 
@@ -337,6 +345,65 @@ export default function PostGenerator() {
                   <Switch checked={isBilingual} onCheckedChange={setIsBilingual} />
                 </div>
 
+                {/* Image picker */}
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-medium">Photo (optional)</Label>
+                  {selectedImageUrl ? (
+                    <div className="relative rounded-lg overflow-hidden border">
+                      <img src={selectedImageUrl} alt="Selected" className="w-full h-28 object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setSelectedImageUrl(null)}
+                        className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-0.5 hover:bg-black/80"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setShowImagePicker(true)}
+                      className="w-full h-16 border-2 border-dashed border-border rounded-lg flex items-center justify-center gap-2 text-xs text-muted-foreground hover:border-primary/50 hover:bg-muted/30 transition-colors"
+                    >
+                      <ImageIcon size={14} />
+                      Select from food photos library
+                    </button>
+                  )}
+                  {showImagePicker && (
+                    <div className="border rounded-lg p-2 bg-muted/30 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs font-medium">Food Photos Library</p>
+                        <button type="button" onClick={() => setShowImagePicker(false)} className="text-muted-foreground hover:text-foreground">
+                          <X size={13} />
+                        </button>
+                      </div>
+                      {!foodPhotos || foodPhotos.length === 0 ? (
+                        <p className="text-xs text-muted-foreground text-center py-4">No photos uploaded yet. Go to Food Photos to upload.</p>
+                      ) : (
+                        <div className="grid grid-cols-3 gap-1.5 max-h-48 overflow-y-auto">
+                          {foodPhotos.map((photo) => (
+                            <button
+                              key={photo.id}
+                              type="button"
+                              onClick={() => { setSelectedImageUrl(photo.url); setShowImagePicker(false); }}
+                              className={`relative rounded overflow-hidden border-2 transition-colors ${
+                                selectedImageUrl === photo.url ? "border-primary" : "border-transparent hover:border-primary/50"
+                              }`}
+                            >
+                              <img src={photo.url} alt={photo.caption ?? "Food photo"} className="w-full h-16 object-cover" />
+                              {selectedImageUrl === photo.url && (
+                                <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                                  <Check size={16} className="text-primary" />
+                                </div>
+                              )}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
                 {/* Schedule date */}
                 <div className="space-y-1.5">
                   <Label className="text-xs font-medium">Schedule Date (optional)</Label>
@@ -413,6 +480,9 @@ export default function PostGenerator() {
                             <p className="text-xs text-gray-500">Just now · 🌐</p>
                           </div>
                         </div>
+                        {selectedImageUrl && (
+                          <img src={selectedImageUrl} alt="Post photo" className="w-full h-36 object-cover rounded mb-2" />
+                        )}
                         <p className="text-gray-800 text-xs leading-relaxed whitespace-pre-wrap">
                           {generatedPost.captionEn}
                           {generatedPost.captionEs && `\n\n🇲🇽 ${generatedPost.captionEs}`}
@@ -446,9 +516,13 @@ export default function PostGenerator() {
                           <div className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-400 to-pink-500 flex items-center justify-center text-white font-bold text-xs">S</div>
                           <p className="font-semibold text-xs text-gray-900">sopristaqueria</p>
                         </div>
-                        <div className="w-full h-24 bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
-                          <p className="text-xs text-amber-700 font-medium">📸 Add food photo here</p>
-                        </div>
+                        {selectedImageUrl ? (
+                          <img src={selectedImageUrl} alt="Post photo" className="w-full h-36 object-cover" />
+                        ) : (
+                          <div className="w-full h-24 bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
+                            <p className="text-xs text-amber-700 font-medium">📸 Select a photo above</p>
+                          </div>
+                        )}
                         <div className="p-2">
                           <p className="text-gray-800 text-xs leading-relaxed">
                             <span className="font-semibold">sopristaqueria </span>

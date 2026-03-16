@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { trpc } from "@/lib/trpc";
-import { Copy, Facebook, Instagram, Loader2, Trash2 } from "lucide-react";
+import { Copy, Facebook, Instagram, Loader2, Send, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -27,6 +27,18 @@ export default function PostHistory() {
   const updateMutation = trpc.posts.update.useMutation({
     onSuccess: () => { toast.success("Status updated"); refetch(); },
     onError: (e) => toast.error(e.message),
+  });
+  const [publishingId, setPublishingId] = useState<number | null>(null);
+  const publishMutation = trpc.posts.publishNow.useMutation({
+    onSuccess: (data) => {
+      const parts: string[] = ["Published live!"];
+      if (data.facebookPostId) parts.push("FB ✓");
+      if (data.instagramPostId) parts.push("IG ✓");
+      toast.success(parts.join(" · "));
+      setPublishingId(null);
+      refetch();
+    },
+    onError: (e) => { toast.error(`Publish failed: ${e.message}`); setPublishingId(null); },
   });
 
   const filtered = posts?.filter((p) => {
@@ -136,14 +148,21 @@ export default function PostHistory() {
                       >
                         <Copy size={13} />
                       </Button>
-                      {post.status === "draft" && (
+                      {(post.status === "draft" || post.status === "scheduled") && (
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-7 text-xs text-green-600 hover:text-green-700 hover:bg-green-50 px-2"
-                          onClick={() => updateMutation.mutate({ id: post.id, status: "published" })}
+                          className="h-7 text-xs text-green-600 hover:text-green-700 hover:bg-green-50 px-2 gap-1"
+                          onClick={() => { setPublishingId(post.id); publishMutation.mutate({ id: post.id }); }}
+                          disabled={publishingId === post.id}
+                          title="Publish live to Facebook & Instagram"
                         >
-                          Publish
+                          {publishingId === post.id ? (
+                            <Loader2 size={11} className="animate-spin" />
+                          ) : (
+                            <Send size={11} />
+                          )}
+                          {publishingId === post.id ? "Posting..." : "Publish Now"}
                         </Button>
                       )}
                       <Button
