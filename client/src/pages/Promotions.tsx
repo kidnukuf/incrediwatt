@@ -90,7 +90,7 @@ export default function Promotions() {
             <Tag size={28} className="text-muted-foreground/40 mb-2" />
             <p className="text-sm font-medium text-muted-foreground">More promotions coming soon</p>
             <p className="text-xs text-muted-foreground mt-1">
-              Borderline Brew & Boost promotions will appear here when the coffee shop launches
+              Border Boost and Brew™ promotions will appear here when the coffee shop launches
             </p>
           </CardContent>
         </Card>

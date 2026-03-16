@@ -24,7 +24,7 @@ const POST_TYPE_COLORS: Record<string, string> = {
   promotion: "bg-orange-500",
   taco_tuesday: "bg-red-500",
   manual: "bg-blue-500",
-  borderline_brew: "bg-teal-500",
+  borderline_brew: "bg-blue-600",
 };
 
 const STATUS_COLORS: Record<string, string> = {

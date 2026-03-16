@@ -75,3 +75,11 @@
 - [x] Created 16 scheduled posts across Mon/Tue/Thu/Sat slots for next 4 weeks (platform=both)
 - [x] Every 4th post uses a promo video; others use food images
 - [x] All 21 vitest tests passing
+
+## Phase 12: Border Boost and Brew Independent Schedule
+- [x] Renamed all "Borderline Brew" references to "Border Boost and Brew" across 8 files
+- [x] borderline_brew post_type already in schema — no migration needed
+- [x] Added fillBrewSchedule tRPC procedure for independent schedule management
+- [x] Border Boost and Brew page rebuilt with stats, schedule fill button, and content modules
+- [x] Seeded 16 Border Boost and Brew™ scheduled posts (Mar 17 – Apr 13, Mon/Tue/Thu/Sat, 8 image + 8 video)
+- [x] All 21 vitest tests passing

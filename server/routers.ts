@@ -433,6 +433,90 @@ export const appRouter = router({
 
         return { ...generated, post: post ?? { id: 0, status: "draft" as const } };
       }),
+
+    fillBrewSchedule: protectedProcedure
+      .input(z.object({ weeks: z.number().min(1).max(8).default(4) }))
+      .mutation(async ({ input }) => {
+        // Mon=1, Tue=2, Thu=4, Sat=6 at 13:00 MST (20:00 UTC)
+        const POSTING_DAYS = new Set([1, 2, 4, 6]);
+        const MST_OFFSET_MS = 7 * 60 * 60 * 1000;
+        const now = Date.now();
+
+        // Collect existing brew scheduled slots to avoid duplicates
+        const existing = await getScheduledPosts();
+        const existingBrewSlots = new Set(
+          existing
+            .filter(p => p.postType === "borderline_brew")
+            .map(p => {
+              if (!p.scheduledAt) return null;
+              const d = new Date(p.scheduledAt);
+              return `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()}`;
+            })
+            .filter(Boolean)
+        );
+
+        // Generate slots
+        const slots: number[] = [];
+        const cursor = new Date();
+        cursor.setUTCHours(20, 0, 0, 0);
+        cursor.setUTCDate(cursor.getUTCDate() + 1);
+        const maxSlots = input.weeks * 4;
+
+        while (slots.length < maxSlots) {
+          const mstDate = new Date(cursor.getTime() - MST_OFFSET_MS);
+          const mstDay = mstDate.getDay();
+          if (POSTING_DAYS.has(mstDay)) {
+            const key = `${cursor.getUTCFullYear()}-${cursor.getUTCMonth()}-${cursor.getUTCDate()}`;
+            if (!existingBrewSlots.has(key)) {
+              slots.push(cursor.getTime());
+            }
+          }
+          cursor.setUTCDate(cursor.getUTCDate() + 1);
+        }
+
+        // Border Boost and Brew post content plan
+        const BREW_POSTS = [
+          { captionEn: "☕ Good morning, Jackpot! Start your day right with a handcrafted latte from Border Boost and Brew™ inside 4 Jacks Casino. Rich espresso, steamed milk, and your choice of flavors. Come fuel up before you hit the floor!", captionEs: "☕ ¡Buenos días, Jackpot! Comienza tu día con un latte artesanal de Border Boost and Brew™ dentro del Casino 4 Jacks. ¡Espresso rico, leche al vapor y tu elección de sabores!", hashtags: "#BorderBoostAndBrew #CoffeeLover #JackpotNV #4JacksCasino #Latte #MorningCoffee #Espresso", imageKey: 0 },
+          { captionEn: "⚡ Need an energy boost? Our Red Bull loaded drinks are the perfect pick-me-up! Custom blends, your favorite flavors, and that extra kick to keep you going. Find us inside 4 Jacks Casino, Jackpot NV!", captionEs: "⚡ ¿Necesitas energía? ¡Nuestras bebidas cargadas de Red Bull son el impulso perfecto! Mezclas personalizadas y tus sabores favoritos. ¡Encuéntranos dentro del Casino 4 Jacks!", hashtags: "#BorderBoostAndBrew #RedBull #EnergyDrink #JackpotNV #4JacksCasino #BoostUp #EnergyBoost", imageKey: 1 },
+          { captionEn: "🧋 Treat yourself to one of our specialty blended drinks! Smoothies, frappes, and seasonal creations made fresh to order. Border Boost and Brew™ has something sweet for every mood. Stop by 4 Jacks Casino!", captionEs: "🧋 ¡Date un gusto con una de nuestras bebidas especiales! Smoothies, frappés y creaciones de temporada hechas al momento. ¡Border Boost and Brew™ tiene algo dulce para cada estado de ánimo!", hashtags: "#BorderBoostAndBrew #Smoothie #Frappe #JackpotNV #4JacksCasino #SpecialtyDrinks #BlendedDrinks", imageKey: 2 },
+          { captionEn: "☕ Cappuccino perfection! Velvety foam, bold espresso, and just the right balance. Border Boost and Brew™ crafts every cup with care. Pair it with your favorite Sopris Taqueria breakfast and you're set for the day!", captionEs: "☕ ¡Perfección en capuchino! Espuma aterciopelada, espresso intenso y el equilibrio perfecto. ¡Combínalo con tu desayuno favorito de Sopris Taqueria!", hashtags: "#BorderBoostAndBrew #Cappuccino #CoffeeCraft #JackpotNV #4JacksCasino #MorningVibes #CoffeeAndFood", imageKey: 3 },
+          { captionEn: "⚡ Double the energy, double the fun! Our loaded energy drinks come in dozens of flavor combinations. Mix Red Bull with your favorite juice, syrup, or cream. Custom drinks made YOUR way at Border Boost and Brew™!", captionEs: "⚡ ¡Doble energía, doble diversión! Nuestras bebidas energéticas vienen en docenas de combinaciones de sabores. ¡Bebidas personalizadas a TU manera en Border Boost and Brew™!", hashtags: "#BorderBoostAndBrew #LoadedEnergyDrink #CustomDrinks #JackpotNV #4JacksCasino #RedBullLoaded", imageKey: 4 },
+          { captionEn: "🌅 Rise and grind, Jackpot! Border Boost and Brew™ opens early so you can fuel up before your day begins. Hot espresso drinks, cold blends, and everything in between. See you at 4 Jacks Casino!", captionEs: "🌅 ¡Levántate y brilla, Jackpot! Border Boost and Brew™ abre temprano para que puedas recargar energías antes de comenzar tu día. ¡Hasta luego en el Casino 4 Jacks!", hashtags: "#BorderBoostAndBrew #EarlyBird #MorningCoffee #JackpotNV #4JacksCasino #RiseAndGrind #CoffeeTime", imageKey: 5 },
+          { captionEn: "🍵 Matcha lovers, this one's for you! Our creamy matcha latte is made with premium matcha powder and your choice of milk. Earthy, smooth, and absolutely delicious. Available now at Border Boost and Brew™!", captionEs: "🍵 ¡Amantes del matcha, este es para ustedes! Nuestro latte de matcha cremoso está hecho con polvo de matcha premium. ¡Terroso, suave y absolutamente delicioso!", hashtags: "#BorderBoostAndBrew #MatchaLatte #Matcha #JackpotNV #4JacksCasino #GreenTea #HealthyDrinks", imageKey: 6 },
+          { captionEn: "☕ The perfect combo: a hot latte from Border Boost and Brew™ + street tacos from Sopris Taqueria. Two great brands, one amazing location inside 4 Jacks Casino, Jackpot NV. Come experience both!", captionEs: "☕ La combinación perfecta: un latte caliente de Border Boost and Brew™ + tacos de la calle de Sopris Taqueria. ¡Dos marcas increíbles, una ubicación increíble!", hashtags: "#BorderBoostAndBrew #SoprisTaqueria #JackpotNV #4JacksCasino #CoffeeAndTacos #BestCombo", imageKey: 7 },
+        ];
+
+        // Image assets for brew posts (use food images from catalog as placeholders)
+        const BREW_IMAGES = [
+          "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_carne_asada_eggs_1141c375.jpg",
+          "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_birria_tacos_dd99ef8e.jpg",
+          "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_chocolate_oreo_sundae_v2_f15a7f25.jpg",
+          "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_street_tacos_c4a8bb9d.jpg",
+          "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_promo_1_8a0b7ea8.mp4",
+          "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_chicken_fajitas_a1b34c9f.jpg",
+          "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_fajita_trio_98ae6a2d.jpg",
+          "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_promo_2_6cc6d35a.mp4",
+        ];
+
+        let created = 0;
+        for (let i = 0; i < slots.length; i++) {
+          const plan = BREW_POSTS[i % BREW_POSTS.length];
+          const imageUrl = BREW_IMAGES[plan.imageKey % BREW_IMAGES.length];
+          await createPost({
+            platform: "both",
+            captionEn: plan.captionEn,
+            captionEs: plan.captionEs,
+            hashtags: plan.hashtags,
+            imageUrl,
+            postType: "borderline_brew",
+            status: "scheduled",
+            scheduledAt: slots[i],
+          });
+          created++;
+        }
+
+        return { created, slots: slots.length };
+      }),
   }),
 
   // ─── Specials ────────────────────────────────────────────────────────────────
