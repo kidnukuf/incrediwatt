@@ -91,3 +91,17 @@
 - [x] Updated DashboardLayout: sidebar path → /border-boost-and-brew, removed "Soon" badge
 - [x] Old /borderline-brew route kept as redirect alias for backward compatibility
 - [x] Zero TypeScript errors, all 21 vitest tests passing
+
+## Phase 15: 4/20 Weekend Campaign
+- [ ] Generate Sopris Restaurant 4/20 food & drink specials ad (infographic)
+- [ ] Generate Sopris Restaurant 4/20 story/reel format ad
+- [ ] Generate Border Boost and Brew™ grand opening 4/20 weekend ad
+- [ ] Generate Border Boost and Brew™ teaser/countdown ad
+- [ ] Write all bilingual captions and hashtags for the campaign
+- [ ] Deliver all assets to user
+
+## Phase 16: 4/20 Campaign Scheduling
+- [x] Uploaded 4 ad images to CDN
+- [x] Scheduled 10 Mon/Thu lead-up posts (Mar 17 - Apr 16) alternating Sopris & BBB
+- [x] Scheduled 6 daily posts Apr 18, 19, 20 (both brands each day, BBB offset by 1hr)
+- [x] Verified 16 new 4/20 campaign posts in database (33 total campaign posts visible)
