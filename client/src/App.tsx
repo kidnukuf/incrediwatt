@@ -12,7 +12,7 @@ import Promotions from "./pages/Promotions";
 import Specials from "./pages/Specials";
 import Events from "./pages/Events";
 import Photos from "./pages/Photos";
-import BorderlineBrew from "./pages/BorderlineBrew";
+import BorderBoostAndBrew from "./pages/BorderBoostAndBrew";
 import Menu from "./pages/Menu";
 
 function Router() {
@@ -27,7 +27,8 @@ function Router() {
       <Route path="/events" component={Events} />
       <Route path="/photos" component={Photos} />
       <Route path="/menu" component={Menu} />
-      <Route path="/borderline-brew" component={BorderlineBrew} />
+      <Route path="/border-boost-and-brew" component={BorderBoostAndBrew} />
+      <Route path="/borderline-brew" component={BorderBoostAndBrew} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

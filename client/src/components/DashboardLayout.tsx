@@ -38,7 +38,7 @@ const menuItems = [
   { icon: Megaphone, label: "Events", path: "/events" },
   { icon: Camera, label: "Food Photos", path: "/photos" },
   { icon: UtensilsCrossed, label: "Menu Items", path: "/menu" },
-  { icon: Coffee, label: "Border Boost and Brew", path: "/borderline-brew", badge: "Soon" },
+  { icon: Coffee, label: "Border Boost and Brew", path: "/border-boost-and-brew" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";

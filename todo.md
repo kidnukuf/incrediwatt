@@ -83,3 +83,11 @@
 - [x] Border Boost and Brew page rebuilt with stats, schedule fill button, and content modules
 - [x] Seeded 16 Border Boost and Brew™ scheduled posts (Mar 17 – Apr 13, Mon/Tue/Thu/Sat, 8 image + 8 video)
 - [x] All 21 vitest tests passing
+
+## Phase 14: Brand Label Audit
+- [x] Searched codebase — no "baby" references found; found 7 remaining "borderline" references
+- [x] Renamed BorderlineBrew.tsx → BorderBoostAndBrew.tsx, removed old file
+- [x] Updated App.tsx: import + routes now use BorderBoostAndBrew and /border-boost-and-brew
+- [x] Updated DashboardLayout: sidebar path → /border-boost-and-brew, removed "Soon" badge
+- [x] Old /borderline-brew route kept as redirect alias for backward compatibility
+- [x] Zero TypeScript errors, all 21 vitest tests passing
