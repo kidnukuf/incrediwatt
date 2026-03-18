@@ -93,15 +93,25 @@
 - [x] Zero TypeScript errors, all 21 vitest tests passing
 
 ## Phase 15: 4/20 Weekend Campaign
-- [ ] Generate Sopris Restaurant 4/20 food & drink specials ad (infographic)
-- [ ] Generate Sopris Restaurant 4/20 story/reel format ad
-- [ ] Generate Border Boost and Brew™ grand opening 4/20 weekend ad
-- [ ] Generate Border Boost and Brew™ teaser/countdown ad
-- [ ] Write all bilingual captions and hashtags for the campaign
-- [ ] Deliver all assets to user
+- [x] Generated Sopris Restaurant 4/20 food & drink specials ad (infographic)
+- [x] Generated Sopris Restaurant 4/20 story/reel format ad
+- [x] Generated Border Boost and Brew™ grand opening 4/20 weekend ad
+- [x] Generated Border Boost and Brew™ teaser/countdown ad
+- [x] Wrote all bilingual captions and hashtags for the campaign
+- [x] Delivered all assets to user
 
 ## Phase 16: 4/20 Campaign Scheduling
 - [x] Uploaded 4 ad images to CDN
 - [x] Scheduled 10 Mon/Thu lead-up posts (Mar 17 - Apr 16) alternating Sopris & BBB
 - [x] Scheduled 6 daily posts Apr 18, 19, 20 (both brands each day, BBB offset by 1hr)
 - [x] Verified 16 new 4/20 campaign posts in database (33 total campaign posts visible)
+
+## Phase 17: Digital TV Signage Display
+- [x] Generated 3 real origin story slides (Sophie & Iris, family story)
+- [x] Generated Taco Tuesday, Cinco de Mayo, 2-Year Anniversary, 4/20 Weekend, BBB ad slides
+- [x] Generated real QR codes for Facebook, Google, and Yelp review pages
+- [x] Built full-screen looping Signage.tsx with fade transitions (10-15s per slide)
+- [x] Review slide shows all 3 QR codes with platform icons side by side
+- [x] Added TV Display to DashboardLayout sidebar (Monitor icon)
+- [x] Route /signage added to App.tsx
+- [x] 21/21 vitest tests passing

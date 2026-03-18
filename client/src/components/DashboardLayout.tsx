@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { Calendar, Camera, Coffee, FileText, History, LayoutDashboard, LogOut, Megaphone, PanelLeft, Sparkles, Star, Tag, UtensilsCrossed } from "lucide-react";
+import { Calendar, Camera, Coffee, FileText, History, LayoutDashboard, LogOut, Megaphone, Monitor, PanelLeft, Sparkles, Star, Tag, UtensilsCrossed } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -39,6 +39,7 @@ const menuItems = [
   { icon: Camera, label: "Food Photos", path: "/photos" },
   { icon: UtensilsCrossed, label: "Menu Items", path: "/menu" },
   { icon: Coffee, label: "Border Boost and Brew", path: "/border-boost-and-brew" },
+  { icon: Monitor, label: "TV Display", path: "/signage" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
