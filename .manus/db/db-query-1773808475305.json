@@ -1,0 +1,28 @@
+{
+  "query": "SELECT id, url, file_key, caption FROM food_photos WHERE LOWER(file_key) LIKE '%burger%' OR LOWER(caption) LIKE '%burger%' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CGFoLg15EyHTxh.root --database CyaqFioxWNTNQC4ZpfULjM --execute SELECT id, url, file_key, caption FROM food_photos WHERE LOWER(file_key) LIKE '%burger%' OR LOWER(caption) LIKE '%burger%' ORDER BY id;",
+  "rows": [
+    {
+      "id": "2",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_bacon_cheeseburger_74de5e76.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_bacon_cheeseburger_74de5e76.jpg",
+      "caption": "Bacon Cheeseburger"
+    },
+    {
+      "id": "4",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_double_burger_and_onion_rings_f7846812.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_double_burger_and_onion_rings_f7846812.jpg",
+      "caption": "Double Burger & Onion Rings"
+    },
+    {
+      "id": "6",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_double_burger_908397d5.jpg",
+      "file_key": "sopris-cdn-import/sopris_double_burger_908397d5.jpg",
+      "caption": "Double Burger"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\turl\tfile_key\tcaption\n2\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_bacon_cheeseburger_74de5e76.jpg\tsopris-cdn-import/sopris_post_bacon_cheeseburger_74de5e76.jpg\tBacon Cheeseburger\n4\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_double_burger_and_onion_rings_f7846812.jpg\tsopris-cdn-import/sopris_post_double_burger_and_onion_rings_f7846812.jpg\tDouble Burger & Onion Rings\n6\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_double_burger_908397d5.jpg\tsopris-cdn-import/sopris_double_burger_908397d5.jpg\tDouble Burger\n",
+  "stderr": "",
+  "execution_time_ms": 357
+}

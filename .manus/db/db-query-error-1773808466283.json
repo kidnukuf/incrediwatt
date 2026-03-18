@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, filename, url, description, category FROM food_photos WHERE LOWER(filename) LIKE '%burger%' OR LOWER(description) LIKE '%burger%' OR LOWER(category) LIKE '%burger%' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CGFoLg15EyHTxh.root --database CyaqFioxWNTNQC4ZpfULjM --execute SELECT id, filename, url, description, category FROM food_photos WHERE LOWER(filename) LIKE '%burger%' OR LOWER(description) LIKE '%burger%' OR LOWER(category) LIKE '%burger%' ORDER BY id;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'filename' in 'where clause'"
+  ]
+}

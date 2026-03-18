@@ -159,6 +159,20 @@ const SLIDES = [
     src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_bbb_ad-KtV4CmkbP8WFjedHNLMKpU.png",
     duration: 10000,
   },
+  // Burger Ad
+  {
+    id: "burger-ad",
+    type: "image",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/img_burger_ad_276c62af.png",
+    duration: 12000,
+  },
+  // Catering & Private Events
+  {
+    id: "catering",
+    type: "image",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/img_catering_71a1de98.png",
+    duration: 12000,
+  },
   // Review Request again (shown twice per loop)
   {
     id: "reviews-2",

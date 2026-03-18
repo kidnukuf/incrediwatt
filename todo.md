@@ -133,3 +133,12 @@
 - [x] Added all 9 videos and 5 new image slides to Signage.tsx rotation (24 total slides)
 - [x] Added VideoSlide component with autoplay/muted/loop support
 - [x] Zero TypeScript errors
+
+## Phase 19: New Signage Slides — Burger, Online Ordering, Catering
+- [x] Find best burger images from food photo catalog
+- [x] Generate Burger Ad slide using existing catalog burger image
+- [x] DROPPED - replaced with Catering only per user request
+- [x] Generate Catering slide (no prices)
+- [x] Add 2 new slides to Signage.tsx rotation
+- [x] Convert new slides to MP4 and update Roku USB ZIP
+- [ ] Save checkpoint
