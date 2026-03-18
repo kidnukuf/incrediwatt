@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const SLIDES = [
   // Origin Story — 3 slides
@@ -8,17 +8,45 @@ const SLIDES = [
     src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_story_1-FYhUP8wGrghwiBsuU8sBNs.png",
     duration: 10000,
   },
+  // Video: restaurant footage 1
+  {
+    id: "vid-1",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011602_fe6ec497.mp4",
+    duration: 15000,
+  },
   {
     id: "story-2",
     type: "image",
     src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_story_2-8EpprZCh4HENGVeLDebY59.png",
     duration: 10000,
   },
+  // Video: restaurant footage 2
+  {
+    id: "vid-2",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011603_65dd56af.mp4",
+    duration: 12000,
+  },
   {
     id: "story-3",
     type: "image",
     src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_story_3-JCWkGvnEH77VeDksdKeCCV.png",
     duration: 10000,
+  },
+  // Street Tacos
+  {
+    id: "street-tacos",
+    type: "image",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_street_tacos-m7qPBeLV54nfuR2c8gugEE.png",
+    duration: 10000,
+  },
+  // Video: food footage 3
+  {
+    id: "vid-3",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011605_91615fe3.mp4",
+    duration: 15000,
   },
   // Taco Tuesday
   {
@@ -27,11 +55,53 @@ const SLIDES = [
     src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_taco_tuesday-B4Rr5HWgo2zmELwzFqvfCF.png",
     duration: 10000,
   },
+  // Video: food footage 4
+  {
+    id: "vid-4",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011606_0d852c0b.mp4",
+    duration: 15000,
+  },
+  // Cheese Enchiladas
+  {
+    id: "enchiladas",
+    type: "image",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_enchiladas-JogGQVFATShNT57exDA2do.png",
+    duration: 10000,
+  },
   // Review Request with QR codes
   {
     id: "reviews",
     type: "reviews",
     duration: 15000,
+  },
+  // Video: food footage 5
+  {
+    id: "vid-5",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011607_fdd47dd5.mp4",
+    duration: 15000,
+  },
+  // Prime Rib Dinner
+  {
+    id: "prime-rib",
+    type: "image",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_prime_rib-b6ZBMT94tW64ckMqsQahrz.png",
+    duration: 10000,
+  },
+  // Video: food footage 6
+  {
+    id: "vid-6",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011608_d40fdc87.mp4",
+    duration: 12000,
+  },
+  // Happy Hour
+  {
+    id: "happy-hour",
+    type: "image",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_happy_hour-cQ5fgLqq9Db4wtRimYf4Wq.png",
+    duration: 10000,
   },
   // 4/20 Weekend
   {
@@ -40,12 +110,26 @@ const SLIDES = [
     src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_420_event-m7JzpkkfiBKpSa3fQ3AYe3.png",
     duration: 10000,
   },
-  // Border Boost and Brew™ Ad
+  // Video: food footage 7
   {
-    id: "bbb-ad",
+    id: "vid-7",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011609_8bf61c0e.mp4",
+    duration: 15000,
+  },
+  // Border Boost and Brew™ Grand Opening Ad
+  {
+    id: "bbb-grand-opening",
     type: "image",
-    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_bbb_ad-KtV4CmkbP8WFjedHNLMKpU.png",
-    duration: 10000,
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_bbb_grand_opening-DViYa2hT5Cqnpx8NdmwreH.png",
+    duration: 12000,
+  },
+  // Video: food footage 8
+  {
+    id: "vid-8",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011610_890203c4.mp4",
+    duration: 12000,
   },
   // 2-Year Anniversary
   {
@@ -61,9 +145,16 @@ const SLIDES = [
     src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_cinco-XtGoxPYZWzjD3SPNi5vaGo.png",
     duration: 10000,
   },
-  // Border Boost and Brew™ Ad (second rotation)
+  // Video: food footage 9
   {
-    id: "bbb-ad-2",
+    id: "vid-9",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011611_f23ef9bc.mp4",
+    duration: 15000,
+  },
+  // Border Boost and Brew™ original ad (second BBB slot)
+  {
+    id: "bbb-ad",
     type: "image",
     src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_bbb_ad-KtV4CmkbP8WFjedHNLMKpU.png",
     duration: 10000,
@@ -154,6 +245,29 @@ function ReviewsSlide() {
   );
 }
 
+function VideoSlide({ src }: { src: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch(() => {});
+    }
+  }, [src]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      className="w-full h-full object-cover"
+      autoPlay
+      muted
+      playsInline
+      loop
+    />
+  );
+}
+
 export default function Signage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -186,11 +300,14 @@ export default function Signage() {
             className="w-full h-full object-cover"
           />
         )}
+        {currentSlide.type === "video" && (
+          <VideoSlide src={(currentSlide as { src: string }).src} />
+        )}
         {currentSlide.type === "reviews" && <ReviewsSlide />}
       </div>
 
       {/* Progress dots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 flex-wrap justify-center max-w-lg">
         {SLIDES.map((_, i) => (
           <div
             key={i}

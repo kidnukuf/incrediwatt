@@ -115,3 +115,21 @@
 - [x] Added TV Display to DashboardLayout sidebar (Monitor icon)
 - [x] Route /signage added to App.tsx
 - [x] 21/21 vitest tests passing
+
+## Phase 18: Additional Digital Signage Assets
+- [ ] Audit existing signage slides and plan new categories
+- [ ] Generate food highlight slides (signature dishes, prime rib, enchiladas, BBQ ribs)
+- [ ] Generate Taco Tuesday feature slide with real menu items
+- [ ] Generate happy hour / drinks slide
+- [ ] Generate family/community welcome slide
+- [ ] Generate 2 more Border Boost and Brew™ slides
+- [ ] Upload all new assets to CDN
+- [ ] Add all new slides to Signage.tsx rotation
+- [ ] Save checkpoint
+
+## Phase 18: New Restaurant Videos for Digital Display
+- [x] Uploaded 9 new restaurant videos to CDN (all 9/9 succeeded)
+- [x] Generated 5 new image slides: Prime Rib, Street Tacos, Happy Hour, BBB Grand Opening, Cheese Enchiladas (no prices)
+- [x] Added all 9 videos and 5 new image slides to Signage.tsx rotation (24 total slides)
+- [x] Added VideoSlide component with autoplay/muted/loop support
+- [x] Zero TypeScript errors
