@@ -1,0 +1,190 @@
+{
+  "query": "SELECT id, url, file_key, caption FROM food_photos WHERE caption IS NOT NULL AND url NOT LIKE '%.mp4' ORDER BY id LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CGFoLg15EyHTxh.root --database CyaqFioxWNTNQC4ZpfULjM --execute SELECT id, url, file_key, caption FROM food_photos WHERE caption IS NOT NULL AND url NOT LIKE '%.mp4' ORDER BY id LIMIT 30;",
+  "rows": [
+    {
+      "id": "1",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_street_tacos_c4a8bb9d.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_street_tacos_c4a8bb9d.jpg",
+      "caption": "Street Tacos"
+    },
+    {
+      "id": "2",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_bacon_cheeseburger_74de5e76.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_bacon_cheeseburger_74de5e76.jpg",
+      "caption": "Bacon Cheeseburger"
+    },
+    {
+      "id": "3",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_wet_burrito_4ec937a0.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_wet_burrito_4ec937a0.jpg",
+      "caption": "Wet Burrito"
+    },
+    {
+      "id": "4",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_double_burger_and_onion_rings_f7846812.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_double_burger_and_onion_rings_f7846812.jpg",
+      "caption": "Double Burger & Onion Rings"
+    },
+    {
+      "id": "5",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_taco_tuesday_f150b418.jpg",
+      "file_key": "sopris-cdn-import/sopris_taco_tuesday_f150b418.jpg",
+      "caption": "Taco Tuesday"
+    },
+    {
+      "id": "6",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_double_burger_908397d5.jpg",
+      "file_key": "sopris-cdn-import/sopris_double_burger_908397d5.jpg",
+      "caption": "Double Burger"
+    },
+    {
+      "id": "7",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_taco_tuesday_banner_a9d42d6e.jpg",
+      "file_key": "sopris-cdn-import/sopris_taco_tuesday_banner_a9d42d6e.jpg",
+      "caption": "Taco Tuesday Banner"
+    },
+    {
+      "id": "8",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_wet_burrito_v2_c6dd9c63.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_wet_burrito_v2_c6dd9c63.jpg",
+      "caption": "Wet Burrito v2"
+    },
+    {
+      "id": "9",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_supreme_pizza_28bf7850.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_supreme_pizza_28bf7850.jpg",
+      "caption": "Supreme Pizza"
+    },
+    {
+      "id": "10",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_birria_tacos_dd99ef8e.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_birria_tacos_dd99ef8e.jpg",
+      "caption": "Birria Tacos"
+    },
+    {
+      "id": "11",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_carne_asada_eggs_1141c375.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_carne_asada_eggs_1141c375.jpg",
+      "caption": "Carne Asada & Eggs"
+    },
+    {
+      "id": "12",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_fajita_trio_98ae6a2d.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_fajita_trio_98ae6a2d.jpg",
+      "caption": "Fajita Trio"
+    },
+    {
+      "id": "13",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_onion_rings_3a1ad6d7.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_onion_rings_3a1ad6d7.jpg",
+      "caption": "Onion Rings"
+    },
+    {
+      "id": "14",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_blt_57fdaf73.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_blt_57fdaf73.jpg",
+      "caption": "BLT Sandwich"
+    },
+    {
+      "id": "15",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_chicken_fajitas_a1b34c9f.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_chicken_fajitas_a1b34c9f.jpg",
+      "caption": "Chicken Fajitas"
+    },
+    {
+      "id": "16",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_chicken_tacos_50c2de16.jpg",
+      "file_key": "sopris-cdn-import/sopris_post_chicken_tacos_50c2de16.jpg",
+      "caption": "Chicken Tacos"
+    },
+    {
+      "id": "17",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_enchiladas_graphic_189ae6a1.jpg",
+      "file_key": "sopris-cdn-import/sopris_enchiladas_graphic_189ae6a1.jpg",
+      "caption": "Enchiladas Graphic"
+    },
+    {
+      "id": "18",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_steak_lobster_graphic_3564897e.jpg",
+      "file_key": "sopris-cdn-import/sopris_steak_lobster_graphic_3564897e.jpg",
+      "caption": "Steak & Lobster Graphic"
+    },
+    {
+      "id": "19",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_pizza_graphic_68f0ed52.jpg",
+      "file_key": "sopris-cdn-import/sopris_pizza_graphic_68f0ed52.jpg",
+      "caption": "Pizza Graphic"
+    },
+    {
+      "id": "20",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_mural_feature_509d2a32.jpg",
+      "file_key": "sopris-cdn-import/sopris_mural_feature_509d2a32.jpg",
+      "caption": "Restaurant Mural"
+    },
+    {
+      "id": "21",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_grilled_cheese_graphic_ff4a7743.jpg",
+      "file_key": "sopris-cdn-import/sopris_grilled_cheese_graphic_ff4a7743.jpg",
+      "caption": "Grilled Cheese Graphic"
+    },
+    {
+      "id": "22",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_taco_tuesday_neon_6c7ff4b3.jpg",
+      "file_key": "sopris-cdn-import/sopris_taco_tuesday_neon_6c7ff4b3.jpg",
+      "caption": "Taco Tuesday Neon"
+    },
+    {
+      "id": "23",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_chocolate_oreo_sundae_1b5bf5c4.jpg",
+      "file_key": "sopris-cdn-import/sopris_chocolate_oreo_sundae_1b5bf5c4.jpg",
+      "caption": "Chocolate Oreo Sundae"
+    },
+    {
+      "id": "24",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_cinco_de_mayo_33d48635.jpg",
+      "file_key": "sopris-cdn-import/sopris_cinco_de_mayo_33d48635.jpg",
+      "caption": "Cinco de Mayo"
+    },
+    {
+      "id": "25",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_happy_hour_specials_77c938f3.jpg",
+      "file_key": "sopris-cdn-import/sopris_happy_hour_specials_77c938f3.jpg",
+      "caption": "Happy Hour Specials"
+    },
+    {
+      "id": "26",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_prime_rib_dinner_9467a1c7.jpg",
+      "file_key": "sopris-cdn-import/sopris_prime_rib_dinner_9467a1c7.jpg",
+      "caption": "Prime Rib Dinner"
+    },
+    {
+      "id": "27",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_story_sophie_iris_v2_3ac40b5e.jpg",
+      "file_key": "sopris-cdn-import/sopris_story_sophie_iris_v2_3ac40b5e.jpg",
+      "caption": "Our Story — Sophie & Iris"
+    },
+    {
+      "id": "28",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_skilled_chef_v2_8952beff.jpg",
+      "file_key": "sopris-cdn-import/sopris_skilled_chef_v2_8952beff.jpg",
+      "caption": "Skilled Chef"
+    },
+    {
+      "id": "29",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_never_rushed_v2_16118f80.jpg",
+      "file_key": "sopris-cdn-import/sopris_never_rushed_v2_16118f80.jpg",
+      "caption": "Never Rushed"
+    },
+    {
+      "id": "30",
+      "url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_familiar_experience_v2_c45ade0a.jpg",
+      "file_key": "sopris-cdn-import/sopris_familiar_experience_v2_c45ade0a.jpg",
+      "caption": "Familiar Experience"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\turl\tfile_key\tcaption\n1\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_street_tacos_c4a8bb9d.jpg\tsopris-cdn-import/sopris_post_street_tacos_c4a8bb9d.jpg\tStreet Tacos\n2\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_bacon_cheeseburger_74de5e76.jpg\tsopris-cdn-import/sopris_post_bacon_cheeseburger_74de5e76.jpg\tBacon Cheeseburger\n3\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_wet_burrito_4ec937a0.jpg\tsopris-cdn-import/sopris_post_wet_burrito_4ec937a0.jpg\tWet Burrito\n4\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_double_burger_and_onion_rings_f7846812.jpg\tsopris-cdn-import/sopris_post_double_burger_and_onion_rings_f7846812.jpg\tDouble Burger & Onion Rings\n5\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_taco_tuesday_f150b418.jpg\tsopris-cdn-import/sopris_taco_tuesday_f150b418.jpg\tTaco Tuesday\n6\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_double_burger_908397d5.jpg\tsopris-cdn-import/sopris_double_burger_908397d5.jpg\tDouble Burger\n7\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_taco_tuesday_banner_a9d42d6e.jpg\tsopris-cdn-import/sopris_taco_tuesday_banner_a9d42d6e.jpg\tTaco Tuesday Banner\n8\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_wet_burrito_v2_c6dd9c63.jpg\tsopris-cdn-import/sopris_post_wet_burrito_v2_c6dd9c63.jpg\tWet Burrito v2\n9\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_supreme_pizza_28bf7850.jpg\tsopris-cdn-import/sopris_post_supreme_pizza_28bf7850.jpg\tSupreme Pizza\n10\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_birria_tacos_dd99ef8e.jpg\tsopris-cdn-import/sopris_post_birria_tacos_dd99ef8e.jpg\tBirria Tacos\n11\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_carne_asada_eggs_1141c375.jpg\tsopris-cdn-import/sopris_post_carne_asada_eggs_1141c375.jpg\tCarne Asada & Eggs\n12\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_fajita_trio_98ae6a2d.jpg\tsopris-cdn-import/sopris_post_fajita_trio_98ae6a2d.jpg\tFajita Trio\n13\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_onion_rings_3a1ad6d7.jpg\tsopris-cdn-import/sopris_post_onion_rings_3a1ad6d7.jpg\tOnion Rings\n14\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_blt_57fdaf73.jpg\tsopris-cdn-import/sopris_post_blt_57fdaf73.jpg\tBLT Sandwich\n15\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_chicken_fajitas_a1b34c9f.jpg\tsopris-cdn-import/sopris_post_chicken_fajitas_a1b34c9f.jpg\tChicken Fajitas\n16\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_post_chicken_tacos_50c2de16.jpg\tsopris-cdn-import/sopris_post_chicken_tacos_50c2de16.jpg\tChicken Tacos\n17\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_enchiladas_graphic_189ae6a1.jpg\tsopris-cdn-import/sopris_enchiladas_graphic_189ae6a1.jpg\tEnchiladas Graphic\n18\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_steak_lobster_graphic_3564897e.jpg\tsopris-cdn-import/sopris_steak_lobster_graphic_3564897e.jpg\tSteak & Lobster Graphic\n19\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_pizza_graphic_68f0ed52.jpg\tsopris-cdn-import/sopris_pizza_graphic_68f0ed52.jpg\tPizza Graphic\n20\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_mural_feature_509d2a32.jpg\tsopris-cdn-import/sopris_mural_feature_509d2a32.jpg\tRestaurant Mural\n21\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_grilled_cheese_graphic_ff4a7743.jpg\tsopris-cdn-import/sopris_grilled_cheese_graphic_ff4a7743.jpg\tGrilled Cheese Graphic\n22\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_taco_tuesday_neon_6c7ff4b3.jpg\tsopris-cdn-import/sopris_taco_tuesday_neon_6c7ff4b3.jpg\tTaco Tuesday Neon\n23\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_chocolate_oreo_sundae_1b5bf5c4.jpg\tsopris-cdn-import/sopris_chocolate_oreo_sundae_1b5bf5c4.jpg\tChocolate Oreo Sundae\n24\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_cinco_de_mayo_33d48635.jpg\tsopris-cdn-import/sopris_cinco_de_mayo_33d48635.jpg\tCinco de Mayo\n25\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_happy_hour_specials_77c938f3.jpg\tsopris-cdn-import/sopris_happy_hour_specials_77c938f3.jpg\tHappy Hour Specials\n26\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_prime_rib_dinner_9467a1c7.jpg\tsopris-cdn-import/sopris_prime_rib_dinner_9467a1c7.jpg\tPrime Rib Dinner\n27\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_story_sophie_iris_v2_3ac40b5e.jpg\tsopris-cdn-import/sopris_story_sophie_iris_v2_3ac40b5e.jpg\tOur Story — Sophie & Iris\n28\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_skilled_chef_v2_8952beff.jpg\tsopris-cdn-import/sopris_skilled_chef_v2_8952beff.jpg\tSkilled Chef\n29\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_never_rushed_v2_16118f80.jpg\tsopris-cdn-import/sopris_never_rushed_v2_16118f80.jpg\tNever Rushed\n30\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_familiar_experience_v2_c45ade0a.jpg\tsopris-cdn-import/sopris_familiar_experience_v2_c45ade0a.jpg\tFamiliar Experience\n",
+  "stderr": "",
+  "execution_time_ms": 2349
+}

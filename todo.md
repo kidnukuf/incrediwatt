@@ -142,3 +142,14 @@
 - [x] Add 2 new slides to Signage.tsx rotation
 - [x] Convert new slides to MP4 and update Roku USB ZIP
 - [ ] Save checkpoint
+
+## Phase 20: Reaction Vote Social Media Images
+- [x] Select 5 best food photos from catalog
+- [x] Generate 5 reaction vote images (thumbs up, heart, high five, lol)
+- [x] Upload all 5 to CDN
+- [x] Deliver to user
+
+## Phase 21: New Food Photos - French Dip & Chef's Salad
+- [ ] Clean up and enhance all 3 photos
+- [ ] Upload to CDN and add to food_photos catalog
+- [ ] Create and schedule social media posts for all 3

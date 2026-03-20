@@ -1,0 +1,150 @@
+{
+  "query": "SELECT id, platform, scheduled_at, post_type, status \nFROM posts \nWHERE scheduled_at > UNIX_TIMESTAMP() * 1000\nORDER BY scheduled_at ASC \nLIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CGFoLg15EyHTxh.root --database CyaqFioxWNTNQC4ZpfULjM --execute SELECT id, platform, scheduled_at, post_type, status \nFROM posts \nWHERE scheduled_at > UNIX_TIMESTAMP() * 1000\nORDER BY scheduled_at ASC \nLIMIT 20;",
+  "rows": [
+    {
+      "id": "3",
+      "platform": "both",
+      "scheduled_at": "1774123200000",
+      "post_type": "special",
+      "status": "scheduled"
+    },
+    {
+      "id": "19",
+      "platform": "both",
+      "scheduled_at": "1774123200000",
+      "post_type": "borderline_brew",
+      "status": "scheduled"
+    },
+    {
+      "id": "90001",
+      "platform": "both",
+      "scheduled_at": "1774292400000",
+      "post_type": "menu_item",
+      "status": "scheduled"
+    },
+    {
+      "id": "4",
+      "platform": "both",
+      "scheduled_at": "1774296000000",
+      "post_type": "menu_item",
+      "status": "scheduled"
+    },
+    {
+      "id": "20",
+      "platform": "both",
+      "scheduled_at": "1774296000000",
+      "post_type": "borderline_brew",
+      "status": "scheduled"
+    },
+    {
+      "id": "60003",
+      "platform": "both",
+      "scheduled_at": "1774296000000",
+      "post_type": "special",
+      "status": "scheduled"
+    },
+    {
+      "id": "5",
+      "platform": "both",
+      "scheduled_at": "1774382400000",
+      "post_type": "menu_item",
+      "status": "scheduled"
+    },
+    {
+      "id": "21",
+      "platform": "both",
+      "scheduled_at": "1774382400000",
+      "post_type": "borderline_brew",
+      "status": "scheduled"
+    },
+    {
+      "id": "22",
+      "platform": "both",
+      "scheduled_at": "1774555200000",
+      "post_type": "borderline_brew",
+      "status": "scheduled"
+    },
+    {
+      "id": "6",
+      "platform": "both",
+      "scheduled_at": "1774555200000",
+      "post_type": "menu_item",
+      "status": "scheduled"
+    },
+    {
+      "id": "60004",
+      "platform": "both",
+      "scheduled_at": "1774555200000",
+      "post_type": "borderline_brew",
+      "status": "scheduled"
+    },
+    {
+      "id": "7",
+      "platform": "both",
+      "scheduled_at": "1774728000000",
+      "post_type": "promotion",
+      "status": "scheduled"
+    },
+    {
+      "id": "23",
+      "platform": "both",
+      "scheduled_at": "1774728000000",
+      "post_type": "borderline_brew",
+      "status": "scheduled"
+    },
+    {
+      "id": "90002",
+      "platform": "both",
+      "scheduled_at": "1774897200000",
+      "post_type": "menu_item",
+      "status": "scheduled"
+    },
+    {
+      "id": "60005",
+      "platform": "both",
+      "scheduled_at": "1774900800000",
+      "post_type": "special",
+      "status": "scheduled"
+    },
+    {
+      "id": "8",
+      "platform": "both",
+      "scheduled_at": "1774900800000",
+      "post_type": "menu_item",
+      "status": "scheduled"
+    },
+    {
+      "id": "24",
+      "platform": "both",
+      "scheduled_at": "1774900800000",
+      "post_type": "borderline_brew",
+      "status": "scheduled"
+    },
+    {
+      "id": "25",
+      "platform": "both",
+      "scheduled_at": "1774987200000",
+      "post_type": "borderline_brew",
+      "status": "scheduled"
+    },
+    {
+      "id": "9",
+      "platform": "both",
+      "scheduled_at": "1774987200000",
+      "post_type": "taco_tuesday",
+      "status": "scheduled"
+    },
+    {
+      "id": "10",
+      "platform": "both",
+      "scheduled_at": "1775160000000",
+      "post_type": "menu_item",
+      "status": "scheduled"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tplatform\tscheduled_at\tpost_type\tstatus\n3\tboth\t1774123200000\tspecial\tscheduled\n19\tboth\t1774123200000\tborderline_brew\tscheduled\n90001\tboth\t1774292400000\tmenu_item\tscheduled\n4\tboth\t1774296000000\tmenu_item\tscheduled\n20\tboth\t1774296000000\tborderline_brew\tscheduled\n60003\tboth\t1774296000000\tspecial\tscheduled\n5\tboth\t1774382400000\tmenu_item\tscheduled\n21\tboth\t1774382400000\tborderline_brew\tscheduled\n22\tboth\t1774555200000\tborderline_brew\tscheduled\n6\tboth\t1774555200000\tmenu_item\tscheduled\n60004\tboth\t1774555200000\tborderline_brew\tscheduled\n7\tboth\t1774728000000\tpromotion\tscheduled\n23\tboth\t1774728000000\tborderline_brew\tscheduled\n90002\tboth\t1774897200000\tmenu_item\tscheduled\n60005\tboth\t1774900800000\tspecial\tscheduled\n8\tboth\t1774900800000\tmenu_item\tscheduled\n24\tboth\t1774900800000\tborderline_brew\tscheduled\n25\tboth\t1774987200000\tborderline_brew\tscheduled\n9\tboth\t1774987200000\ttaco_tuesday\tscheduled\n10\tboth\t1775160000000\tmenu_item\tscheduled\n",
+  "stderr": "",
+  "execution_time_ms": 358
+}

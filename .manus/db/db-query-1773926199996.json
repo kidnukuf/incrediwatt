@@ -1,0 +1,296 @@
+{
+  "query": "SELECT id, platform, LEFT(caption_en, 60) as caption_preview, status, scheduled_at FROM posts WHERE scheduled_at >= 1774292400000 ORDER BY scheduled_at ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CGFoLg15EyHTxh.root --database CyaqFioxWNTNQC4ZpfULjM --execute SELECT id, platform, LEFT(caption_en, 60) as caption_preview, status, scheduled_at FROM posts WHERE scheduled_at >= 1774292400000 ORDER BY scheduled_at ASC;",
+  "rows": [
+    {
+      "id": "90001",
+      "platform": "both",
+      "caption_preview": "Which is your favorite? Drop your reaction for the one you'd",
+      "status": "scheduled",
+      "scheduled_at": "1774292400000"
+    },
+    {
+      "id": "60003",
+      "platform": "both",
+      "caption_preview": "🌮 4/20 Weekend Specials are almost here! Get ready for our 4",
+      "status": "scheduled",
+      "scheduled_at": "1774296000000"
+    },
+    {
+      "id": "20",
+      "platform": "both",
+      "caption_preview": "☕ Cappuccino perfection! Velvety foam, bold espresso, and ju",
+      "status": "scheduled",
+      "scheduled_at": "1774296000000"
+    },
+    {
+      "id": "4",
+      "platform": "both",
+      "caption_preview": "🌯 Wet Burrito lovers — this one's for you! Our signature wet",
+      "status": "scheduled",
+      "scheduled_at": "1774296000000"
+    },
+    {
+      "id": "5",
+      "platform": "both",
+      "caption_preview": "🍕 Did you know we serve pizza too? Our Supreme Pizza is load",
+      "status": "scheduled",
+      "scheduled_at": "1774382400000"
+    },
+    {
+      "id": "21",
+      "platform": "both",
+      "caption_preview": "⚡ Double the energy, double the fun! Our loaded energy drink",
+      "status": "scheduled",
+      "scheduled_at": "1774382400000"
+    },
+    {
+      "id": "22",
+      "platform": "both",
+      "caption_preview": "🌅 Rise and grind, Jackpot! Border Boost and Brew™ opens earl",
+      "status": "scheduled",
+      "scheduled_at": "1774555200000"
+    },
+    {
+      "id": "60004",
+      "platform": "both",
+      "caption_preview": "☕⚡ Get ready Jackpot — Border Boost and Brew™ is opening its",
+      "status": "scheduled",
+      "scheduled_at": "1774555200000"
+    },
+    {
+      "id": "6",
+      "platform": "both",
+      "caption_preview": "🦐 Baja Shrimp Tacos — light, fresh, and absolutely delicious",
+      "status": "scheduled",
+      "scheduled_at": "1774555200000"
+    },
+    {
+      "id": "23",
+      "platform": "both",
+      "caption_preview": "🍵 Matcha lovers, this one's for you! Our creamy matcha latte",
+      "status": "scheduled",
+      "scheduled_at": "1774728000000"
+    },
+    {
+      "id": "7",
+      "platform": "both",
+      "caption_preview": "🎉 Happy Hour at Sopris Taqueria! Great drinks, great food, g",
+      "status": "scheduled",
+      "scheduled_at": "1774728000000"
+    },
+    {
+      "id": "90002",
+      "platform": "both",
+      "caption_preview": "Vote for your favorite Mexican classic! Drop your reaction b",
+      "status": "scheduled",
+      "scheduled_at": "1774897200000"
+    },
+    {
+      "id": "8",
+      "platform": "both",
+      "caption_preview": "🥩 Steak & Lobster — a classic combination that never gets ol",
+      "status": "scheduled",
+      "scheduled_at": "1774900800000"
+    },
+    {
+      "id": "60005",
+      "platform": "both",
+      "caption_preview": "🔥 Only [X] days until our 4/20 Weekend Specials kick off at ",
+      "status": "scheduled",
+      "scheduled_at": "1774900800000"
+    },
+    {
+      "id": "24",
+      "platform": "both",
+      "caption_preview": "☕ The perfect combo: a hot latte from Border Boost and Brew™",
+      "status": "scheduled",
+      "scheduled_at": "1774900800000"
+    },
+    {
+      "id": "9",
+      "platform": "both",
+      "caption_preview": "🌮 Taco Tuesday is back and better than ever! Mix and match y",
+      "status": "scheduled",
+      "scheduled_at": "1774987200000"
+    },
+    {
+      "id": "25",
+      "platform": "both",
+      "caption_preview": "☕ Iced or hot — we've got you covered! Border Boost and Brew",
+      "status": "scheduled",
+      "scheduled_at": "1774987200000"
+    },
+    {
+      "id": "10",
+      "platform": "both",
+      "caption_preview": "🍖 BBQ Ribs that fall right off the bone! Our slow-smoked rib",
+      "status": "scheduled",
+      "scheduled_at": "1775160000000"
+    },
+    {
+      "id": "60006",
+      "platform": "both",
+      "caption_preview": "🎉 The countdown is ON! Border Boost and Brew™ Grand Opening ",
+      "status": "scheduled",
+      "scheduled_at": "1775160000000"
+    },
+    {
+      "id": "26",
+      "platform": "both",
+      "caption_preview": "⚡ Power through your day with a loaded energy drink from Bor",
+      "status": "scheduled",
+      "scheduled_at": "1775160000000"
+    },
+    {
+      "id": "11",
+      "platform": "both",
+      "caption_preview": "🌮 Campechano Tacos — the best of both worlds! Our campechano",
+      "status": "scheduled",
+      "scheduled_at": "1775332800000"
+    },
+    {
+      "id": "27",
+      "platform": "both",
+      "caption_preview": "🧋 Seasonal special alert! Try our limited-time blended creat",
+      "status": "scheduled",
+      "scheduled_at": "1775332800000"
+    },
+    {
+      "id": "28",
+      "platform": "both",
+      "caption_preview": "☕ Your morning ritual just got an upgrade! Border Boost and ",
+      "status": "scheduled",
+      "scheduled_at": "1775505600000"
+    },
+    {
+      "id": "12",
+      "platform": "both",
+      "caption_preview": "🍟 Onion Rings so crispy you can hear the crunch! Golden, per",
+      "status": "scheduled",
+      "scheduled_at": "1775505600000"
+    },
+    {
+      "id": "60007",
+      "platform": "both",
+      "caption_preview": "🌿 Something BIG is coming to Sopris Restaurant this 4/20 wee",
+      "status": "scheduled",
+      "scheduled_at": "1775505600000"
+    },
+    {
+      "id": "29",
+      "platform": "both",
+      "caption_preview": "⚡ Weekend vibes call for a loaded Red Bull drink! Come into ",
+      "status": "scheduled",
+      "scheduled_at": "1775592000000"
+    },
+    {
+      "id": "13",
+      "platform": "both",
+      "caption_preview": "🍫 End your meal on a sweet note with our Chocolate Oreo Sund",
+      "status": "scheduled",
+      "scheduled_at": "1775592000000"
+    },
+    {
+      "id": "30",
+      "platform": "both",
+      "caption_preview": "🌟 Two brands, one location — Border Boost and Brew™ + Sopris",
+      "status": "scheduled",
+      "scheduled_at": "1775764800000"
+    },
+    {
+      "id": "14",
+      "platform": "both",
+      "caption_preview": "🥚 Carne Asada & Eggs — the breakfast of champions! Start you",
+      "status": "scheduled",
+      "scheduled_at": "1775764800000"
+    },
+    {
+      "id": "60008",
+      "platform": "both",
+      "caption_preview": "⚡ Something NEW is coming to Jackpot this 4/20 weekend... We",
+      "status": "scheduled",
+      "scheduled_at": "1775764800000"
+    },
+    {
+      "id": "15",
+      "platform": "both",
+      "caption_preview": "🍗 Chicken Fajitas sizzling hot and fresh! Tender grilled chi",
+      "status": "scheduled",
+      "scheduled_at": "1775937600000"
+    },
+    {
+      "id": "31",
+      "platform": "both",
+      "caption_preview": "☕ Vanilla latte, caramel macchiato, or something totally cus",
+      "status": "scheduled",
+      "scheduled_at": "1775937600000"
+    },
+    {
+      "id": "32",
+      "platform": "both",
+      "caption_preview": "⚡ Fuel up for the casino floor! Border Boost and Brew™ has t",
+      "status": "scheduled",
+      "scheduled_at": "1776110400000"
+    },
+    {
+      "id": "60009",
+      "platform": "both",
+      "caption_preview": "🌮 4/20 Weekend Specials are almost here! Get ready for our 4",
+      "status": "scheduled",
+      "scheduled_at": "1776110400000"
+    },
+    {
+      "id": "16",
+      "platform": "both",
+      "caption_preview": "🌮 Birria Tacos — the taco that took the world by storm! Our ",
+      "status": "scheduled",
+      "scheduled_at": "1776110400000"
+    },
+    {
+      "id": "60010",
+      "platform": "both",
+      "caption_preview": "☕⚡ Get ready Jackpot — Border Boost and Brew™ is opening its",
+      "status": "scheduled",
+      "scheduled_at": "1776369600000"
+    },
+    {
+      "id": "60011",
+      "platform": "both",
+      "caption_preview": "🎉🌿 4/20 WEEKEND SPECIALS START TODAY at Sopris Restaurant! 🌿",
+      "status": "scheduled",
+      "scheduled_at": "1776542400000"
+    },
+    {
+      "id": "60013",
+      "platform": "both",
+      "caption_preview": "🌮 DAY 2 of our 4/20 Weekend Specials at Sopris Restaurant! S",
+      "status": "scheduled",
+      "scheduled_at": "1776628800000"
+    },
+    {
+      "id": "60014",
+      "platform": "both",
+      "caption_preview": "⚡ DAY 2 of our Grand Opening Weekend at Border Boost and Bre",
+      "status": "scheduled",
+      "scheduled_at": "1776632400000"
+    }
+  ],
+  "messages": [
+    "90003\tboth\tWhat would you order tonight? React with your pick! 👇",
+    "👍 Supr\tscheduled\t1775502000000",
+    "90004\tboth\tTACO SHOWDOWN! Which taco wins? React to vote! 🌮",
+    "👍 Street Ta\tscheduled\t1776106800000",
+    "60012\tboth\t⚡🎉 WE ARE OFFICIALLY OPEN! 🎉⚡",
+    "Border Boost and Brew™ is NOW\tscheduled\t1776546000000",
+    "90005\tboth\tBURGER SHOWDOWN! Pick your champion and react! 🍔",
+    "👍 Bacon Che\tscheduled\t1776711600000",
+    "60015\tboth\t🌿 HAPPY 4/20! 🌿",
+    "The munchies hit different today — and Sopr\tscheduled\t1776715200000",
+    "60016\tboth\t🌿⚡ HAPPY 4/20 from Border Boost and Brew™! ⚡🌿",
+    "It's the big \tscheduled\t1776718800000"
+  ],
+  "stdout": "id\tplatform\tcaption_preview\tstatus\tscheduled_at\n90001\tboth\tWhich is your favorite? Drop your reaction for the one you'd\tscheduled\t1774292400000\n60003\tboth\t🌮 4/20 Weekend Specials are almost here! Get ready for our 4\tscheduled\t1774296000000\n20\tboth\t☕ Cappuccino perfection! Velvety foam, bold espresso, and ju\tscheduled\t1774296000000\n4\tboth\t🌯 Wet Burrito lovers — this one's for you! Our signature wet\tscheduled\t1774296000000\n5\tboth\t🍕 Did you know we serve pizza too? Our Supreme Pizza is load\tscheduled\t1774382400000\n21\tboth\t⚡ Double the energy, double the fun! Our loaded energy drink\tscheduled\t1774382400000\n22\tboth\t🌅 Rise and grind, Jackpot! Border Boost and Brew™ opens earl\tscheduled\t1774555200000\n60004\tboth\t☕⚡ Get ready Jackpot — Border Boost and Brew™ is opening its\tscheduled\t1774555200000\n6\tboth\t🦐 Baja Shrimp Tacos — light, fresh, and absolutely delicious\tscheduled\t1774555200000\n23\tboth\t🍵 Matcha lovers, this one's for you! Our creamy matcha latte\tscheduled\t1774728000000\n7\tboth\t🎉 Happy Hour at Sopris Taqueria! Great drinks, great food, g\tscheduled\t1774728000000\n90002\tboth\tVote for your favorite Mexican classic! Drop your reaction b\tscheduled\t1774897200000\n8\tboth\t🥩 Steak & Lobster — a classic combination that never gets ol\tscheduled\t1774900800000\n60005\tboth\t🔥 Only [X] days until our 4/20 Weekend Specials kick off at \tscheduled\t1774900800000\n24\tboth\t☕ The perfect combo: a hot latte from Border Boost and Brew™\tscheduled\t1774900800000\n9\tboth\t🌮 Taco Tuesday is back and better than ever! Mix and match y\tscheduled\t1774987200000\n25\tboth\t☕ Iced or hot — we've got you covered! Border Boost and Brew\tscheduled\t1774987200000\n10\tboth\t🍖 BBQ Ribs that fall right off the bone! Our slow-smoked rib\tscheduled\t1775160000000\n60006\tboth\t🎉 The countdown is ON! Border Boost and Brew™ Grand Opening \tscheduled\t1775160000000\n26\tboth\t⚡ Power through your day with a loaded energy drink from Bor\tscheduled\t1775160000000\n11\tboth\t🌮 Campechano Tacos — the best of both worlds! Our campechano\tscheduled\t1775332800000\n27\tboth\t🧋 Seasonal special alert! Try our limited-time blended creat\tscheduled\t1775332800000\n90003\tboth\tWhat would you order tonight? React with your pick! 👇\n👍 Supr\tscheduled\t1775502000000\n28\tboth\t☕ Your morning ritual just got an upgrade! Border Boost and \tscheduled\t1775505600000\n12\tboth\t🍟 Onion Rings so crispy you can hear the crunch! Golden, per\tscheduled\t1775505600000\n60007\tboth\t🌿 Something BIG is coming to Sopris Restaurant this 4/20 wee\tscheduled\t1775505600000\n29\tboth\t⚡ Weekend vibes call for a loaded Red Bull drink! Come into \tscheduled\t1775592000000\n13\tboth\t🍫 End your meal on a sweet note with our Chocolate Oreo Sund\tscheduled\t1775592000000\n30\tboth\t🌟 Two brands, one location — Border Boost and Brew™ + Sopris\tscheduled\t1775764800000\n14\tboth\t🥚 Carne Asada & Eggs — the breakfast of champions! Start you\tscheduled\t1775764800000\n60008\tboth\t⚡ Something NEW is coming to Jackpot this 4/20 weekend... We\tscheduled\t1775764800000\n15\tboth\t🍗 Chicken Fajitas sizzling hot and fresh! Tender grilled chi\tscheduled\t1775937600000\n31\tboth\t☕ Vanilla latte, caramel macchiato, or something totally cus\tscheduled\t1775937600000\n90004\tboth\tTACO SHOWDOWN! Which taco wins? React to vote! 🌮\n👍 Street Ta\tscheduled\t1776106800000\n32\tboth\t⚡ Fuel up for the casino floor! Border Boost and Brew™ has t\tscheduled\t1776110400000\n60009\tboth\t🌮 4/20 Weekend Specials are almost here! Get ready for our 4\tscheduled\t1776110400000\n16\tboth\t🌮 Birria Tacos — the taco that took the world by storm! Our \tscheduled\t1776110400000\n60010\tboth\t☕⚡ Get ready Jackpot — Border Boost and Brew™ is opening its\tscheduled\t1776369600000\n60011\tboth\t🎉🌿 4/20 WEEKEND SPECIALS START TODAY at Sopris Restaurant! 🌿\tscheduled\t1776542400000\n60012\tboth\t⚡🎉 WE ARE OFFICIALLY OPEN! 🎉⚡\n\nBorder Boost and Brew™ is NOW\tscheduled\t1776546000000\n60013\tboth\t🌮 DAY 2 of our 4/20 Weekend Specials at Sopris Restaurant! S\tscheduled\t1776628800000\n60014\tboth\t⚡ DAY 2 of our Grand Opening Weekend at Border Boost and Bre\tscheduled\t1776632400000\n90005\tboth\tBURGER SHOWDOWN! Pick your champion and react! 🍔\n👍 Bacon Che\tscheduled\t1776711600000\n60015\tboth\t🌿 HAPPY 4/20! 🌿\n\nThe munchies hit different today — and Sopr\tscheduled\t1776715200000\n60016\tboth\t🌿⚡ HAPPY 4/20 from Border Boost and Brew™! ⚡🌿\n\nIt's the big \tscheduled\t1776718800000\n",
+  "stderr": "",
+  "execution_time_ms": 376
+}

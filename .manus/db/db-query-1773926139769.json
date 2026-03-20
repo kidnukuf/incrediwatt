@@ -1,0 +1,9 @@
+{
+  "query": "SELECT id, caption_en, image_url, scheduled_at, status, platform FROM posts WHERE scheduled_at BETWEEN 1742760000000 AND 1745697600000 ORDER BY scheduled_at ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CGFoLg15EyHTxh.root --database CyaqFioxWNTNQC4ZpfULjM --execute SELECT id, caption_en, image_url, scheduled_at, status, platform FROM posts WHERE scheduled_at BETWEEN 1742760000000 AND 1745697600000 ORDER BY scheduled_at ASC;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 490
+}
