@@ -153,3 +153,9 @@
 - [ ] Clean up and enhance all 3 photos
 - [ ] Upload to CDN and add to food_photos catalog
 - [ ] Create and schedule social media posts for all 3
+
+## Phase 22: Facebook Event Posts
+- [ ] Generate Taco Tuesday recurring event graphic
+- [ ] Generate BBB Grand Opening 4/20 weekend event graphic
+- [ ] Generate 4/20 Weekend Special promotion graphic (BBB + Sopris combined)
+- [ ] Schedule all 3 events in the database
