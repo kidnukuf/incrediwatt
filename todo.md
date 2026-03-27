@@ -141,21 +141,32 @@
 - [x] Generate Catering slide (no prices)
 - [x] Add 2 new slides to Signage.tsx rotation
 - [x] Convert new slides to MP4 and update Roku USB ZIP
-- [ ] Save checkpoint
+- [x] Save checkpoint
 
 ## Phase 20: Reaction Vote Social Media Images
 - [x] Select 5 best food photos from catalog
 - [x] Generate 5 reaction vote images (thumbs up, heart, high five, lol)
 - [x] Upload all 5 to CDN
 - [x] Deliver to user
+- [x] Schedule all 5 posts for consecutive Mondays at 1 PM MT
 
 ## Phase 21: New Food Photos - French Dip & Chef's Salad
-- [ ] Clean up and enhance all 3 photos
-- [ ] Upload to CDN and add to food_photos catalog
-- [ ] Create and schedule social media posts for all 3
+- [x] Clean up and enhance all 3 photos
+- [x] Upload to CDN and add to food_photos catalog
+- [x] Create and schedule social media posts for all 3
 
 ## Phase 22: Facebook Event Posts
-- [ ] Generate Taco Tuesday recurring event graphic
-- [ ] Generate BBB Grand Opening 4/20 weekend event graphic
-- [ ] Generate 4/20 Weekend Special promotion graphic (BBB + Sopris combined)
-- [ ] Schedule all 3 events in the database
+- [x] Generate Taco Tuesday recurring event graphic
+- [x] Generate BBB Grand Opening 4/20 weekend event graphic
+- [x] Generate 4/20 Weekend Special promotion graphic (BBB + Sopris combined)
+- [x] Schedule all 3 events in the database (11 total posts)
+- [x] Uploaded 6 new kitchen/BBB videos to CDN and social schedule
+- [x] Converted all to Roku-compatible format and added to USB package
+- [x] Saved checkpoint (38 clips, 152 MB)
+
+## Phase 23: Enhance 4 Raw Kitchen Videos with Professional Branding
+- [ ] Download and prepare source videos (Carne Asada, Pizza Prep, Homemade Sauce, Kitchen Carne Asada)
+- [ ] Add Sopris logo watermarks and animated text overlays to all 4 videos
+- [ ] Apply color grading, transitions, and professional effects
+- [ ] Upload enhanced videos to CDN and replace originals in database
+- [ ] Add enhanced videos to Roku USB package

@@ -1,0 +1,187 @@
+{
+  "query": "SELECT id, caption_en, image_url, created_at FROM posts WHERE image_url LIKE '%.mp4%' ORDER BY created_at DESC LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CGFoLg15EyHTxh.root --database CyaqFioxWNTNQC4ZpfULjM --execute SELECT id, caption_en, image_url, created_at FROM posts WHERE image_url LIKE '%.mp4%' ORDER BY created_at DESC LIMIT 50;",
+  "rows": [
+    {
+      "id": "180020",
+      "caption_en": "🔥 Birria Tacos are HERE! Crispy, cheesy, loaded with slow-cooked meat and served with our rich consommé dipping broth. This is the one you have been waiting for. Come get yours — Inside 4 Jacks Casino, Jackpot NV! 🌮",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233108180_abebc6af.mp4",
+      "created_at": "2026-03-24 21:00:20"
+    },
+    {
+      "id": "180018",
+      "caption_en": "😂 Friday Funny! We love keeping things fun at Sopris Restaurant! Come in for great food AND great laughs — Inside 4 Jacks Casino, Jackpot NV. 🌮🍔",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232848937_555114f6.mp4",
+      "created_at": "2026-03-24 21:00:20"
+    },
+    {
+      "id": "180019",
+      "caption_en": "🕐 We are open and ready to serve you! Come see us inside 4 Jacks Casino, Jackpot NV. Mon-Thu 10am-10pm | Fri 10am-3am | Sat 8am-3am | Sun 8am-10pm 🌮",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232940645_d885eb87.mp4",
+      "created_at": "2026-03-24 21:00:20"
+    },
+    {
+      "id": "180021",
+      "caption_en": "☕ Something exciting is coming to Jackpot, NV! Border Boost & Brew™ is opening soon — your new go-to spot for coffee, energy drinks, and all-day boosts. Stay tuned! Inside 4 Jacks Casino 🚀",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233311606_7458882e.mp4",
+      "created_at": "2026-03-24 21:00:20"
+    },
+    {
+      "id": "120003",
+      "caption_en": "Your morning just got an upgrade. ☕ Meet the machine behind every perfect espresso at Border Boost & Brew™ — precision-crafted drinks to fuel your day. Stop by and let us boost your morning! Inside 4 Jacks Casino, Jackpot NV.",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260319_174643282_69d80a7b.mp4",
+      "created_at": "2026-03-20 00:19:14"
+    },
+    {
+      "id": "120001",
+      "caption_en": "Made fresh, every single day. 🍕 Watch our kitchen team hand-craft your pizza from scratch — sauce spread, toppings loaded, and baked to perfection. Come taste the difference at Sopris Restaurant inside 4 Jacks Casino, Jackpot NV!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260319_175308417_a99187dd.mp4",
+      "created_at": "2026-03-20 00:19:14"
+    },
+    {
+      "id": "120002",
+      "caption_en": "This is what sets us apart. 🍅 Our sauce is made in-house, from scratch, every day. No shortcuts, no cans — just real ingredients and real flavor. Come experience it for yourself at Sopris Restaurant inside 4 Jacks Casino, Jackpot NV!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260319_174855844_fa58f893.mp4",
+      "created_at": "2026-03-20 00:19:14"
+    },
+    {
+      "id": "24",
+      "caption_en": "☕ The perfect combo: a hot latte from Border Boost and Brew™ + street tacos from Sopris Taqueria. Two great brands, one amazing location inside 4 Jacks Casino, Jackpot NV. Come experience both!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260312_005414352_adc8b02e.mp4",
+      "created_at": "2026-03-16 18:37:21"
+    },
+    {
+      "id": "26",
+      "caption_en": "⚡ Power through your day with a loaded energy drink from Border Boost and Brew™! Choose from dozens of flavor combos and get that boost you need. Inside 4 Jacks Casino, Jackpot NV — open daily!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260312_005906346_2740eb72.mp4",
+      "created_at": "2026-03-16 18:37:21"
+    },
+    {
+      "id": "25",
+      "caption_en": "☕ Iced or hot — we've got you covered! Border Boost and Brew™ serves your favorite espresso drinks any way you like them. Stop in at 4 Jacks Casino, Jackpot NV and let us make your perfect cup!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/grok_video_2026-03-11-00-30-44_55711f84.mp4",
+      "created_at": "2026-03-16 18:37:21"
+    },
+    {
+      "id": "27",
+      "caption_en": "🧋 Seasonal special alert! Try our limited-time blended creation — only available at Border Boost and Brew™ inside 4 Jacks Casino. Come in before it's gone!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232848937_cfcc0b6a.mp4",
+      "created_at": "2026-03-16 18:37:21"
+    },
+    {
+      "id": "32",
+      "caption_en": "⚡ Fuel up for the casino floor! Border Boost and Brew™ has the energy drinks and coffee creations to keep you going all day. Find us inside 4 Jacks Casino, Jackpot NV. See you soon!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232940645_905925c7.mp4",
+      "created_at": "2026-03-16 18:37:21"
+    },
+    {
+      "id": "22",
+      "caption_en": "🌅 Rise and grind, Jackpot! Border Boost and Brew™ opens early so you can fuel up before your day begins. Hot espresso drinks, cold blends, and everything in between. See you at 4 Jacks Casino!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232940645_905925c7.mp4",
+      "created_at": "2026-03-16 18:37:21"
+    },
+    {
+      "id": "31",
+      "caption_en": "☕ Vanilla latte, caramel macchiato, or something totally custom — at Border Boost and Brew™, you call the shots! Our baristas are ready to craft your perfect drink. Inside 4 Jacks Casino, Jackpot NV!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233108180_4d065c0a.mp4",
+      "created_at": "2026-03-16 18:37:21"
+    },
+    {
+      "id": "30",
+      "caption_en": "🌟 Two brands, one location — Border Boost and Brew™ + Sopris Taqueria, both inside 4 Jacks Casino in Jackpot, NV. Get your morning coffee and your favorite meal all in one stop. Life is good!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260312_005735786_ee220de1.mp4",
+      "created_at": "2026-03-16 18:37:21"
+    },
+    {
+      "id": "23",
+      "caption_en": "🍵 Matcha lovers, this one's for you! Our creamy matcha latte is made with premium matcha powder and your choice of milk. Earthy, smooth, and absolutely delicious. Available now at Border Boost and Brew™!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/grok_video_2026-03-09-00-07-23_b393828c.mp4",
+      "created_at": "2026-03-16 18:37:21"
+    },
+    {
+      "id": "29",
+      "caption_en": "⚡ Weekend vibes call for a loaded Red Bull drink! Come into Border Boost and Brew™ at 4 Jacks Casino and let us mix up something amazing for you. Custom flavors, great prices, good times!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233528556_ec27e728.mp4",
+      "created_at": "2026-03-16 18:37:21"
+    },
+    {
+      "id": "28",
+      "caption_en": "☕ Your morning ritual just got an upgrade! Border Boost and Brew™ is your go-to spot for premium espresso drinks in Jackpot, NV. Find us inside 4 Jacks Casino — we're ready to serve you!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233311606_4816ad20.mp4",
+      "created_at": "2026-03-16 18:37:21"
+    },
+    {
+      "id": "21",
+      "caption_en": "⚡ Double the energy, double the fun! Our loaded energy drinks come in dozens of flavor combinations. Mix Red Bull with your favorite juice, syrup, or cream. Custom drinks made YOUR way at Border Boost and Brew™!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233108180_4d065c0a.mp4",
+      "created_at": "2026-03-16 18:37:20"
+    },
+    {
+      "id": "17",
+      "caption_en": "☕ Good morning, Jackpot! Start your day right with a handcrafted latte from Border Boost and Brew™ inside 4 Jacks Casino. Rich espresso, steamed milk, and your choice of flavors. Come fuel up before you hit the floor!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232848937_cfcc0b6a.mp4",
+      "created_at": "2026-03-16 18:37:20"
+    },
+    {
+      "id": "20",
+      "caption_en": "☕ Cappuccino perfection! Velvety foam, bold espresso, and just the right balance. Border Boost and Brew™ crafts every cup with care. Pair it with your favorite Sopris Taqueria breakfast and you're set for the day!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260312_005735786_ee220de1.mp4",
+      "created_at": "2026-03-16 18:37:20"
+    },
+    {
+      "id": "19",
+      "caption_en": "🧋 Treat yourself to one of our specialty blended drinks! Smoothies, frappes, and seasonal creations made fresh to order. Border Boost and Brew™ has something sweet for every mood. Stop by 4 Jacks Casino!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233528556_ec27e728.mp4",
+      "created_at": "2026-03-16 18:37:20"
+    },
+    {
+      "id": "18",
+      "caption_en": "⚡ Need an energy boost? Our Red Bull loaded drinks are the perfect pick-me-up! Custom blends, your favorite flavors, and that extra kick to keep you going. Find us inside 4 Jacks Casino, Jackpot NV!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233311606_4816ad20.mp4",
+      "created_at": "2026-03-16 18:37:20"
+    },
+    {
+      "id": "12",
+      "caption_en": "🍟 Onion Rings so crispy you can hear the crunch! Golden, perfectly seasoned, and great as a side or a snack. Pair them with our famous burgers at Sopris Taqueria inside 4 Jacks Casino!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_promo_3_38977f36.mp4",
+      "created_at": "2026-03-16 18:22:08"
+    },
+    {
+      "id": "8",
+      "caption_en": "🥩 Steak & Lobster — a classic combination that never gets old! Our surf and turf is the ultimate indulgence. Treat yourself tonight at Sopris Taqueria inside 4 Jacks Casino, Jackpot NV.",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_promo_2_6cc6d35a.mp4",
+      "created_at": "2026-03-16 18:22:08"
+    },
+    {
+      "id": "16",
+      "caption_en": "🌮 Birria Tacos — the taco that took the world by storm! Our slow-braised birria is rich, flavorful, and served with consommé for dipping. Come try the best birria in Jackpot, NV!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_promo_4_3a81cee1.mp4",
+      "created_at": "2026-03-16 18:22:08"
+    },
+    {
+      "id": "4",
+      "caption_en": "🌯 Wet Burrito lovers — this one's for you! Our signature wet burrito is smothered in rich red sauce and melted cheese. It's a full meal in every bite. Find us inside 4 Jacks Casino, Jackpot NV!",
+      "image_url": "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_promo_1_8a0b7ea8.mp4",
+      "created_at": "2026-03-16 18:22:08"
+    }
+  ],
+  "messages": [
+    "180004\t🍕 Every great pizza starts with the sauce. Ours is made in-house and spread fresh on every single pie. Watch the magic happen at Sopris Restaurant, inside 4 Jacks Casino, Jackpot NV! 🎰",
+    "#SoprisRestaurant #JackpotNV #PizzaTime #HomemadeSauce #FreshPizza #KitchenLife #BehindTheScenes #CasinoFood #MadeFromScratch #FoodVideo\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/20260319_174119_b1df3132.mp4\t2026-03-24 19:13:34",
+    "180001\t🔥 Made fresh right here in Jackpot, NV! Watch our kitchen in action — this is what real carne asada looks like. Come taste the difference at Sopris Restaurant, inside 4 Jacks Casino! 🌮",
+    "#SoprisRestaurant #JackpotNV #CarneAsada #MadeFromScratch #KitchenLife #CasinoEats #FreshFood #MexicanFood #BehindTheScenes #FoodVideo\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011817_50c19984.mp4\t2026-03-24 19:13:34",
+    "180003\t👨‍🍳 This is how we do it every single day. Our kitchen never stops — real ingredients, real technique, real flavor. Sopris Restaurant inside 4 Jacks Casino, Jackpot NV. 🌮🔥",
+    "#SoprisRestaurant #JackpotNV #KitchenLife #BehindTheScenes #RealFood #MadeFromScratch #CasinoEats #MexicanFood #ChefLife #FoodVideo\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/20260319_174032_5a11a74e.mp4\t2026-03-24 19:13:34",
+    "180005\t🍦 THIS is what you could win! Local artisan ice cream in flavors you won't find anywhere else — mango, orange, vanilla, chocolate and more.",
+    "Want a FREE double scoop? Check in at Sopris Restaurant on Facebook, tag us in your food photo, and you're entered to WIN every week! 🎉",
+    "Inside 4 Jacks Casino • Jackpot, NV",
+    "#SoprisRestaurant #JackpotNV #IceCream #ArtisanIceCream #FreeIceCream #Giveaway #CheckIn #Win #LocalFlavors #CasinoEats\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/20260319_174332_1368487c.mp4\t2026-03-24 19:13:34",
+    "180006\t☕ Good morning, Jackpot! Border Boost & Brew™ is warming up and ready to fuel your day. Espresso, lattes, cold brew, energy drinks and more — right inside 4 Jacks Casino. Come get your boost! ⚡",
+    "#BorderBoostAndBrew #BBB #JackpotNV #CoffeeTime #Espresso #MorningCoffee #CasinoCoffee #EnergyDrinks #ColdBrew #GoodMorning\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/20260319_174353_f58eacc6.mp4\t2026-03-24 19:13:34",
+    "180002\t🍕 Fresh flavors daily! Our Supreme Pizza is loaded with every topping you could want — made fresh to order right here at Sopris Restaurant inside 4 Jacks Casino, Jackpot NV. Come get a slice! 🎰",
+    "#SoprisRestaurant #JackpotNV #SupremePizza #FreshPizza #CasinoFood #PizzaLovers #FreshFlavors #JackpotNevada #FoodVideo #MadeToOrder\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011818_a8e5ec9d.mp4\t2026-03-24 19:13:34"
+  ],
+  "stdout": "id\tcaption_en\timage_url\tcreated_at\n180020\t🔥 Birria Tacos are HERE! Crispy, cheesy, loaded with slow-cooked meat and served with our rich consommé dipping broth. This is the one you have been waiting for. Come get yours — Inside 4 Jacks Casino, Jackpot NV! 🌮\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233108180_abebc6af.mp4\t2026-03-24 21:00:20\n180018\t😂 Friday Funny! We love keeping things fun at Sopris Restaurant! Come in for great food AND great laughs — Inside 4 Jacks Casino, Jackpot NV. 🌮🍔\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232848937_555114f6.mp4\t2026-03-24 21:00:20\n180019\t🕐 We are open and ready to serve you! Come see us inside 4 Jacks Casino, Jackpot NV. Mon-Thu 10am-10pm | Fri 10am-3am | Sat 8am-3am | Sun 8am-10pm 🌮\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232940645_d885eb87.mp4\t2026-03-24 21:00:20\n180021\t☕ Something exciting is coming to Jackpot, NV! Border Boost & Brew™ is opening soon — your new go-to spot for coffee, energy drinks, and all-day boosts. Stay tuned! Inside 4 Jacks Casino 🚀\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233311606_7458882e.mp4\t2026-03-24 21:00:20\n180004\t🍕 Every great pizza starts with the sauce. Ours is made in-house and spread fresh on every single pie. Watch the magic happen at Sopris Restaurant, inside 4 Jacks Casino, Jackpot NV! 🎰\n\n#SoprisRestaurant #JackpotNV #PizzaTime #HomemadeSauce #FreshPizza #KitchenLife #BehindTheScenes #CasinoFood #MadeFromScratch #FoodVideo\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/20260319_174119_b1df3132.mp4\t2026-03-24 19:13:34\n180001\t🔥 Made fresh right here in Jackpot, NV! Watch our kitchen in action — this is what real carne asada looks like. Come taste the difference at Sopris Restaurant, inside 4 Jacks Casino! 🌮\n\n#SoprisRestaurant #JackpotNV #CarneAsada #MadeFromScratch #KitchenLife #CasinoEats #FreshFood #MexicanFood #BehindTheScenes #FoodVideo\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011817_50c19984.mp4\t2026-03-24 19:13:34\n180003\t👨‍🍳 This is how we do it every single day. Our kitchen never stops — real ingredients, real technique, real flavor. Sopris Restaurant inside 4 Jacks Casino, Jackpot NV. 🌮🔥\n\n#SoprisRestaurant #JackpotNV #KitchenLife #BehindTheScenes #RealFood #MadeFromScratch #CasinoEats #MexicanFood #ChefLife #FoodVideo\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/20260319_174032_5a11a74e.mp4\t2026-03-24 19:13:34\n180005\t🍦 THIS is what you could win! Local artisan ice cream in flavors you won't find anywhere else — mango, orange, vanilla, chocolate and more.\n\nWant a FREE double scoop? Check in at Sopris Restaurant on Facebook, tag us in your food photo, and you're entered to WIN every week! 🎉\n\nInside 4 Jacks Casino • Jackpot, NV\n\n#SoprisRestaurant #JackpotNV #IceCream #ArtisanIceCream #FreeIceCream #Giveaway #CheckIn #Win #LocalFlavors #CasinoEats\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/20260319_174332_1368487c.mp4\t2026-03-24 19:13:34\n180006\t☕ Good morning, Jackpot! Border Boost & Brew™ is warming up and ready to fuel your day. Espresso, lattes, cold brew, energy drinks and more — right inside 4 Jacks Casino. Come get your boost! ⚡\n\n#BorderBoostAndBrew #BBB #JackpotNV #CoffeeTime #Espresso #MorningCoffee #CasinoCoffee #EnergyDrinks #ColdBrew #GoodMorning\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/20260319_174353_f58eacc6.mp4\t2026-03-24 19:13:34\n180002\t🍕 Fresh flavors daily! Our Supreme Pizza is loaded with every topping you could want — made fresh to order right here at Sopris Restaurant inside 4 Jacks Casino, Jackpot NV. Come get a slice! 🎰\n\n#SoprisRestaurant #JackpotNV #SupremePizza #FreshPizza #CasinoFood #PizzaLovers #FreshFlavors #JackpotNevada #FoodVideo #MadeToOrder\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000011818_a8e5ec9d.mp4\t2026-03-24 19:13:34\n120003\tYour morning just got an upgrade. ☕ Meet the machine behind every perfect espresso at Border Boost & Brew™ — precision-crafted drinks to fuel your day. Stop by and let us boost your morning! Inside 4 Jacks Casino, Jackpot NV.\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260319_174643282_69d80a7b.mp4\t2026-03-20 00:19:14\n120001\tMade fresh, every single day. 🍕 Watch our kitchen team hand-craft your pizza from scratch — sauce spread, toppings loaded, and baked to perfection. Come taste the difference at Sopris Restaurant inside 4 Jacks Casino, Jackpot NV!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260319_175308417_a99187dd.mp4\t2026-03-20 00:19:14\n120002\tThis is what sets us apart. 🍅 Our sauce is made in-house, from scratch, every day. No shortcuts, no cans — just real ingredients and real flavor. Come experience it for yourself at Sopris Restaurant inside 4 Jacks Casino, Jackpot NV!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260319_174855844_fa58f893.mp4\t2026-03-20 00:19:14\n24\t☕ The perfect combo: a hot latte from Border Boost and Brew™ + street tacos from Sopris Taqueria. Two great brands, one amazing location inside 4 Jacks Casino, Jackpot NV. Come experience both!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260312_005414352_adc8b02e.mp4\t2026-03-16 18:37:21\n26\t⚡ Power through your day with a loaded energy drink from Border Boost and Brew™! Choose from dozens of flavor combos and get that boost you need. Inside 4 Jacks Casino, Jackpot NV — open daily!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260312_005906346_2740eb72.mp4\t2026-03-16 18:37:21\n25\t☕ Iced or hot — we've got you covered! Border Boost and Brew™ serves your favorite espresso drinks any way you like them. Stop in at 4 Jacks Casino, Jackpot NV and let us make your perfect cup!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/grok_video_2026-03-11-00-30-44_55711f84.mp4\t2026-03-16 18:37:21\n27\t🧋 Seasonal special alert! Try our limited-time blended creation — only available at Border Boost and Brew™ inside 4 Jacks Casino. Come in before it's gone!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232848937_cfcc0b6a.mp4\t2026-03-16 18:37:21\n32\t⚡ Fuel up for the casino floor! Border Boost and Brew™ has the energy drinks and coffee creations to keep you going all day. Find us inside 4 Jacks Casino, Jackpot NV. See you soon!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232940645_905925c7.mp4\t2026-03-16 18:37:21\n22\t🌅 Rise and grind, Jackpot! Border Boost and Brew™ opens early so you can fuel up before your day begins. Hot espresso drinks, cold blends, and everything in between. See you at 4 Jacks Casino!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232940645_905925c7.mp4\t2026-03-16 18:37:21\n31\t☕ Vanilla latte, caramel macchiato, or something totally custom — at Border Boost and Brew™, you call the shots! Our baristas are ready to craft your perfect drink. Inside 4 Jacks Casino, Jackpot NV!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233108180_4d065c0a.mp4\t2026-03-16 18:37:21\n30\t🌟 Two brands, one location — Border Boost and Brew™ + Sopris Taqueria, both inside 4 Jacks Casino in Jackpot, NV. Get your morning coffee and your favorite meal all in one stop. Life is good!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260312_005735786_ee220de1.mp4\t2026-03-16 18:37:21\n23\t🍵 Matcha lovers, this one's for you! Our creamy matcha latte is made with premium matcha powder and your choice of milk. Earthy, smooth, and absolutely delicious. Available now at Border Boost and Brew™!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/grok_video_2026-03-09-00-07-23_b393828c.mp4\t2026-03-16 18:37:21\n29\t⚡ Weekend vibes call for a loaded Red Bull drink! Come into Border Boost and Brew™ at 4 Jacks Casino and let us mix up something amazing for you. Custom flavors, great prices, good times!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233528556_ec27e728.mp4\t2026-03-16 18:37:21\n28\t☕ Your morning ritual just got an upgrade! Border Boost and Brew™ is your go-to spot for premium espresso drinks in Jackpot, NV. Find us inside 4 Jacks Casino — we're ready to serve you!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233311606_4816ad20.mp4\t2026-03-16 18:37:21\n21\t⚡ Double the energy, double the fun! Our loaded energy drinks come in dozens of flavor combinations. Mix Red Bull with your favorite juice, syrup, or cream. Custom drinks made YOUR way at Border Boost and Brew™!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233108180_4d065c0a.mp4\t2026-03-16 18:37:20\n17\t☕ Good morning, Jackpot! Start your day right with a handcrafted latte from Border Boost and Brew™ inside 4 Jacks Casino. Rich espresso, steamed milk, and your choice of flavors. Come fuel up before you hit the floor!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_232848937_cfcc0b6a.mp4\t2026-03-16 18:37:20\n20\t☕ Cappuccino perfection! Velvety foam, bold espresso, and just the right balance. Border Boost and Brew™ crafts every cup with care. Pair it with your favorite Sopris Taqueria breakfast and you're set for the day!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260312_005735786_ee220de1.mp4\t2026-03-16 18:37:20\n19\t🧋 Treat yourself to one of our specialty blended drinks! Smoothies, frappes, and seasonal creations made fresh to order. Border Boost and Brew™ has something sweet for every mood. Stop by 4 Jacks Casino!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233528556_ec27e728.mp4\t2026-03-16 18:37:20\n18\t⚡ Need an energy boost? Our Red Bull loaded drinks are the perfect pick-me-up! Custom blends, your favorite flavors, and that extra kick to keep you going. Find us inside 4 Jacks Casino, Jackpot NV!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/YouCut_20260308_233311606_4816ad20.mp4\t2026-03-16 18:37:20\n12\t🍟 Onion Rings so crispy you can hear the crunch! Golden, perfectly seasoned, and great as a side or a snack. Pair them with our famous burgers at Sopris Taqueria inside 4 Jacks Casino!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_promo_3_38977f36.mp4\t2026-03-16 18:22:08\n8\t🥩 Steak & Lobster — a classic combination that never gets old! Our surf and turf is the ultimate indulgence. Treat yourself tonight at Sopris Taqueria inside 4 Jacks Casino, Jackpot NV.\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_promo_2_6cc6d35a.mp4\t2026-03-16 18:22:08\n16\t🌮 Birria Tacos — the taco that took the world by storm! Our slow-braised birria is rich, flavorful, and served with consommé for dipping. Come try the best birria in Jackpot, NV!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_promo_4_3a81cee1.mp4\t2026-03-16 18:22:08\n4\t🌯 Wet Burrito lovers — this one's for you! Our signature wet burrito is smothered in rich red sauce and melted cheese. It's a full meal in every bite. Find us inside 4 Jacks Casino, Jackpot NV!\thttps://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_promo_1_8a0b7ea8.mp4\t2026-03-16 18:22:08\n",
+  "stderr": "",
+  "execution_time_ms": 3837
+}
