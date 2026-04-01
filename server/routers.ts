@@ -35,6 +35,7 @@ import {
   updatePromotion,
 } from "./db";
 import { getSessionCookieOptions } from "./_core/cookies";
+import { ENV } from "./_core/env";
 import { invokeLLM } from "./_core/llm";
 import { systemRouter } from "./_core/systemRouter";
 import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
@@ -638,6 +639,49 @@ export const appRouter = router({
           imported++;
         }
         return { imported };
+      }),
+  }),
+
+  // ─── Settings ────────────────────────────────────────────────────────────────
+  settings: router({
+    testFacebookToken: protectedProcedure
+      .input(z.object({ token: z.string() }))
+      .mutation(async ({ input }) => {
+        try {
+          const pageId = ENV.facebookPageId || "1099719276547374";
+          const response = await fetch(
+            `https://graph.facebook.com/v18.0/${pageId}?fields=name,id&access_token=${input.token}`
+          );
+          const data = await response.json() as { name?: string; id?: string; error?: { message: string } };
+          if (data.error) {
+            return { valid: false, error: data.error.message };
+          }
+          return { valid: true, pageName: data.name, pageId: data.id };
+        } catch (err: unknown) {
+          return { valid: false, error: String(err) };
+        }
+      }),
+    updateSocialCredentials: protectedProcedure
+      .input(
+        z.object({
+          facebookApiToken: z.string(),
+          facebookPageId: z.string().optional(),
+          instagramBusinessAccountId: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        // Update the in-memory ENV so the scheduler picks it up immediately
+        process.env.FACEBOOK_API_TOKEN = input.facebookApiToken;
+        (ENV as unknown as Record<string, string>).facebookApiToken = input.facebookApiToken;
+        if (input.facebookPageId) {
+          process.env.FACEBOOK_PAGE_ID = input.facebookPageId;
+          (ENV as unknown as Record<string, string>).facebookPageId = input.facebookPageId;
+        }
+        if (input.instagramBusinessAccountId) {
+          process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID = input.instagramBusinessAccountId;
+          (ENV as unknown as Record<string, string>).instagramBusinessAccountId = input.instagramBusinessAccountId;
+        }
+        return { success: true };
       }),
   }),
 });

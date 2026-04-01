@@ -15,6 +15,7 @@ import Photos from "./pages/Photos";
 import BorderBoostAndBrew from "./pages/BorderBoostAndBrew";
 import Menu from "./pages/Menu";
 import Signage from "./pages/Signage";
+import Settings from "./pages/Settings";
 
 function Router() {
   return (
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/border-boost-and-brew" component={BorderBoostAndBrew} />
       <Route path="/borderline-brew" component={BorderBoostAndBrew} />
       <Route path="/signage" component={Signage} />
+      <Route path="/settings" component={Settings} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
