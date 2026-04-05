@@ -44,11 +44,11 @@ async function postToFacebook(params: PostParams): Promise<string | null> {
     let payload: Record<string, string>;
 
     if (imageUrl) {
-      // Use /photos endpoint for image posts — this properly attaches the image
-      endpoint = `https://graph.facebook.com/v18.0/${pageId}/photos`;
+      // Use /feed endpoint with attached_media for image posts (pages_manage_posts permission)
+      endpoint = `https://graph.facebook.com/v18.0/${pageId}/feed`;
       payload = {
-        url: imageUrl,
-        caption: fullCaption,
+        message: fullCaption,
+        link: imageUrl,
         access_token: token,
       };
     } else if (videoUrl) {
@@ -108,14 +108,18 @@ async function postToInstagram(params: PostParams): Promise<string | null> {
     }
 
     // For Instagram, we need to create a media container first
+    // Skip text-only posts — Instagram requires photo or video
+    if (!imageUrl && !videoUrl) {
+      console.log("[Instagram] Skipping text-only post — Instagram requires photo or video");
+      return null;
+    }
+
     let mediaType = "IMAGE";
     let mediaUrl = imageUrl;
 
     if (videoUrl) {
       mediaType = "REELS";
       mediaUrl = videoUrl;
-    } else if (!imageUrl) {
-      throw new Error("Instagram posts require either image or video");
     }
 
     // Step 1: Create media container
