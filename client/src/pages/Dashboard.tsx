@@ -4,17 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import {
+  AlertTriangle,
   Calendar,
   Camera,
+  CheckCircle,
   Clock,
   FileText,
   Megaphone,
+  RefreshCw,
+  Settings,
   Sparkles,
   Star,
   Tag,
   TrendingUp,
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { toast } from "sonner";
 
 export default function Dashboard() {
   const [, navigate] = useLocation();
@@ -23,6 +28,20 @@ export default function Dashboard() {
   const { data: promotions } = trpc.promotions.active.useQuery();
   const { data: specials } = trpc.specials.active.useQuery();
   const { data: events } = trpc.events.upcoming.useQuery();
+  const { data: tokenStatus } = trpc.settings.tokenStatus.useQuery(undefined, {
+    refetchInterval: 60 * 60 * 1000,
+  });
+
+  const retryFailedMutation = trpc.posts.retryFailed.useMutation({
+    onSuccess: (data) => {
+      if (data.total === 0) toast.info("No failed posts to retry");
+      else
+        toast.success(
+          `Retried ${data.total} failed posts: ${data.retried} published, ${data.failed} still failed`
+        );
+    },
+    onError: (e) => toast.error(`Retry failed: ${e.message}`),
+  });
 
   const quickActions = [
     { icon: Sparkles, label: "Generate Post", path: "/generate", color: "bg-amber-500", desc: "AI-powered bilingual content" },
@@ -51,6 +70,67 @@ export default function Dashboard() {
             Generate Post
           </Button>
         </div>
+
+        {/* Token status alert */}
+        {tokenStatus && (
+          tokenStatus.valid === false ? (
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-red-50 border border-red-200 text-red-800">
+              <AlertTriangle size={18} className="flex-shrink-0 text-red-500" />
+              <div className="flex-1 text-sm">
+                <span className="font-semibold">Facebook token invalid:</span>{" "}
+                {tokenStatus.error ?? "Token has expired or been revoked. Posts will not publish."}
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                className="text-red-700 border-red-300 hover:bg-red-100 gap-1 flex-shrink-0"
+                onClick={() => navigate("/settings")}
+              >
+                <Settings size={13} /> Fix Now
+              </Button>
+            </div>
+          ) : tokenStatus.daysLeft <= 7 ? (
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800">
+              <AlertTriangle size={18} className="flex-shrink-0 text-amber-500" />
+              <div className="flex-1 text-sm">
+                <span className="font-semibold">Facebook token expiring soon:</span>{" "}
+                {tokenStatus.daysLeft} day{tokenStatus.daysLeft !== 1 ? "s" : ""} left. Reconnect before it expires.
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                className="text-amber-700 border-amber-300 hover:bg-amber-100 gap-1 flex-shrink-0"
+                onClick={() => navigate("/settings")}
+              >
+                <Settings size={13} /> Update Token
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-green-50 border border-green-200 text-green-800">
+              <CheckCircle size={18} className="flex-shrink-0 text-green-500" />
+              <div className="flex-1 text-sm">
+                <span className="font-semibold">Facebook token active</span> —{" "}
+                {tokenStatus.daysLeft >= 60
+                  ? "Long-lived token, no expiry concern."
+                  : `${tokenStatus.daysLeft} days remaining.`}
+              </div>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-green-700 gap-1 flex-shrink-0"
+                onClick={() => retryFailedMutation.mutate()}
+                disabled={retryFailedMutation.isPending}
+              >
+                {retryFailedMutation.isPending ? (
+                  <RefreshCw size={13} className="animate-spin" />
+                ) : (
+                  <RefreshCw size={13} />
+                )}
+                Retry Failed Posts
+              </Button>
+            </div>
+          )
+        )}
 
         {/* Stats row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

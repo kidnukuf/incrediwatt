@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { trpc } from "@/lib/trpc";
-import { Copy, Facebook, Instagram, Loader2, Send, Trash2 } from "lucide-react";
+import { Copy, Facebook, Instagram, Loader2, RefreshCw, Send, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -28,6 +28,15 @@ export default function PostHistory() {
     onSuccess: () => { toast.success("Status updated"); refetch(); },
     onError: (e) => toast.error(e.message),
   });
+  const retryFailedMutation = trpc.posts.retryFailed.useMutation({
+    onSuccess: (data) => {
+      if (data.total === 0) toast.info("No failed posts to retry");
+      else toast.success(`Retried ${data.total} posts: ${data.retried} published, ${data.failed} still failed`);
+      refetch();
+    },
+    onError: (e) => toast.error(`Retry failed: ${e.message}`),
+  });
+  const failedCount = posts?.filter((p) => p.status === "cancelled").length ?? 0;
   const [publishingId, setPublishingId] = useState<number | null>(null);
   const publishMutation = trpc.posts.publishNow.useMutation({
     onSuccess: (data) => {
@@ -62,6 +71,22 @@ export default function PostHistory() {
             <p className="text-muted-foreground text-sm mt-1">All generated and published content</p>
           </div>
           <div className="flex gap-2">
+            {failedCount > 0 && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="gap-1 text-red-600 border-red-200 hover:bg-red-50 h-8 text-xs"
+                onClick={() => retryFailedMutation.mutate()}
+                disabled={retryFailedMutation.isPending}
+              >
+                {retryFailedMutation.isPending ? (
+                  <Loader2 size={12} className="animate-spin" />
+                ) : (
+                  <RefreshCw size={12} />
+                )}
+                Retry Failed ({failedCount})
+              </Button>
+            )}
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-32 h-8 text-xs">
                 <SelectValue placeholder="Status" />

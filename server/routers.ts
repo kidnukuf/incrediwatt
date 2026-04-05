@@ -235,6 +235,36 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .mutation(({ input }) => deletePost(input.id)),
 
+    retryFailed: protectedProcedure
+      .mutation(async () => {
+        const { getDb, getPostsByStatus, updatePost } = await import('./db.js');
+        const failedPosts = await getPostsByStatus('cancelled');
+        const db = await getDb();
+        if (!db) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Database unavailable' });
+        let retried = 0;
+        let failed = 0;
+        for (const post of failedPosts) {
+          const caption = post.captionEs
+            ? `${post.captionEn}\n\n\uD83C\uDDF2\uD83C\uDDFD ${post.captionEs}`
+            : post.captionEn;
+          const isVideo = /\.(mp4|mov|webm|avi)(\?|$)/i.test(post.imageUrl ?? '');
+          const result = await postToSocialMedia({
+            caption,
+            imageUrl: isVideo ? undefined : (post.imageUrl ?? undefined),
+            videoUrl: isVideo ? (post.imageUrl ?? undefined) : undefined,
+            hashtags: post.hashtags ?? undefined,
+            platform: post.platform,
+          });
+          if (result.success) {
+            await updatePost(post.id, { status: 'published', publishedAt: Date.now() });
+            retried++;
+          } else {
+            failed++;
+          }
+        }
+        return { retried, failed, total: failedPosts.length };
+      }),
+
     publishNow: protectedProcedure
       .input(
         z.object({
@@ -644,6 +674,32 @@ export const appRouter = router({
 
   // ─── Settings ────────────────────────────────────────────────────────────────
   settings: router({
+    tokenStatus: protectedProcedure
+      .query(async () => {
+        try {
+          const token = ENV.facebookApiToken;
+          if (!token) return { valid: false, daysLeft: 0, error: 'No token configured' };
+          const pageId = ENV.facebookPageId || '1099719276547374';
+          // Use debug_token endpoint to check expiry
+          const res = await fetch(
+            `https://graph.facebook.com/debug_token?input_token=${token}&access_token=${token}`
+          );
+          const data = await res.json() as { data?: { expires_at?: number; is_valid?: boolean }; error?: { message: string } };
+          if (data.error || !data.data?.is_valid) {
+            // Fallback: simple page check
+            const pageRes = await fetch(`https://graph.facebook.com/v18.0/${pageId}?fields=name&access_token=${token}`);
+            const pageData = await pageRes.json() as { name?: string; error?: { message: string } };
+            if (pageData.error) return { valid: false, daysLeft: 0, error: pageData.error.message };
+            return { valid: true, daysLeft: 60, pageName: pageData.name };
+          }
+          const expiresAt = data.data?.expires_at;
+          if (!expiresAt || expiresAt === 0) return { valid: true, daysLeft: 60 };
+          const daysLeft = Math.floor((expiresAt * 1000 - Date.now()) / (1000 * 60 * 60 * 24));
+          return { valid: true, daysLeft, expiresAt };
+        } catch (err) {
+          return { valid: false, daysLeft: 0, error: String(err) };
+        }
+      }),
     testFacebookToken: protectedProcedure
       .input(z.object({ token: z.string() }))
       .mutation(async ({ input }) => {
