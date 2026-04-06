@@ -216,3 +216,11 @@
 - [x] Updated generate mutation to auto-match food photo when no image manually provided
 - [x] All 21 vitest tests passing
 - [x] Save checkpoint
+
+## Phase 29: Link Food Photos to Menu Items
+- [x] Audited all 69 food photos: 0 linked, 69 unlinked
+- [x] Auto-linked 7 photos via script (exact/fuzzy name match)
+- [x] Manually linked 21 more photos using best-fit menu item IDs
+- [x] Corrected 2 wrong auto-links (Bacon Cheeseburger, Carne Asada & Eggs)
+- [x] Final result: 28 dish-specific photos linked; 41 non-menu assets (promos, events, branding, videos) intentionally left unlinked
+- [x] Save checkpoint
