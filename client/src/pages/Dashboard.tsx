@@ -110,7 +110,9 @@ export default function Dashboard() {
               <CheckCircle size={18} className="flex-shrink-0 text-green-500" />
               <div className="flex-1 text-sm">
                 <span className="font-semibold">Facebook token active</span> —{" "}
-                {tokenStatus.daysLeft >= 60
+                {(tokenStatus as { permanent?: boolean }).permanent
+                  ? "Permanent token — never expires."
+                  : tokenStatus.daysLeft >= 60
                   ? "Long-lived token, no expiry concern."
                   : `${tokenStatus.daysLeft} days remaining.`}
               </div>

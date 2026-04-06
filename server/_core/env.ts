@@ -10,6 +10,7 @@ export const ENV = {
   instagramAppId: process.env.INSTAGRAM_APP_ID ?? "",
   instagramAppSecret: process.env.INSTAGRAM_APP_SECRET ?? "",
   facebookApiToken: process.env.FACEBOOK_API_TOKEN ?? "",
+  facebookAppSecret: process.env.FACEBOOK_APP_SECRET ?? "",
   facebookPageId: process.env.FACEBOOK_PAGE_ID ?? "",
   instagramBusinessAccountId: process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID ?? "",
 };

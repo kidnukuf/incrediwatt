@@ -679,23 +679,27 @@ export const appRouter = router({
         try {
           const token = ENV.facebookApiToken;
           if (!token) return { valid: false, daysLeft: 0, error: 'No token configured' };
-          const pageId = ENV.facebookPageId || '1099719276547374';
-          // Use debug_token endpoint to check expiry
+          const fbAppId = '1636310834073967';
+          const fbAppSecret = ENV.facebookAppSecret;
+          // Use debug_token with app credentials for accurate expiry info
+          const appToken = fbAppSecret ? `${fbAppId}|${fbAppSecret}` : token;
           const res = await fetch(
-            `https://graph.facebook.com/debug_token?input_token=${token}&access_token=${token}`
+            `https://graph.facebook.com/v18.0/debug_token?input_token=${token}&access_token=${appToken}`
           );
           const data = await res.json() as { data?: { expires_at?: number; is_valid?: boolean }; error?: { message: string } };
           if (data.error || !data.data?.is_valid) {
             // Fallback: simple page check
+            const pageId = ENV.facebookPageId || '1099719276547374';
             const pageRes = await fetch(`https://graph.facebook.com/v18.0/${pageId}?fields=name&access_token=${token}`);
             const pageData = await pageRes.json() as { name?: string; error?: { message: string } };
             if (pageData.error) return { valid: false, daysLeft: 0, error: pageData.error.message };
-            return { valid: true, daysLeft: 60, pageName: pageData.name };
+            return { valid: true, daysLeft: 999, pageName: pageData.name, permanent: true };
           }
           const expiresAt = data.data?.expires_at;
-          if (!expiresAt || expiresAt === 0) return { valid: true, daysLeft: 60 };
+          // expires_at === 0 means the token never expires (permanent page token)
+          if (!expiresAt || expiresAt === 0) return { valid: true, daysLeft: 999, permanent: true };
           const daysLeft = Math.floor((expiresAt * 1000 - Date.now()) / (1000 * 60 * 60 * 24));
-          return { valid: true, daysLeft, expiresAt };
+          return { valid: true, daysLeft, expiresAt, permanent: false };
         } catch (err) {
           return { valid: false, daysLeft: 0, error: String(err) };
         }

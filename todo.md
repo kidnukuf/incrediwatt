@@ -175,3 +175,16 @@
 - [x] Diagnosed root cause: /feed endpoint with link: param causes Facebook to show raw CDN URL
 - [x] Fixed socialMedia.ts: image posts now use /photos endpoint with caption: + url: params
 - [x] Save checkpoint
+
+## Phase 25: Permanent Facebook Page Token
+- [x] Identified token mismatch: INSTAGRAM_APP_SECRET belongs to different app than the Facebook token
+- [x] Obtained Facebook App Secret for app 1636310834073967 (soprisrestaurantsocialmediaman)
+- [x] Exchanged short-lived user token for 60-day long-lived user token
+- [x] Derived permanent (never-expiring) Page token from long-lived user token
+- [x] Stored permanent token as FACEBOOK_API_TOKEN secret
+- [x] Stored Facebook App Secret as FACEBOOK_APP_SECRET secret
+- [x] Updated ENV to expose facebookAppSecret
+- [x] Updated tokenStatus procedure to use app credentials for accurate debug_token calls
+- [x] Updated Dashboard to display "Permanent token — never expires" status
+- [x] All 21 vitest tests passing
+- [x] Save checkpoint
