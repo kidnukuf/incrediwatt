@@ -125,7 +125,7 @@
 - [ ] Generate 2 more Border Boost and Brew™ slides
 - [ ] Upload all new assets to CDN
 - [ ] Add all new slides to Signage.tsx rotation
-- [ ] Save checkpoint
+- [x] Save checkpoint
 
 ## Phase 18: New Restaurant Videos for Digital Display
 - [x] Uploaded 9 new restaurant videos to CDN (all 9/9 succeeded)
@@ -170,3 +170,8 @@
 - [ ] Apply color grading, transitions, and professional effects
 - [ ] Upload enhanced videos to CDN and replace originals in database
 - [ ] Add enhanced videos to Roku USB package
+
+## Phase 24: Fix Facebook CDN URL Showing as Visible Text
+- [x] Diagnosed root cause: /feed endpoint with link: param causes Facebook to show raw CDN URL
+- [x] Fixed socialMedia.ts: image posts now use /photos endpoint with caption: + url: params
+- [x] Save checkpoint

@@ -44,11 +44,11 @@ async function postToFacebook(params: PostParams): Promise<string | null> {
     let payload: Record<string, string>;
 
     if (imageUrl) {
-      // Use /feed endpoint with attached_media for image posts (pages_manage_posts permission)
-      endpoint = `https://graph.facebook.com/v18.0/${pageId}/feed`;
+      // Use /photos endpoint to attach image directly — avoids showing raw CDN URL as visible link
+      endpoint = `https://graph.facebook.com/v18.0/${pageId}/photos`;
       payload = {
-        message: fullCaption,
-        link: imageUrl,
+        caption: fullCaption,
+        url: imageUrl,
         access_token: token,
       };
     } else if (videoUrl) {
