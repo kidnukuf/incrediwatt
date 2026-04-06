@@ -5,67 +5,89 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle, XCircle, RefreshCw, AlertTriangle, ExternalLink, Facebook, Instagram } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Switch } from "@/components/ui/switch";
+import {
+  CheckCircle, XCircle, RefreshCw, AlertTriangle, ExternalLink,
+  Facebook, Instagram, Plus, Trash2, Edit2, Shield
+} from "lucide-react";
 import { toast } from "sonner";
 
+type ClientPageRow = {
+  id: number;
+  name: string;
+  facebookPageId: string | null;
+  instagramAccountId: string | null;
+  isActive: boolean;
+  isPrimary: boolean;
+  tokenValid: boolean;
+  tokenPermanent: boolean;
+  tokenExpiresAt: number | null;
+};
+
 export default function Settings() {
-  const [newToken, setNewToken] = useState("");
-  const [newPageId, setNewPageId] = useState("");
-  const [newInstagramId, setNewInstagramId] = useState("");
-  const [isTestingToken, setIsTestingToken] = useState(false);
-  const [tokenStatus, setTokenStatus] = useState<"unknown" | "valid" | "invalid">("unknown");
+  const utils = trpc.useUtils();
 
-  const testToken = trpc.settings.testFacebookToken.useMutation({
-    onMutate: () => setIsTestingToken(true),
-    onSuccess: (data: { valid: boolean; pageName?: string; error?: string }) => {
-      setIsTestingToken(false);
-      if (data.valid) {
-        setTokenStatus("valid");
-        toast.success(`Token is valid! Connected to: ${data.pageName}`);
-      } else {
-        setTokenStatus("invalid");
-        toast.error(`Token is invalid: ${data.error}`);
-      }
-    },
-    onError: (err: { message: string }) => {
-      setIsTestingToken(false);
-      setTokenStatus("invalid");
-      toast.error(`Test failed: ${err.message}`);
-    },
-  });
+  // ── Token status (primary page) ──────────────────────────────────────────────
+  const { data: tokenStatus } = trpc.settings.tokenStatus.useQuery(undefined, { refetchInterval: 60_000 });
 
-  const updateCredentials = trpc.settings.updateSocialCredentials.useMutation({
+  // ── Client pages ─────────────────────────────────────────────────────────────
+  const { data: clientPages, isLoading: pagesLoading } = trpc.settings.listClientPages.useQuery();
+
+  const savePageMutation = trpc.settings.saveClientPage.useMutation({
     onSuccess: () => {
-      toast.success("Credentials updated! The scheduler will use the new token immediately.");
-      setNewToken("");
-      setNewPageId("");
-      setNewInstagramId("");
-      setTokenStatus("unknown");
+      toast.success("Page saved successfully");
+      utils.settings.listClientPages.invalidate();
+      utils.settings.tokenStatus.invalidate();
+      setEditDialog(null);
     },
-    onError: (err: { message: string }) => {
-      toast.error(`Failed to update credentials: ${err.message}`);
-    },
+    onError: (err) => toast.error(`Save failed: ${err.message}`),
   });
 
-  const handleTestToken = () => {
-    if (!newToken.trim()) {
-      toast.error("Please enter a token to test");
-      return;
-    }
-    testToken.mutate({ token: newToken.trim() });
-  };
+  const removePageMutation = trpc.settings.removeClientPage.useMutation({
+    onSuccess: () => {
+      toast.success("Page removed");
+      utils.settings.listClientPages.invalidate();
+    },
+    onError: (err) => toast.error(`Remove failed: ${err.message}`),
+  });
+
+  // ── Edit dialog state ─────────────────────────────────────────────────────────
+  const [editDialog, setEditDialog] = useState<{
+    id?: number;
+    name: string;
+    facebookPageId: string;
+    facebookPageToken: string;
+    instagramAccountId: string;
+    isActive: boolean;
+    isPrimary: boolean;
+  } | null>(null);
+
+  const openNew = () =>
+    setEditDialog({ name: "", facebookPageId: "", facebookPageToken: "", instagramAccountId: "", isActive: true, isPrimary: false });
+
+  const openEdit = (page: ClientPageRow) =>
+    setEditDialog({
+      id: page.id,
+      name: page.name,
+      facebookPageId: page.facebookPageId ?? "",
+      facebookPageToken: "", // never pre-fill token
+      instagramAccountId: page.instagramAccountId ?? "",
+      isActive: page.isActive,
+      isPrimary: page.isPrimary,
+    });
 
   const handleSave = () => {
-    if (!newToken.trim()) {
-      toast.error("Please enter a new Facebook Page Access Token");
-      return;
-    }
-    updateCredentials.mutate({
-      facebookApiToken: newToken.trim(),
-      facebookPageId: newPageId.trim() || undefined,
-      instagramBusinessAccountId: newInstagramId.trim() || undefined,
+    if (!editDialog) return;
+    savePageMutation.mutate({
+      id: editDialog.id,
+      name: editDialog.name,
+      facebookPageId: editDialog.facebookPageId || undefined,
+      facebookPageToken: editDialog.facebookPageToken || undefined,
+      instagramAccountId: editDialog.instagramAccountId || undefined,
+      isActive: editDialog.isActive,
+      isPrimary: editDialog.isPrimary,
     });
   };
 
@@ -73,165 +95,217 @@ export default function Settings() {
     <div className="p-6 max-w-3xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold">Settings</h1>
-        <p className="text-muted-foreground mt-1">Manage your social media account connections and credentials.</p>
+        <p className="text-muted-foreground mt-1">Manage connected social media pages and credentials.</p>
       </div>
 
-      {/* Current Status */}
-      <Alert variant="destructive">
-        <XCircle className="h-4 w-4" />
-        <AlertTitle>Facebook & Instagram Posting is Currently Broken</AlertTitle>
-        <AlertDescription>
-          All scheduled posts are failing with an authentication error. Your Facebook Page Access Token has expired or been revoked. 
-          Update your token below to resume posting.
-        </AlertDescription>
-      </Alert>
-
-      {/* How to get a new token */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-amber-500" />
-            How to Get a New Facebook Page Access Token
-          </CardTitle>
-          <CardDescription>Follow these steps to generate a fresh token from Meta Business Suite</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3 text-sm">
-          <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-            <li>Go to <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener noreferrer" className="text-primary underline inline-flex items-center gap-1">Meta Graph API Explorer <ExternalLink className="h-3 w-3" /></a></li>
-            <li>Select your app (<strong>app ID: 1636310834073967</strong>) from the dropdown</li>
-            <li>Click <strong>"Generate Access Token"</strong> and log in with your Facebook account</li>
-            <li>Grant all requested permissions (especially <code>pages_manage_posts</code>, <code>pages_read_engagement</code>, <code>instagram_basic</code>, <code>instagram_content_publish</code>)</li>
-            <li>Copy the generated <strong>Page Access Token</strong> (not the User Token)</li>
-            <li>Paste it in the field below and click <strong>Test Token</strong> first, then <strong>Save</strong></li>
-          </ol>
-          <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-950 rounded-md border border-amber-200 dark:border-amber-800">
-            <p className="text-amber-800 dark:text-amber-200 text-xs">
-              <strong>Tip:</strong> For a long-lived token (60 days), use the <a href="https://developers.facebook.com/tools/debug/accesstoken/" target="_blank" rel="noopener noreferrer" className="underline">Token Debugger</a> to extend it, or generate a <strong>System User Token</strong> in Meta Business Manager for a non-expiring token.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Token Update Form */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Facebook className="h-5 w-5 text-blue-600" />
-            Update Facebook & Instagram Credentials
-          </CardTitle>
-          <CardDescription>Paste your new access token to reconnect posting</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="token">
-              Facebook Page Access Token <span className="text-destructive">*</span>
-            </Label>
-            <div className="flex gap-2">
-              <Input
-                id="token"
-                type="password"
-                placeholder="Paste your new Page Access Token here..."
-                value={newToken}
-                onChange={(e) => { setNewToken(e.target.value); setTokenStatus("unknown"); }}
-                className="font-mono text-xs"
-              />
-              <Button
-                variant="outline"
-                onClick={handleTestToken}
-                disabled={isTestingToken || !newToken.trim()}
-                className="shrink-0"
-              >
-                {isTestingToken ? (
-                  <RefreshCw className="h-4 w-4 animate-spin" />
-                ) : (
-                  "Test Token"
-                )}
-              </Button>
+      {/* Primary token status banner */}
+      {tokenStatus && (
+        tokenStatus.valid ? (
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-green-50 border border-green-200 text-green-800">
+            <CheckCircle size={18} className="flex-shrink-0 text-green-500" />
+            <div className="flex-1 text-sm">
+              <span className="font-semibold">Primary page token active</span> —{" "}
+              {(tokenStatus as { permanent?: boolean }).permanent
+                ? "Permanent token — never expires."
+                : `${tokenStatus.daysLeft} days remaining.`}
             </div>
-            {tokenStatus === "valid" && (
-              <p className="text-sm text-green-600 flex items-center gap-1">
-                <CheckCircle className="h-4 w-4" /> Token is valid and working
-              </p>
-            )}
-            {tokenStatus === "invalid" && (
-              <p className="text-sm text-destructive flex items-center gap-1">
-                <XCircle className="h-4 w-4" /> Token is invalid — check the token and try again
-              </p>
-            )}
           </div>
-
-          <Separator />
-
-          <div className="space-y-2">
-            <Label htmlFor="pageId">
-              Facebook Page ID <span className="text-muted-foreground text-xs">(optional — only if changed)</span>
-            </Label>
-            <Input
-              id="pageId"
-              placeholder="e.g. 1099719276547374"
-              value={newPageId}
-              onChange={(e) => setNewPageId(e.target.value)}
-              className="font-mono text-xs"
-            />
-            <p className="text-xs text-muted-foreground">Current Page ID: <code>1099719276547374</code> (Sopris Restaurant)</p>
+        ) : (
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-red-50 border border-red-200 text-red-800">
+            <AlertTriangle size={18} className="flex-shrink-0 text-red-500" />
+            <div className="flex-1 text-sm">
+              <span className="font-semibold">Primary token invalid:</span>{" "}
+              {tokenStatus.error ?? "Token has expired or been revoked."}
+            </div>
           </div>
+        )
+      )}
 
-          <div className="space-y-2">
-            <Label htmlFor="instagramId">
-              Instagram Business Account ID <span className="text-muted-foreground text-xs">(optional — only if changed)</span>
-            </Label>
-            <Input
-              id="instagramId"
-              placeholder="e.g. 17841400000000000"
-              value={newInstagramId}
-              onChange={(e) => setNewInstagramId(e.target.value)}
-              className="font-mono text-xs"
-            />
+      {/* Connected Pages */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between pb-3">
+          <div>
+            <CardTitle className="flex items-center gap-2">
+              <Facebook className="h-5 w-5 text-blue-600" />
+              Connected Facebook Pages
+            </CardTitle>
+            <CardDescription>All pages with stored access tokens. The primary page is used for Sopris Restaurant posting.</CardDescription>
           </div>
-
-          <Button
-            onClick={handleSave}
-            disabled={updateCredentials.isPending || !newToken.trim()}
-            className="w-full"
-          >
-            {updateCredentials.isPending ? (
-              <><RefreshCw className="h-4 w-4 animate-spin mr-2" /> Saving...</>
-            ) : (
-              "Save & Reconnect"
-            )}
+          <Button size="sm" onClick={openNew} className="gap-1 shrink-0">
+            <Plus size={14} /> Add Page
           </Button>
+        </CardHeader>
+        <CardContent>
+          {pagesLoading ? (
+            <div className="text-sm text-muted-foreground py-4 text-center">Loading pages...</div>
+          ) : !clientPages?.length ? (
+            <div className="text-sm text-muted-foreground py-4 text-center">No pages configured yet.</div>
+          ) : (
+            <div className="space-y-3">
+              {clientPages.map((page) => (
+                <div key={page.id} className="flex items-center gap-3 p-3 rounded-lg border bg-card">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-medium text-sm">{page.name}</span>
+                      {page.isPrimary && (
+                        <Badge variant="default" className="text-xs gap-1">
+                          <Shield size={10} /> Primary
+                        </Badge>
+                      )}
+                      {!page.isActive && (
+                        <Badge variant="secondary" className="text-xs">Inactive</Badge>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 mt-1 flex-wrap">
+                      {page.facebookPageId && (
+                        <span className="text-xs text-muted-foreground font-mono">Page ID: {page.facebookPageId}</span>
+                      )}
+                      {page.instagramAccountId && (
+                        <span className="text-xs text-muted-foreground flex items-center gap-1">
+                          <Instagram size={10} /> {page.instagramAccountId}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    {page.tokenValid ? (
+                      <Badge variant="outline" className="text-xs text-green-700 border-green-300 gap-1">
+                        <CheckCircle size={10} />
+                        {page.tokenPermanent ? "Permanent" : "Valid"}
+                      </Badge>
+                    ) : (
+                      <Badge variant="destructive" className="text-xs gap-1">
+                        <XCircle size={10} /> Invalid
+                      </Badge>
+                    )}
+                    <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => openEdit(page as ClientPageRow)}>
+                      <Edit2 size={13} />
+                    </Button>
+                    {!page.isPrimary && (
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-7 w-7 text-destructive hover:text-destructive"
+                        onClick={() => removePageMutation.mutate({ id: page.id })}
+                        disabled={removePageMutation.isPending}
+                      >
+                        <Trash2 size={13} />
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
 
-      {/* Current Connection Info */}
+      {/* How to get tokens */}
       <Card>
         <CardHeader>
-          <CardTitle>Current Connection Status</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <AlertTriangle className="h-4 w-4 text-amber-500" />
+            How to Get a New Page Token
+          </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Facebook className="h-4 w-4 text-blue-600" />
-              <span className="text-sm font-medium">Facebook</span>
-              <span className="text-xs text-muted-foreground">Sopris Restaurant (Page ID: 1099719276547374)</span>
-            </div>
-            <Badge variant="destructive" className="text-xs">Token Expired</Badge>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Instagram className="h-4 w-4 text-pink-600" />
-              <span className="text-sm font-medium">Instagram</span>
-              <span className="text-xs text-muted-foreground">Business Account Connected</span>
-            </div>
-            <Badge variant="destructive" className="text-xs">Token Expired</Badge>
-          </div>
-          <Separator />
-          <div className="text-xs text-muted-foreground">
-            <p><strong>App ID:</strong> 1636310834073967</p>
-            <p className="mt-1"><strong>Error:</strong> Cannot call API for app 1636310834073967 on behalf of user 10240984532890175</p>
+        <CardContent className="text-sm space-y-2 text-muted-foreground">
+          <ol className="list-decimal list-inside space-y-1">
+            <li>Go to <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener noreferrer" className="text-primary underline inline-flex items-center gap-1">Meta Graph API Explorer <ExternalLink className="h-3 w-3" /></a></li>
+            <li>Select app <strong>1636310834073967</strong> and generate a User Access Token</li>
+            <li>Grant <code>pages_manage_posts</code>, <code>pages_read_engagement</code>, <code>instagram_basic</code>, <code>instagram_content_publish</code></li>
+            <li>Paste the token in the "Add Page" dialog — the system will exchange it for a permanent page token automatically</li>
+          </ol>
+          <div className="p-2 bg-amber-50 dark:bg-amber-950 rounded border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200 text-xs mt-2">
+            <strong>Note:</strong> The current Sopris Restaurant token is <strong>permanent</strong> and will not expire unless you revoke app access or change your Facebook password.
           </div>
         </CardContent>
       </Card>
+
+      {/* Edit / Add Dialog */}
+      <Dialog open={!!editDialog} onOpenChange={(open) => !open && setEditDialog(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>{editDialog?.id ? "Edit Page" : "Add New Page"}</DialogTitle>
+            <DialogDescription>
+              {editDialog?.id
+                ? "Update the page details. Leave the token field empty to keep the existing token."
+                : "Add a Facebook page to manage. Paste the access token to connect it."}
+            </DialogDescription>
+          </DialogHeader>
+          {editDialog && (
+            <div className="space-y-4 py-2">
+              <div className="space-y-1">
+                <Label>Page Name *</Label>
+                <Input
+                  placeholder="e.g. Sopris Restaurant"
+                  value={editDialog.name}
+                  onChange={(e) => setEditDialog({ ...editDialog, name: e.target.value })}
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Facebook Page ID</Label>
+                <Input
+                  placeholder="e.g. 1099719276547374"
+                  value={editDialog.facebookPageId}
+                  onChange={(e) => setEditDialog({ ...editDialog, facebookPageId: e.target.value })}
+                  className="font-mono text-xs"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Facebook Page Access Token {editDialog.id ? "(leave blank to keep existing)" : "*"}</Label>
+                <Input
+                  type="password"
+                  placeholder="Paste access token..."
+                  value={editDialog.facebookPageToken}
+                  onChange={(e) => setEditDialog({ ...editDialog, facebookPageToken: e.target.value })}
+                  className="font-mono text-xs"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Instagram Business Account ID <span className="text-muted-foreground text-xs">(optional)</span></Label>
+                <Input
+                  placeholder="e.g. 17841400000000000"
+                  value={editDialog.instagramAccountId}
+                  onChange={(e) => setEditDialog({ ...editDialog, instagramAccountId: e.target.value })}
+                  className="font-mono text-xs"
+                />
+              </div>
+              <Separator />
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label className="text-sm font-medium">Active</Label>
+                  <p className="text-xs text-muted-foreground">Include this page in scheduling</p>
+                </div>
+                <Switch
+                  checked={editDialog.isActive}
+                  onCheckedChange={(v) => setEditDialog({ ...editDialog, isActive: v })}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label className="text-sm font-medium">Set as Primary</Label>
+                  <p className="text-xs text-muted-foreground">Use this page's token for all scheduled posts</p>
+                </div>
+                <Switch
+                  checked={editDialog.isPrimary}
+                  onCheckedChange={(v) => setEditDialog({ ...editDialog, isPrimary: v })}
+                />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditDialog(null)}>Cancel</Button>
+            <Button
+              onClick={handleSave}
+              disabled={savePageMutation.isPending || !editDialog?.name}
+            >
+              {savePageMutation.isPending ? (
+                <><RefreshCw className="h-4 w-4 animate-spin mr-2" /> Saving...</>
+              ) : "Save"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -188,3 +188,15 @@
 - [x] Updated Dashboard to display "Permanent token — never expires" status
 - [x] All 21 vitest tests passing
 - [x] Save checkpoint
+
+## Phase 26: Clean Up CloudFront URL Posts & Multi-Client Page Tokens
+- [x] Fetched all published Sopris Restaurant Facebook posts via Graph API
+- [x] Identified 16 posts with CloudFront URL showing as image_share link preview (all from April 5)
+- [x] Deleted all 16 bad posts and reposted them cleanly via /photos and /videos endpoints
+- [x] Created client_pages table in database
+- [x] Seeded 4 client pages: Sopris Restaurant (primary), Nexus Peak LLC, Top Digital Marketing Solutions, Pony Express Casino
+- [x] Added getAllClientPages, upsertClientPage, deleteClientPage helpers to db.ts
+- [x] Added listClientPages, saveClientPage, removeClientPage procedures to settings router
+- [x] Rebuilt Settings page with multi-client management UI showing token status per page
+- [x] All 21 vitest tests passing
+- [x] Save checkpoint

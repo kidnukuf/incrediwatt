@@ -15,6 +15,13 @@
       "when": 1772092410619,
       "tag": "0001_handy_mauler",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1775478465862,
+      "tag": "0002_chubby_susan_delgado",
+      "breakpoints": true
     }
   ]
 }

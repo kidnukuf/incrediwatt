@@ -33,6 +33,10 @@ import {
   updateMenuItemPhoto,
   updatePost,
   updatePromotion,
+  getAllClientPages,
+  getClientPageById,
+  upsertClientPage,
+  deleteClientPage,
 } from "./db";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { ENV } from "./_core/env";
@@ -741,6 +745,64 @@ export const appRouter = router({
           process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID = input.instagramBusinessAccountId;
           (ENV as unknown as Record<string, string>).instagramBusinessAccountId = input.instagramBusinessAccountId;
         }
+        return { success: true };
+      }),
+
+    // ─── Client Pages (multi-client management) ─────────────────────────────────
+    listClientPages: protectedProcedure.query(async () => {
+      const pages = await getAllClientPages();
+      // Check token validity for each page
+      const fbAppId = '1636310834073967';
+      const fbAppSecret = ENV.facebookAppSecret;
+      const results = await Promise.all(pages.map(async (page) => {
+        if (!page.facebookPageToken) return { ...page, tokenValid: false, tokenPermanent: false };
+        try {
+          const appToken = fbAppSecret ? `${fbAppId}|${fbAppSecret}` : page.facebookPageToken;
+          const r = await fetch(`https://graph.facebook.com/v18.0/debug_token?input_token=${page.facebookPageToken}&access_token=${appToken}`);
+          const d = await r.json() as { data?: { expires_at?: number; is_valid?: boolean } };
+          const exp = d.data?.expires_at;
+          return {
+            ...page,
+            facebookPageToken: undefined, // never expose token to frontend
+            tokenValid: d.data?.is_valid ?? false,
+            tokenPermanent: exp === 0,
+            tokenExpiresAt: exp && exp !== 0 ? exp : null,
+          };
+        } catch {
+          return { ...page, facebookPageToken: undefined, tokenValid: false, tokenPermanent: false };
+        }
+      }));
+      return results;
+    }),
+
+    saveClientPage: protectedProcedure
+      .input(z.object({
+        id: z.number().optional(),
+        name: z.string().min(1),
+        facebookPageId: z.string().optional(),
+        facebookPageToken: z.string().optional(),
+        instagramAccountId: z.string().optional(),
+        isActive: z.boolean().optional(),
+        isPrimary: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const id = await upsertClientPage(input);
+        // If this page is being set as primary, update the live ENV
+        if (input.isPrimary && input.facebookPageToken) {
+          process.env.FACEBOOK_API_TOKEN = input.facebookPageToken;
+          (ENV as unknown as Record<string, string>).facebookApiToken = input.facebookPageToken;
+        }
+        if (input.isPrimary && input.facebookPageId) {
+          process.env.FACEBOOK_PAGE_ID = input.facebookPageId;
+          (ENV as unknown as Record<string, string>).facebookPageId = input.facebookPageId;
+        }
+        return { success: true, id };
+      }),
+
+    removeClientPage: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await deleteClientPage(input.id);
         return { success: true };
       }),
   }),

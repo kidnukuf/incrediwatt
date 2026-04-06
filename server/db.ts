@@ -2,6 +2,7 @@ import { and, desc, eq, gte, lte, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import {
   InsertUser,
+  clientPages,
   events,
   foodPhotos,
   menuItems,
@@ -339,6 +340,67 @@ export async function getMenuCategories() {
     .from(menuItems)
     .where(eq(menuItems.isActive, true));
   return result.map((r) => r.category);
+}
+
+// ─── Client Pages ────────────────────────────────────────────────────────────
+export async function getAllClientPages() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(clientPages).orderBy(clientPages.isPrimary, clientPages.name);
+}
+
+export async function getClientPageById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(clientPages).where(eq(clientPages.id, id)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function getPrimaryClientPage() {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(clientPages).where(eq(clientPages.isPrimary, true)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function upsertClientPage(data: {
+  id?: number;
+  name: string;
+  facebookPageId?: string;
+  facebookPageToken?: string;
+  instagramAccountId?: string;
+  isActive?: boolean;
+  isPrimary?: boolean;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error('DB not available');
+  if (data.id) {
+    await db.update(clientPages).set({
+      name: data.name,
+      facebookPageId: data.facebookPageId,
+      facebookPageToken: data.facebookPageToken,
+      instagramAccountId: data.instagramAccountId,
+      isActive: data.isActive ?? true,
+      isPrimary: data.isPrimary ?? false,
+    }).where(eq(clientPages.id, data.id));
+    return data.id;
+  } else {
+    const result = await db.insert(clientPages).values({
+      name: data.name,
+      facebookPageId: data.facebookPageId,
+      facebookPageToken: data.facebookPageToken,
+      instagramAccountId: data.instagramAccountId,
+      isActive: data.isActive ?? true,
+      isPrimary: data.isPrimary ?? false,
+    });
+    return (result as unknown as { insertId: number }).insertId;
+  }
+}
+
+export async function deleteClientPage(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(clientPages).where(eq(clientPages.id, id));
 }
 
 export async function getPostCount() {

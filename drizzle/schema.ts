@@ -141,3 +141,19 @@ export const promotions = mysqlTable("promotions", {
 });
 
 export type Promotion = typeof promotions.$inferSelect;
+
+// Client Pages — stores Facebook/Instagram page credentials for each managed client
+export const clientPages = mysqlTable("client_pages", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 200 }).notNull(),
+  facebookPageId: varchar("facebook_page_id", { length: 50 }),
+  facebookPageToken: text("facebook_page_token"),
+  instagramAccountId: varchar("instagram_account_id", { length: 50 }),
+  isActive: boolean("is_active").default(true).notNull(),
+  isPrimary: boolean("is_primary").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ClientPage = typeof clientPages.$inferSelect;
+export type InsertClientPage = typeof clientPages.$inferInsert;
