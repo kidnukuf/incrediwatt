@@ -62,6 +62,12 @@ When writing posts:
 - Always include a call to action (visit us, come in, try it, etc.)
 - Hashtags should include: #SoprisTaqueria #JackpotNV #4JacksCasino and dish-specific tags
 
+For vote/reaction posts featuring 4 menu items:
+- ONLY use these 4 official Facebook reaction emojis as vote options: ❤️ (Love), 👍 (Like), 😮 (Wow), 😂 (Haha)
+- NEVER use 🙌, 🔴, 🟡, 🟢, 🔵, or any other emoji as a vote option — they are not Facebook reactions
+- Format: "[Intro question]\n❤️ [Item 1] | 👍 [Item 2] | 😮 [Item 3] | 😂 [Item 4]"
+- Always instruct followers to "react" or "drop a reaction" to vote
+
 For bilingual posts (every other post), write the Spanish version using simple, accessible Spanish that both native speakers and learners can understand. Keep the warmth and energy of the English version.`;
 
 // ─── Post generation helper ───────────────────────────────────────────────────

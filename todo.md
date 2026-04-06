@@ -200,3 +200,10 @@
 - [x] Rebuilt Settings page with multi-client management UI showing token status per page
 - [x] All 21 vitest tests passing
 - [x] Save checkpoint
+
+## Phase 27: Fix Vote Post Reaction Emojis
+- [x] Investigated: vote posts used 🙌 (clapping hands) which is NOT a Facebook reaction — shows as colored circle
+- [x] Fixed all 7 database posts: replaced 🙌 with 😮 (Wow) — now uses ❤️ 👍 😮 😂 (all real Facebook reactions)
+- [x] Updated BRAND_SYSTEM_PROMPT to explicitly specify only valid Facebook reactions for future vote posts
+- [x] All 21 vitest tests passing
+- [x] Save checkpoint
