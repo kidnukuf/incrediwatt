@@ -2,22 +2,23 @@ import { COOKIE_NAME } from "@shared/const";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import {
-  createEvent,
   createFoodPhoto,
   createPost,
   createSpecial,
-  deleteEvent,
-  deleteFoodPhoto,
+  createEvent,
   deletePost,
   deleteSpecial,
-  getActivePromotions,
-  getActiveSpecials,
-  getAllEvents,
+  deleteEvent,
+  deleteFoodPhoto,
+  findBestPhotoForMenuItem,
   getAllFoodPhotos,
   getAllMenuItems,
   getAllPosts,
-  getAllPromotions,
   getAllSpecials,
+  getAllEvents,
+  getAllPromotions,
+  getActivePromotions,
+  getActiveSpecials,
   getFeaturedMenuItems,
   getFoodPhotosByMenuItem,
   getMenuCategories,
@@ -34,9 +35,9 @@ import {
   updatePost,
   updatePromotion,
   getAllClientPages,
-  getClientPageById,
   upsertClientPage,
   deleteClientPage,
+  getPostsByStatus,
 } from "./db";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { ENV } from "./_core/env";
@@ -431,12 +432,20 @@ export const appRouter = router({
           extraContext: input.extraContext,
         });
 
+        // Auto-match image: if no image was manually provided and this is a menu_item post,
+        // find the best matching food photo by name/caption to ensure caption-image alignment.
+        let resolvedImageUrl = input.imageUrl;
+        if (!resolvedImageUrl && input.type === "menu_item" && input.menuItemId && itemName) {
+          const autoPhoto = await findBestPhotoForMenuItem(input.menuItemId, itemName);
+          if (autoPhoto) resolvedImageUrl = autoPhoto;
+        }
+
         const post = await createPost({
           platform: input.platform,
           captionEn: generated.captionEn,
           captionEs: generated.captionEs || undefined,
           hashtags: generated.hashtags,
-          imageUrl: input.imageUrl,
+          imageUrl: resolvedImageUrl,
           menuItemId: input.menuItemId,
           postType: input.type,
           status: input.scheduledAt ? "scheduled" : "draft",

@@ -207,3 +207,12 @@
 - [x] Updated BRAND_SYSTEM_PROMPT to explicitly specify only valid Facebook reactions for future vote posts
 - [x] All 21 vitest tests passing
 - [x] Save checkpoint
+
+## Phase 28: Fix Caption-Image Alignment on All Scheduled Posts
+- [x] Audited all 42 scheduled posts and cataloged all available images/videos
+- [x] Identified mismatches: post 12 (Onion Rings→promo3 video), post 16 (Birria Tacos→promo4 video), post 180020 (Birria Tacos→BBB energy drink video), post 180018 (Sopris Friday Funny→BBB latte video), post 180019 (Sopris open caption→BBB rise&grind video)
+- [x] Fixed all 5 mismatched posts with correct images/videos
+- [x] Added findBestPhotoForMenuItem() helper to db.ts (menuItemId link + fuzzy caption match)
+- [x] Updated generate mutation to auto-match food photo when no image manually provided
+- [x] All 21 vitest tests passing
+- [x] Save checkpoint

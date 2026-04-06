@@ -332,6 +332,41 @@ export async function deleteFoodPhoto(id: number) {
   await db.delete(foodPhotos).where(eq(foodPhotos.id, id));
 }
 
+/**
+ * Find the best matching food photo for a menu item.
+ * First tries by menuItemId, then by fuzzy caption match against item name.
+ */
+export async function findBestPhotoForMenuItem(menuItemId: number, itemName: string): Promise<string | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  // 1. Try direct menuItemId link
+  const linked = await db.select().from(foodPhotos).where(eq(foodPhotos.menuItemId, menuItemId)).limit(1);
+  if (linked.length > 0) return linked[0].url;
+
+  // 2. Fuzzy match by caption (case-insensitive keyword overlap)
+  const allPhotos = await db.select().from(foodPhotos);
+  const nameLower = itemName.toLowerCase();
+  const nameWords = nameLower.split(/\s+/).filter(w => w.length > 3);
+
+  let bestMatch: { url: string; score: number } | null = null;
+  for (const photo of allPhotos) {
+    if (!photo.caption) continue;
+    const captionLower = photo.caption.toLowerCase();
+    let score = 0;
+    for (const word of nameWords) {
+      if (captionLower.includes(word)) score++;
+    }
+    // Also check if the item name is a substring of caption or vice versa
+    if (captionLower.includes(nameLower) || nameLower.includes(captionLower)) score += 3;
+    if (score > 0 && (!bestMatch || score > bestMatch.score)) {
+      bestMatch = { url: photo.url, score };
+    }
+  }
+
+  return bestMatch?.url ?? null;
+}
+
 export async function getMenuCategories() {
   const db = await getDb();
   if (!db) return [];
