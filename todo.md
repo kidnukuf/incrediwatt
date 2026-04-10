@@ -246,3 +246,11 @@
 - [x] /signage route remains public (no login required for TV display)
 - [x] All 28 vitest tests passing (7 new password login tests)
 - [x] Save checkpoint
+
+## Phase 34: Fix Food Photos Crash & Scheduler Errors
+- [x] Fixed empty Select.Item value in Photos.tsx: changed value="" to value="none" with matching logic
+- [x] Root cause of scheduler errors: video URLs (.mp4) were passed as imageUrl, hitting /photos endpoint which rejects video files
+- [x] Fixed scheduler.ts: detects video URLs by extension and routes to videoUrl param instead of imageUrl
+- [x] Rescheduled post 180006 (BBB Good Morning video) from overdue to April 17 8am MDT
+- [x] All 28 vitest tests passing
+- [x] Save checkpoint

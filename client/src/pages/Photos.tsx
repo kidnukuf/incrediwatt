@@ -45,7 +45,7 @@ export default function Photos() {
           contentType: file.type,
           base64Data: base64 ?? "",
           caption: caption || undefined,
-          menuItemId: selectedMenuItemId ? parseInt(selectedMenuItemId) : undefined,
+          menuItemId: selectedMenuItemId && selectedMenuItemId !== "none" ? parseInt(selectedMenuItemId) : undefined,
         });
         setUploading(false);
       };
@@ -86,7 +86,7 @@ export default function Photos() {
                     <SelectValue placeholder="Select item" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">No specific item</SelectItem>
+                    <SelectItem value="none">No specific item</SelectItem>
                     {menuItems?.map((item) => (
                       <SelectItem key={item.id} value={item.id.toString()}>{item.name}</SelectItem>
                     ))}

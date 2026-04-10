@@ -25,9 +25,14 @@ async function processScheduledPosts(): Promise<void> {
           ? `${post.captionEn}\n\n🇲🇽 ${post.captionEs}`
           : post.captionEn;
 
+        // Detect video URLs by extension and route to videoUrl param
+        const rawUrl = post.imageUrl ?? undefined;
+        const isVideo = rawUrl && /\.(mp4|mov|webm|avi|m4v)(\?|$)/i.test(rawUrl);
+
         const result = await postToSocialMedia({
           caption,
-          imageUrl: post.imageUrl ?? undefined,
+          imageUrl: isVideo ? undefined : rawUrl,
+          videoUrl: isVideo ? rawUrl : undefined,
           hashtags: post.hashtags ?? undefined,
           platform: post.platform,
         });
