@@ -168,6 +168,34 @@ export const appRouter = router({
       ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
       return { success: true } as const;
     }),
+    loginWithPassword: publicProcedure
+      .input(z.object({ username: z.string(), password: z.string() }))
+      .mutation(async ({ input, ctx }) => {
+        const { createHmac } = await import("crypto");
+        const expectedUsername = ENV.appLoginUsername;
+        const expectedHash = ENV.appLoginPasswordHash;
+        const salt = ENV.appLoginSalt;
+
+        if (!expectedUsername || !expectedHash || !salt) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Login not configured" });
+        }
+
+        const inputHash = createHmac("sha256", salt).update(input.password).digest("hex");
+        const usernameMatch = input.username.toLowerCase() === expectedUsername.toLowerCase();
+        const passwordMatch = inputHash === expectedHash;
+
+        if (!usernameMatch || !passwordMatch) {
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid username or password" });
+        }
+
+        // Create a session for the app owner
+        const { sdk } = await import("./_core/sdk");
+        const token = await sdk.createSessionToken(ENV.ownerOpenId || "sopris-app-owner", { name: expectedUsername });
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.cookie(COOKIE_NAME, token, { ...cookieOptions, maxAge: ENV.isProduction ? 1000 * 60 * 60 * 24 * 30 : undefined });
+
+        return { success: true } as const;
+      }),
   }),
 
   // ─── Menu ───────────────────────────────────────────────────────────────────

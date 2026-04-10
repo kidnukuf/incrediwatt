@@ -236,3 +236,13 @@
 - [x] Fixed videos: also changed from object-cover to object-contain
 - [x] 0 TypeScript errors
 - [x] Save checkpoint
+
+## Phase 33: Username/Password Login Gate
+- [x] Hashed password with HMAC-SHA256 + salt, stored as APP_LOGIN_USERNAME/APP_LOGIN_PASSWORD_HASH/APP_LOGIN_SALT secrets
+- [x] Added auth.loginWithPassword tRPC mutation — checks credentials, signs JWT session cookie on success
+- [x] Updated DashboardLayout to redirect unauthenticated users to /login instead of Manus OAuth
+- [x] Created branded Login page (dark gold theme, username + password form with show/hide toggle)
+- [x] Added /login route to App.tsx
+- [x] /signage route remains public (no login required for TV display)
+- [x] All 28 vitest tests passing (7 new password login tests)
+- [x] Save checkpoint
