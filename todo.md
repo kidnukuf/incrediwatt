@@ -224,3 +224,9 @@
 - [x] Corrected 2 wrong auto-links (Bacon Cheeseburger, Carne Asada & Eggs)
 - [x] Final result: 28 dish-specific photos linked; 41 non-menu assets (promos, events, branding, videos) intentionally left unlinked
 - [x] Save checkpoint
+
+## Phase 30: Add Review QR Card to TV Display
+- [x] Uploaded review card image to CDN
+- [x] Replaced both 'reviews' type slides with the user-provided QR card image (20s display time each)
+- [x] Verified signage page loads and rotates correctly
+- [x] Save checkpoint

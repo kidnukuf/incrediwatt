@@ -69,11 +69,12 @@ const SLIDES = [
     src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_enchiladas-JogGQVFATShNT57exDA2do.png",
     duration: 10000,
   },
-  // Review Request with QR codes
+  // Review Request with QR codes (user-provided card image)
   {
     id: "reviews",
-    type: "reviews",
-    duration: 15000,
+    type: "image",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/review_qr_card_7b806831.png",
+    duration: 20000,
   },
   // Video: food footage 5
   {
@@ -176,8 +177,9 @@ const SLIDES = [
   // Review Request again (shown twice per loop)
   {
     id: "reviews-2",
-    type: "reviews",
-    duration: 15000,
+    type: "image",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/review_qr_card_7b806831.png",
+    duration: 20000,
   },
 ];
 
