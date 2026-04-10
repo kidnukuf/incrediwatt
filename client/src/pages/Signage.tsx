@@ -275,7 +275,7 @@ function VideoSlide({ src }: { src: string }) {
     <video
       ref={videoRef}
       src={src}
-      className="w-full h-full object-cover"
+      className="w-full h-full object-contain"
       autoPlay
       muted
       playsInline
@@ -313,7 +313,7 @@ export default function Signage() {
           <img
             src={(currentSlide as { src: string }).src}
             alt="Signage slide"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
         )}
         {currentSlide.type === "video" && (

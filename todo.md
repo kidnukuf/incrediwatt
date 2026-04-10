@@ -230,3 +230,9 @@
 - [x] Replaced both 'reviews' type slides with the user-provided QR card image (20s display time each)
 - [x] Verified signage page loads and rotates correctly
 - [x] Save checkpoint
+
+## Phase 32: Fix TV Display Image/Video Sizing
+- [x] Fixed Signage.tsx: images changed from object-cover to object-contain (no cropping)
+- [x] Fixed videos: also changed from object-cover to object-contain
+- [x] 0 TypeScript errors
+- [x] Save checkpoint
