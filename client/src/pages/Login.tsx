@@ -17,7 +17,9 @@ export default function Login() {
   const loginMutation = trpc.auth.loginWithPassword.useMutation({
     onSuccess: async () => {
       await utils.auth.me.invalidate();
-      window.location.href = "/";
+      const params = new URLSearchParams(window.location.search);
+      const returnTo = params.get("returnTo") || "/";
+      window.location.href = returnTo;
     },
     onError: (err) => {
       setError(err.message || "Invalid username or password");

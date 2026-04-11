@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 const SLIDES = [
   // Origin Story — 3 slides
@@ -320,8 +321,16 @@ function VideoSlide({ src }: { src: string }) {
 }
 
 export default function Signage() {
+  const { isAuthenticated, loading } = useAuth();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      window.location.href = "/login?returnTo=/signage";
+    }
+  }, [loading, isAuthenticated]);
 
   const currentSlide = SLIDES[currentIndex];
 
