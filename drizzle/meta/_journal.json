@@ -29,6 +29,13 @@
       "when": 1775898533139,
       "tag": "0003_modern_speed",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1775913103541,
+      "tag": "0004_magical_lord_tyger",
+      "breakpoints": true
     }
   ]
 }

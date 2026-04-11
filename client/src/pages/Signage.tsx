@@ -273,6 +273,12 @@ const SLIDES = [
   // ── Border Boost & Brew™ Promo Images ─────────────────────────────────────
   { id: "bbb-420-story", type: "image", src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/420_bbb_story_bb079212.png", duration: 10000 },
   { id: "bbb-420-grand-opening", type: "image", src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/420_bbb_grand_opening_0eb0ba97.png", duration: 10000 },
+
+  // ── Promotions ───────────────────────────────────────────────────────────────
+  { id: "honor-roll-promo", type: "image", src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/honor_roll_promo_v2_d40b312a.png", duration: 15000 },
+
+  // ── Sopris Branding Video ────────────────────────────────────────────────────
+  { id: "sopris-branding", type: "video", src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/sopris_branding_video_3613689a.mp4", duration: 15000 },
 ];
 
 const QR_CODES = [

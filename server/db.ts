@@ -143,7 +143,7 @@ export async function getScheduledPosts() {
   return db.select().from(posts).where(eq(posts.status, "scheduled")).orderBy(posts.scheduledAt);
 }
 
-export async function getPostsByStatus(status: "draft" | "scheduled" | "published" | "cancelled") {
+export async function getPostsByStatus(status: "draft" | "scheduled" | "published" | "cancelled" | "failed") {
   const db = await getDb();
   if (!db) return [];
   return db.select().from(posts).where(eq(posts.status, status)).orderBy(desc(posts.createdAt));
@@ -166,7 +166,7 @@ export async function updatePost(
     captionEs: string;
     hashtags: string;
     imageUrl: string;
-    status: "draft" | "scheduled" | "published" | "cancelled";
+    status: "draft" | "scheduled" | "published" | "cancelled" | "failed";
     scheduledAt: number;
     publishedAt: number;
     platform: "facebook" | "instagram" | "both";
@@ -293,6 +293,7 @@ export async function updatePromotion(
     discountValue: string;
     requirements: string;
     requirementsEs: string;
+    imageUrl: string;
     isActive: boolean;
   }>
 ) {

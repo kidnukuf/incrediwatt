@@ -135,11 +135,11 @@ export const promotions = mysqlTable("promotions", {
   discountValue: varchar("discount_value", { length: 50 }),
   requirements: text("requirements"),
   requirementsEs: text("requirements_es"),
+  imageUrl: text("image_url"),
   isActive: boolean("is_active").default(true).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });
-
 export type Promotion = typeof promotions.$inferSelect;
 
 // Client Pages — stores Facebook/Instagram page credentials for each managed client

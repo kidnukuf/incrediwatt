@@ -1,0 +1,1 @@
+ALTER TABLE `promotions` ADD `image_url` text;
