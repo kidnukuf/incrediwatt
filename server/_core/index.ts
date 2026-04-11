@@ -10,6 +10,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { startScheduler } from "./scheduler";
+import { COOKIE_NAME } from "@shared/const";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -72,6 +73,8 @@ const PUBLIC_TRPC_PROCEDURES = new Set([
   "auth.me",
   "auth.logout",
   "auth.loginWithPassword",
+  "menuItems.featured",
+  "menuItems.categories",
 ]);
 
 async function startServer() {
@@ -173,20 +176,22 @@ async function startServer() {
   // Blocks direct API calls to non-public tRPC procedures from unauthenticated
   // clients. This is a defense-in-depth layer on top of protectedProcedure.
   app.use("/api/trpc", (req, res, next) => {
+    // Check for session cookie first — if present, always allow through
+    const cookies = req.headers.cookie || "";
+    const hasSession = cookies.includes(`${COOKIE_NAME}=`);
+    if (hasSession) return next();
+
+    // No session — only allow purely public procedure calls
     const rawPath = req.path.replace(/^\//, "");
-    const procedures = rawPath.split(",").map(p => p.split("?")[0].trim());
+    // Strip query string from path before splitting
+    const pathOnly = rawPath.split("?")[0];
+    const procedures = pathOnly.split(",").map(p => p.trim());
     const allPublic = procedures.every(p => PUBLIC_TRPC_PROCEDURES.has(p));
     if (allPublic) return next();
 
-    // Check for session cookie (set by loginWithPassword)
-    const cookies = req.headers.cookie || "";
-    const hasSession = cookies.includes("session=");
-    if (!hasSession) {
-      console.warn(`[Security] Unauthenticated API probe blocked: ${rawPath} from ${req.ip}`);
-      res.status(401).json({ error: "Unauthorized" });
-      return;
-    }
-    return next();
+    console.warn(`[Security] Unauthenticated API probe blocked: ${rawPath} from ${req.ip}`);
+    res.status(401).json({ error: "Unauthorized" });
+    return;
   });
 
   // OAuth callback under /api/oauth/callback
