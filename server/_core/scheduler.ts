@@ -45,7 +45,9 @@ async function processScheduledPosts(): Promise<void> {
               (result.instagramPostId ? ` IG: ${result.instagramPostId}` : "")
           );
         } else {
-          console.error(`[Scheduler] ❌ Post #${post.id} failed: ${result.error}`);
+          // Mark as failed so it is not retried on every scheduler tick
+          await updatePost(post.id, { status: "failed" });
+          console.error(`[Scheduler] ❌ Post #${post.id} marked as failed: ${result.error}`);
         }
       } catch (err) {
         console.error(`[Scheduler] ❌ Error processing post #${post.id}:`, err);

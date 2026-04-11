@@ -73,7 +73,7 @@ export const posts = mysqlTable("posts", {
     "manual",
     "borderline_brew",
   ]).default("menu_item").notNull(),
-  status: mysqlEnum("status", ["draft", "scheduled", "published", "cancelled"])
+  status: mysqlEnum("status", ["draft", "scheduled", "published", "cancelled", "failed"])
     .default("draft")
     .notNull(),
   scheduledAt: bigint("scheduled_at", { mode: "number" }),

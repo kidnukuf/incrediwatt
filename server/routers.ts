@@ -40,6 +40,7 @@ import {
   getPostsByStatus,
 } from "./db";
 import { getSessionCookieOptions } from "./_core/cookies";
+import { recordFailedLogin, isLoginLocked, clearLoginAttempts } from "./_core/index";
 import { ENV } from "./_core/env";
 import { invokeLLM } from "./_core/llm";
 import { systemRouter } from "./_core/systemRouter";
@@ -171,6 +172,13 @@ export const appRouter = router({
     loginWithPassword: publicProcedure
       .input(z.object({ username: z.string(), password: z.string() }))
       .mutation(async ({ input, ctx }) => {
+        const clientIp = ctx.req.ip ?? ctx.req.socket.remoteAddress ?? "unknown";
+
+        // Brute force lockout check
+        if (isLoginLocked(clientIp)) {
+          throw new TRPCError({ code: "TOO_MANY_REQUESTS", message: "Too many failed login attempts. Please wait 15 minutes." });
+        }
+
         const { createHmac } = await import("crypto");
         const expectedUsername = ENV.appLoginUsername;
         const expectedHash = ENV.appLoginPasswordHash;
@@ -185,8 +193,12 @@ export const appRouter = router({
         const passwordMatch = inputHash === expectedHash;
 
         if (!usernameMatch || !passwordMatch) {
+          recordFailedLogin(clientIp);
           throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid username or password" });
         }
+
+        // Successful login — clear failed attempts
+        clearLoginAttempts(clientIp);
 
         // Create a session for the app owner
         const { sdk } = await import("./_core/sdk");
