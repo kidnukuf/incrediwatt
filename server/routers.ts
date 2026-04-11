@@ -2,6 +2,9 @@ import { COOKIE_NAME } from "@shared/const";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import {
+  logSecurityEvent,
+  getRecentSecurityEvents,
+  getSecurityEventStats,
   createFoodPhoto,
   createPost,
   createSpecial,
@@ -170,12 +173,35 @@ export const appRouter = router({
       return { success: true } as const;
     }),
     loginWithPassword: publicProcedure
-      .input(z.object({ username: z.string(), password: z.string() }))
+      .input(z.object({ username: z.string(), password: z.string(), turnstileToken: z.string().optional() }))
       .mutation(async ({ input, ctx }) => {
         const clientIp = ctx.req.ip ?? ctx.req.socket.remoteAddress ?? "unknown";
 
+        // Turnstile CAPTCHA verification
+        const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+        if (turnstileSecret && input.turnstileToken) {
+          const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({
+              secret: turnstileSecret,
+              response: input.turnstileToken,
+              remoteip: clientIp,
+            }),
+          });
+          const verifyData = await verifyRes.json() as { success: boolean; "error-codes"?: string[] };
+          if (!verifyData.success) {
+            console.warn(`[Security] Turnstile verification failed for IP ${clientIp}:`, verifyData["error-codes"]);
+            await logSecurityEvent({ eventType: "captcha_failed", ip: clientIp, details: JSON.stringify(verifyData["error-codes"]) });
+            throw new TRPCError({ code: "BAD_REQUEST", message: "Security check failed. Please try again." });
+          }
+        } else if (turnstileSecret && !input.turnstileToken) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "Security check required." });
+        }
+
         // Brute force lockout check
         if (isLoginLocked(clientIp)) {
+          await logSecurityEvent({ eventType: "ip_lockout", ip: clientIp, details: "Login blocked — IP is locked out" });
           throw new TRPCError({ code: "TOO_MANY_REQUESTS", message: "Too many failed login attempts. Please wait 15 minutes." });
         }
 
@@ -194,11 +220,13 @@ export const appRouter = router({
 
         if (!usernameMatch || !passwordMatch) {
           recordFailedLogin(clientIp);
+          await logSecurityEvent({ eventType: "failed_login", ip: clientIp, details: `Username attempted: ${input.username}` });
           throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid username or password" });
         }
 
         // Successful login — clear failed attempts
         clearLoginAttempts(clientIp);
+        await logSecurityEvent({ eventType: "successful_login", ip: clientIp, details: `User: ${expectedUsername}` });
 
         // Create a session for the app owner
         const { sdk } = await import("./_core/sdk");
@@ -854,13 +882,24 @@ export const appRouter = router({
         return { success: true, id };
       }),
 
-    removeClientPage: protectedProcedure
+     removeClientPage: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
         await deleteClientPage(input.id);
         return { success: true };
       }),
   }),
-});
 
+  security: router({
+    getEvents: protectedProcedure
+      .input(z.object({ limit: z.number().optional() }))
+      .query(async ({ input }) => {
+        return getRecentSecurityEvents(input.limit ?? 200);
+      }),
+    getStats: protectedProcedure
+      .query(async () => {
+        return getSecurityEventStats();
+      }),
+  }),
+});
 export type AppRouter = typeof appRouter;

@@ -2,12 +2,14 @@ import { and, desc, eq, gte, lte, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import {
   InsertUser,
+  InsertSecurityEvent,
   clientPages,
   events,
   foodPhotos,
   menuItems,
   posts,
   promotions,
+  securityEvents,
   specials,
   users,
 } from "../drizzle/schema";
@@ -458,4 +460,50 @@ export async function getPostCount() {
     if (row.status === "draft") counts.draft = Number(row.count);
   }
   return counts;
+}
+
+// ─── Security Events ─────────────────────────────────────────────────────────
+
+export async function logSecurityEvent(event: InsertSecurityEvent): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  try {
+    await db.insert(securityEvents).values(event);
+  } catch (e) {
+    // Never let security logging crash the main flow
+    console.warn("[Security] Failed to log event:", e);
+  }
+}
+
+export async function getRecentSecurityEvents(limit = 200): Promise<typeof securityEvents.$inferSelect[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(securityEvents).orderBy(desc(securityEvents.createdAt)).limit(limit);
+}
+
+export async function getSecurityEventStats(): Promise<{
+  totalEvents: number;
+  failedLogins: number;
+  ipLockouts: number;
+  captchaFailed: number;
+  apiProbesBlocked: number;
+  uniqueIPs: number;
+  last24h: number;
+}> {
+  const db = await getDb();
+  if (!db) return { totalEvents: 0, failedLogins: 0, ipLockouts: 0, captchaFailed: 0, apiProbesBlocked: 0, uniqueIPs: 0, last24h: 0 };
+
+  const all = await db.select().from(securityEvents).orderBy(desc(securityEvents.createdAt)).limit(1000);
+  const now = Date.now();
+  const last24h = now - 24 * 60 * 60 * 1000;
+
+  return {
+    totalEvents: all.length,
+    failedLogins: all.filter(e => e.eventType === "failed_login").length,
+    ipLockouts: all.filter(e => e.eventType === "ip_lockout").length,
+    captchaFailed: all.filter(e => e.eventType === "captcha_failed").length,
+    apiProbesBlocked: all.filter(e => e.eventType === "api_probe_blocked").length,
+    uniqueIPs: new Set(all.map(e => e.ip)).size,
+    last24h: all.filter(e => new Date(e.createdAt).getTime() > last24h).length,
+  };
 }

@@ -36,6 +36,13 @@
       "when": 1775913103541,
       "tag": "0004_magical_lord_tyger",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1775918941945,
+      "tag": "0005_lush_stingray",
+      "breakpoints": true
     }
   ]
 }

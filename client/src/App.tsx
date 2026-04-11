@@ -17,6 +17,7 @@ import BorderBoostAndBrew from "./pages/BorderBoostAndBrew";
 import Menu from "./pages/Menu";
 import Signage from "./pages/Signage";
 import Settings from "./pages/Settings";
+import SecurityLog from "./pages/SecurityLog";
 import Login from "./pages/Login";
 
 function AuthGuard({ children }: { children: React.ReactNode }) {
@@ -57,6 +58,7 @@ function Router() {
         <Route path="/borderline-brew" component={BorderBoostAndBrew} />
         <Route path="/signage" component={Signage} />
         <Route path="/settings" component={Settings} />
+        <Route path="/security" component={SecurityLog} />
         <Route path="/login" component={Login} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

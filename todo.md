@@ -254,3 +254,13 @@
 - [x] Rescheduled post 180006 (BBB Good Morning video) from overdue to April 17 8am MDT
 - [x] All 28 vitest tests passing
 - [x] Save checkpoint
+
+## Phase 35: Turnstile CAPTCHA + Security Log Dashboard
+- [ ] Create Cloudflare Turnstile site key for incrediwatts.com
+- [ ] Add Turnstile widget to Login page (frontend)
+- [ ] Add server-side Turnstile token verification to loginWithPassword
+- [ ] Create security_events table in DB (event type, IP, timestamp, details)
+- [ ] Log failed logins, lockouts, and blocked API probes to security_events table
+- [ ] Build SecurityLog.tsx dashboard page with event table, IP stats, and charts
+- [ ] Add Security Log to sidebar navigation
+- [ ] Save checkpoint

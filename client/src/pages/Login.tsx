@@ -1,16 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Eye, EyeOff, Lock, User } from "lucide-react";
+import { Eye, EyeOff, Lock, User, ShieldCheck } from "lucide-react";
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || "";
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: string | HTMLElement, options: Record<string, unknown>) => string;
+      reset: (widgetId: string) => void;
+      remove: (widgetId: string) => void;
+    };
+    onTurnstileLoad?: () => void;
+  }
+}
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileReady, setTurnstileReady] = useState(false);
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
 
   const utils = trpc.useUtils();
 
@@ -23,8 +40,65 @@ export default function Login() {
     },
     onError: (err) => {
       setError(err.message || "Invalid username or password");
+      // Reset CAPTCHA on error so user must complete it again
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(widgetIdRef.current);
+      }
+      setTurnstileToken(null);
     },
   });
+
+  const renderTurnstile = useCallback(() => {
+    if (!turnstileContainerRef.current || !window.turnstile || !TURNSTILE_SITE_KEY) return;
+    // Clean up any existing widget
+    if (widgetIdRef.current) {
+      try { window.turnstile.remove(widgetIdRef.current); } catch {}
+    }
+    widgetIdRef.current = window.turnstile.render(turnstileContainerRef.current, {
+      sitekey: TURNSTILE_SITE_KEY,
+      theme: "dark",
+      callback: (token: string) => {
+        setTurnstileToken(token);
+      },
+      "expired-callback": () => {
+        setTurnstileToken(null);
+      },
+      "error-callback": () => {
+        setTurnstileToken(null);
+      },
+    });
+    setTurnstileReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY) {
+      // No site key configured — skip CAPTCHA (dev mode)
+      setTurnstileReady(true);
+      setTurnstileToken("dev-bypass");
+      return;
+    }
+
+    // If Turnstile is already loaded, render immediately
+    if (window.turnstile) {
+      renderTurnstile();
+      return;
+    }
+
+    // Otherwise load the script
+    window.onTurnstileLoad = renderTurnstile;
+    const script = document.createElement("script");
+    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad";
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+
+    return () => {
+      window.onTurnstileLoad = undefined;
+      if (widgetIdRef.current && window.turnstile) {
+        try { window.turnstile.remove(widgetIdRef.current); } catch {}
+      }
+    };
+  }, [renderTurnstile]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +107,11 @@ export default function Login() {
       setError("Please enter both username and password");
       return;
     }
-    loginMutation.mutate({ username: username.trim(), password });
+    if (!turnstileToken) {
+      setError("Please complete the security check");
+      return;
+    }
+    loginMutation.mutate({ username: username.trim(), password, turnstileToken });
   };
 
   return (
@@ -106,6 +184,19 @@ export default function Login() {
                 </div>
               </div>
 
+              {/* Turnstile CAPTCHA */}
+              {TURNSTILE_SITE_KEY && (
+                <div className="flex flex-col items-center gap-2">
+                  <div ref={turnstileContainerRef} className="cf-turnstile" />
+                  {turnstileToken && (
+                    <div className="flex items-center gap-1.5 text-green-400/80 text-xs">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      <span>Security check passed</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {error && (
                 <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-2.5">
                   <p className="text-red-400 text-sm text-center">{error}</p>
@@ -114,13 +205,18 @@ export default function Login() {
 
               <Button
                 type="submit"
-                disabled={loginMutation.isPending}
-                className="w-full bg-[#D4AF37] hover:bg-[#B8962E] text-black font-bold h-11 text-base shadow-lg hover:shadow-[#D4AF37]/20 transition-all mt-2"
+                disabled={loginMutation.isPending || !turnstileReady || (!turnstileToken && !!TURNSTILE_SITE_KEY)}
+                className="w-full bg-[#D4AF37] hover:bg-[#B8962E] text-black font-bold h-11 text-base shadow-lg hover:shadow-[#D4AF37]/20 transition-all mt-2 disabled:opacity-50"
               >
                 {loginMutation.isPending ? (
                   <span className="flex items-center gap-2">
                     <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
                     Signing in...
+                  </span>
+                ) : !turnstileReady ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                    Loading security check...
                   </span>
                 ) : (
                   "Sign In"

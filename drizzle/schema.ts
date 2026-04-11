@@ -157,3 +157,22 @@ export const clientPages = mysqlTable("client_pages", {
 
 export type ClientPage = typeof clientPages.$inferSelect;
 export type InsertClientPage = typeof clientPages.$inferInsert;
+
+// Security Events Log
+export const securityEvents = mysqlTable("security_events", {
+  id: int("id").autoincrement().primaryKey(),
+  eventType: mysqlEnum("event_type", [
+    "failed_login",
+    "ip_lockout",
+    "captcha_failed",
+    "api_probe_blocked",
+    "successful_login",
+    "rate_limit_hit",
+  ]).notNull(),
+  ip: varchar("ip", { length: 64 }).notNull(),
+  details: text("details"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type SecurityEvent = typeof securityEvents.$inferSelect;
+export type InsertSecurityEvent = typeof securityEvents.$inferInsert;
