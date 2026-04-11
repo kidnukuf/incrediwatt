@@ -181,6 +181,20 @@ const SLIDES = [
     src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/review_qr_card_7b806831.png",
     duration: 20000,
   },
+  // Friday Steak & Shrimp Special
+  {
+    id: "steak-shrimp-friday",
+    type: "image",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_steak_shrimp_friday-FiNSKisDMDq2e7HfQLGLKn.png",
+    duration: 12000,
+  },
+  // Saturday Golfer's Special
+  {
+    id: "golfers-special-saturday",
+    type: "image",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/signage_golfers_special_saturday-ABFeXETbNwyRKBF9sJjCe2.png",
+    duration: 12000,
+  },
   // New video 1 (1000012308)
   {
     id: "vid-new-1",
