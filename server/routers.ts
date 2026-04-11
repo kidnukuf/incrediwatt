@@ -212,15 +212,15 @@ export const appRouter = router({
 
   // ─── Menu ───────────────────────────────────────────────────────────────────
   menu: router({
-    list: publicProcedure.query(() => getAllMenuItems()),
-    categories: publicProcedure.query(() => getMenuCategories()),
-    byCategory: publicProcedure.input(z.object({ category: z.string() })).query(({ input }) =>
+    list: protectedProcedure.query(() => getAllMenuItems()),
+    categories: protectedProcedure.query(() => getMenuCategories()),
+    byCategory: protectedProcedure.input(z.object({ category: z.string() })).query(({ input }) =>
       getMenuItemsByCategory(input.category)
     ),
-    byId: publicProcedure.input(z.object({ id: z.number() })).query(({ input }) =>
+    byId: protectedProcedure.input(z.object({ id: z.number() })).query(({ input }) =>
       getMenuItemById(input.id)
     ),
-    featured: publicProcedure.query(() => getFeaturedMenuItems()),
+    featured: protectedProcedure.query(() => getFeaturedMenuItems()),
     toggleFeatured: protectedProcedure
       .input(z.object({ id: z.number(), isFeatured: z.boolean() }))
       .mutation(({ input }) => toggleMenuItemFeatured(input.id, input.isFeatured)),
