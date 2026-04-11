@@ -181,6 +181,27 @@ const SLIDES = [
     src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/review_qr_card_7b806831.png",
     duration: 20000,
   },
+  // New video 1 (1000012308)
+  {
+    id: "vid-new-1",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000012308_roku_e99bcea7.mp4",
+    duration: 27000,
+  },
+  // New video 2 (1000012289)
+  {
+    id: "vid-new-2",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000012289_roku_2872250e.mp4",
+    duration: 7000,
+  },
+  // New video 3 (1000012280)
+  {
+    id: "vid-new-3",
+    type: "video",
+    src: "https://d2xsxph8kpxj0f.cloudfront.net/118351434/CyaqFioxWNTNQC4ZpfULjM/1000012280_roku_55270456.mp4",
+    duration: 7000,
+  },
 ];
 
 const QR_CODES = [
